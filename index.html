@@ -318,6 +318,19 @@ html, body {
 <body>
 <canvas id="bgC"></canvas>
 
+<!-- AUDIO UNLOCK BANNER -->
+<div id="audioBanner" style="
+  position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:var(--t);color:var(--bg);
+  padding:16px;text-align:center;cursor:pointer;
+  font-family:'Share Tech Mono',monospace;font-size:16px;
+  letter-spacing:2px;display:none;
+  border-top:2px solid var(--bg);
+" onclick="unlockAudio()">
+  🔊 แตะที่นี่เพื่อเปิดใช้งานเสียง ARIA
+</div>
+
+
 <!-- AUTH -->
 <div id="authScreen">
   <div class="auth-deco">
@@ -441,6 +454,25 @@ html, body {
 </div>
 
 <script>
+
+// ── UNLOCK AUDIO (Safari/iPad autoplay fix)
+let _audioUnlocked = false;
+function unlockAudio() {
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = ctx.createBuffer(1,1,22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    setTimeout(() => ctx.close(), 500);
+  } catch(e) {}
+}
+document.addEventListener('touchstart', unlockAudio, {once:true, passive:true});
+document.addEventListener('click', unlockAudio, {once:true, passive:true});
+
 // THEME
 let dark = localStorage.getItem('aria_theme') !== 'light';
 function applyTheme(){document.documentElement.setAttribute('data-theme',dark?'dark':'light');const b=document.getElementById('themeBtn');if(b)b.textContent=dark?'🌙':'☀️';}
@@ -495,6 +527,10 @@ function enterApp(){
   const app=document.getElementById('appScreen');
   app.classList.remove('hidden');
   document.getElementById('tbUser').textContent=(user?.full_name||'').toUpperCase();
+  // แสดง banner unlock audio
+  if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
+    document.getElementById('audioBanner').style.display = 'block';
+  }
   // sync voice button state
   const vb=document.getElementById('voiceToggle');
   if(vb){vb.textContent=voiceEnabled?'🔊':'🔇';vb.title=voiceEnabled?'ปิดเสียง':'เปิดเสียง';}
@@ -528,7 +564,8 @@ async function selConv(id,title){
 async function sendMsg(){
   const el=document.getElementById('msgInput'),txt=el.value.trim();
   if(!txt||!convId||busy)return;
-  ensureAudioCtx(); // unlock audio context
+  unlockAudio();
+  unlockAudio();
   el.value='';el.style.height='auto';
   document.getElementById('msgs').querySelector('.welcome')?.remove();
   addBubble('user',txt);showTyping();busy=true;
@@ -538,7 +575,7 @@ async function sendMsg(){
   busy=false;document.getElementById('sendBtn').disabled=false;scrollEnd();
 }
 
-function qs(t){ensureAudioCtx();document.getElementById('msgInput').value=t;sendMsg();}
+function qs(t){unlockAudio();unlockAudio();document.getElementById('msgInput').value=t;sendMsg();}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 
@@ -561,96 +598,103 @@ async function togDev(dev,btn){const on=btn.classList.toggle('on');try{await api
 // VOICE
 let recog=null,isListen=false;
 function initRecog(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast('ใช้ Chrome เพื่อใช้ Voice ครับ','err');return null;}const r=new SR();r.lang='th-TH';r.continuous=false;r.interimResults=true;r.onstart=()=>{isListen=true;document.getElementById('micBtn').classList.add('on');document.getElementById('micBtn').textContent='🔴';document.getElementById('vOv').classList.add('show');};r.onresult=e=>{let f='',i='';for(let x=e.resultIndex;x<e.results.length;x++){if(e.results[x].isFinal)f+=e.results[x][0].transcript;else i+=e.results[x][0].transcript;}const t=f||i;document.getElementById('msgInput').value=t;document.getElementById('vTxt').textContent=t||'LISTENING...';if(f){stopListen();setTimeout(()=>sendMsg(),300);}};r.onerror=e=>{stopListen();toast('Voice: '+e.error,'err');};r.onend=()=>stopListen();return r;}
-function toggleVoice(){ensureAudioCtx();if(isListen){stopListen();return;}if(!recog)recog=initRecog();if(recog)try{recog.start();}catch{stopListen();}}
+function toggleVoice(){unlockAudio();unlockAudio();if(isListen){stopListen();return;}if(!recog)recog=initRecog();if(recog)try{recog.start();}catch{stopListen();}}
 function stopListen(){isListen=false;if(recog)recog.stop();document.getElementById('micBtn').classList.remove('on');document.getElementById('micBtn').textContent='🎤';document.getElementById('vOv').classList.remove('show');}
 
 // ── VOICE OUTPUT
 let voiceEnabled = localStorage.getItem('aria_voice') !== 'off';
-let audioCtx = null;
-let currentAudio = null;
+let speaking = false;
 
-// สร้าง AudioContext หลังจาก user กด (bypass autoplay policy)
-function ensureAudioCtx() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+// รอให้ voices โหลดก่อน
+let voices = [];
+function loadVoices() {
+  voices = window.speechSynthesis.getVoices();
+}
+if (window.speechSynthesis) {
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
 }
 
 function speak(text, audioBase64) {
   if (!voiceEnabled) return;
-  stopSpeak();
 
+  // ถ้ามี ElevenLabs audio ให้เล่นก่อน
   if (audioBase64) {
-    // ElevenLabs audio
-    playBase64Audio(audioBase64);
-  } else {
-    // Browser TTS fallback
-    speakBrowser(text);
-  }
-}
-
-function playBase64Audio(base64) {
-  try {
-    ensureAudioCtx();
-    const bin = atob(base64);
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    audioCtx.decodeAudioData(bytes.buffer, (decoded) => {
-      const src = audioCtx.createBufferSource();
-      src.buffer = decoded;
-      src.connect(audioCtx.destination);
-      src.start(0);
-      src.onended = () => {};
-    }, () => {
-      // decode failed — fallback to Audio element
+    try {
+      const bin = atob(audioBase64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
       const blob = new Blob([bytes], {type:'audio/mpeg'});
       const url = URL.createObjectURL(blob);
-      currentAudio = new Audio(url);
-      currentAudio.play().catch(() => speakBrowser(''));
-      currentAudio.onended = () => URL.revokeObjectURL(url);
-    });
-  } catch(e) {
-    console.log('Audio error:', e);
-    speakBrowser('');
+      const audio = new Audio(url);
+      audio.volume = 1.0;
+      const playPromise = audio.play();
+      if (playPromise) {
+        playPromise.then(() => {
+          // เล่นสำเร็จ
+        }).catch(() => {
+          // autoplay blocked — fallback browser TTS
+          URL.revokeObjectURL(url);
+          speakBrowser(text);
+        });
+      }
+      audio.onended = () => URL.revokeObjectURL(url);
+      return;
+    } catch(e) {
+      // fallback
+    }
   }
+
+  // Browser TTS
+  speakBrowser(text);
 }
 
 function speakBrowser(text) {
-  if (!window.speechSynthesis || !text) return;
+  if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const clean = text.replace(/<[^>]*>/g,'').substring(0, 300);
-  const u = new SpeechSynthesisUtterance(clean);
-  u.lang = 'th-TH'; u.rate = 0.9; u.pitch = 1.2; u.volume = 1;
-  // หาเสียงผู้หญิงภาษาไทย
-  const voices = window.speechSynthesis.getVoices();
-  const v = voices.find(v => v.lang.startsWith('th') && v.name.toLowerCase().includes('female'))
-         || voices.find(v => v.lang.startsWith('th'))
-         || voices.find(v => v.name.toLowerCase().includes('female'))
-         || null;
-  if (v) u.voice = v;
-  window.speechSynthesis.speak(u);
+
+  // รอนิดนึงก่อน speak (แก้ bug บางตัว)
+  setTimeout(() => {
+    const clean = text.replace(/<[^>]*>/g, '').substring(0, 400);
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'th-TH';
+    u.rate = 0.85;
+    u.pitch = 1.2;
+    u.volume = 1.0;
+
+    // หาเสียงที่ดีที่สุด
+    const allVoices = window.speechSynthesis.getVoices();
+    const thFemale = allVoices.find(v => v.lang.startsWith('th') && v.name.includes('Female'));
+    const thAny    = allVoices.find(v => v.lang.startsWith('th'));
+    const enFemale = allVoices.find(v => v.name.includes('Samantha') || v.name.includes('Google US English'));
+    u.voice = thFemale || thAny || enFemale || null;
+
+    u.onstart  = () => { speaking = true; };
+    u.onend    = () => { speaking = false; };
+    u.onerror  = () => { speaking = false; };
+
+    window.speechSynthesis.speak(u);
+  }, 100);
 }
 
 function stopSpeak() {
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  speaking = false;
   if (window.speechSynthesis) window.speechSynthesis.cancel();
-  if (audioCtx) try { audioCtx.suspend(); } catch {}
 }
 
 function toggleVoiceOutput() {
   voiceEnabled = !voiceEnabled;
   localStorage.setItem('aria_voice', voiceEnabled ? 'on' : 'off');
   const btn = document.getElementById('voiceToggle');
-  if (btn) { btn.textContent = voiceEnabled ? '🔊' : '🔇'; }
-  toast(voiceEnabled ? '🔊 เปิดเสียง ARIA แล้วค่ะ' : '🔇 ปิดเสียงแล้วค่ะ');
-}
-
-function b64toBlob(b64, type) {
-  const bin = atob(b64);
-  const arr = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-  return new Blob([arr], {type});
+  if (btn) btn.textContent = voiceEnabled ? '🔊' : '🔇';
+  if (voiceEnabled) {
+    // ทดสอบเสียงทันที
+    speakBrowser('สวัสดีค่ะ เสียงของ ARIA พร้อมแล้วค่ะ');
+    toast('🔊 เปิดเสียงแล้วค่ะ');
+  } else {
+    stopSpeak();
+    toast('🔇 ปิดเสียงแล้วค่ะ');
+  }
 }
 
 // API
