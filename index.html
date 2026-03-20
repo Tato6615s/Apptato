@@ -14,16 +14,16 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html,body{width:100%;height:100dvh;background:var(--bg);color:var(--w);font-family:var(--f);overflow:hidden;}
-#c{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;display:block;}
+#c{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;display:block;pointer-events:none;}
 body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.006) 3px,rgba(255,255,255,0.006) 4px);}
-#cur{position:fixed;width:8px;height:8px;background:white;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;}
-#cur2{position:fixed;width:28px;height:28px;border:1px solid rgba(255,255,255,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .1s ease-out;}
+  background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.006) 3px,rgba(255,255,255,0.006) 4px);pointer-events:none;}
+#cur{position:fixed;width:6px;height:6px;background:rgba(255,255,255,0.6);border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%);}
+#cur2{position:fixed;width:28px;height:28px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%);transition:all .1s ease-out;}
 .hidden{display:none!important;}
 
 /* AUTH */
-#authScreen{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;}
-.auth-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(520px,90vw);height:min(520px,90vw);pointer-events:none;}
+#authScreen{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;pointer-events:all;}
+.auth-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(520px,90vw);height:min(520px,90vw);pointer-events:none;z-index:0;}
 .auth-rings svg{width:100%;height:100%;}
 .auth-box{
   position:relative;z-index:2;width:min(400px,90vw);
