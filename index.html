@@ -3,497 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes">
-<title>ARIA — Neural Interface</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
+<title>ARIA</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ── THEMES ── */
-[data-theme="dark"] {
-  --bg: #050507;
-  --bg2: rgba(10,10,15,0.95);
-  --bg3: rgba(20,20,28,0.85);
-  --border: rgba(255,255,255,0.12);
-  --border2: rgba(255,255,255,0.06);
-  --text: rgba(255,255,255,0.88);
-  --text2: rgba(255,255,255,0.55);
-  --text3: rgba(255,255,255,0.28);
-  --accent: rgba(255,255,255,0.9);
-  --input-bg: rgba(255,255,255,0.04);
-  --msg-ai: rgba(255,255,255,0.04);
-  --msg-user: rgba(255,255,255,0.09);
+[data-theme="dark"]{
+  --bg:#07070F;--bg2:#0E0E1A;--bg3:#13131F;
+  --b:rgba(255,255,255,0.14);--b2:rgba(255,255,255,0.07);
+  --t:rgba(255,255,255,0.90);--t2:rgba(255,255,255,0.55);--t3:rgba(255,255,255,0.30);
+  --ibg:rgba(255,255,255,0.05);--mbg:rgba(255,255,255,0.05);--ubg:rgba(255,255,255,0.10);
 }
-[data-theme="light"] {
-  --bg: #f0f0f5;
-  --bg2: rgba(255,255,255,0.97);
-  --bg3: rgba(240,240,248,0.95);
-  --border: rgba(0,0,0,0.12);
-  --border2: rgba(0,0,0,0.06);
-  --text: rgba(0,0,0,0.88);
-  --text2: rgba(0,0,0,0.55);
-  --text3: rgba(0,0,0,0.35);
-  --accent: rgba(0,0,0,0.85);
-  --input-bg: rgba(0,0,0,0.04);
-  --msg-ai: rgba(0,0,0,0.04);
-  --msg-user: rgba(30,30,80,0.08);
+[data-theme="light"]{
+  --bg:#EEEEF5;--bg2:#FFFFFF;--bg3:#F5F5FB;
+  --b:rgba(0,0,0,0.14);--b2:rgba(0,0,0,0.07);
+  --t:rgba(0,0,0,0.88);--t2:rgba(0,0,0,0.55);--t3:rgba(0,0,0,0.35);
+  --ibg:rgba(0,0,0,0.04);--mbg:rgba(0,0,0,0.04);--ubg:rgba(30,30,80,0.08);
 }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:18px;}
+body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Share Tech Mono','Noto Sans Thai',monospace;overflow:hidden;transition:background .3s,color .3s;}
+#bgC{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
+[data-theme="light"] #bgC{opacity:.15;}
+.hidden{display:none!important;}
 
-:root {
-  --f: 'Share Tech Mono', 'Noto Sans Thai', monospace;
-  --fb: 'Bebas Neue', sans-serif;
-  --base: 18px;
+/* ── AUTH ── */
+#authScreen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;}
+.auth-deco{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;}
+.auth-card{
+  position:relative;z-index:2;width:min(420px,92vw);
+  background:var(--bg2);border:1px solid var(--b);
+  padding:40px 36px;
 }
+.auth-card::before{content:'';position:absolute;top:0;left:0;width:18px;height:18px;border-top:2px solid var(--t);border-left:2px solid var(--t);pointer-events:none;}
+.auth-card::after{content:'';position:absolute;bottom:0;right:0;width:18px;height:18px;border-bottom:2px solid var(--t);border-right:2px solid var(--t);pointer-events:none;}
+.cr{position:absolute;width:18px;height:18px;pointer-events:none;}
+.cr.tr{top:0;right:0;border-top:2px solid var(--t);border-right:2px solid var(--t);}
+.cr.bl{bottom:0;left:0;border-bottom:2px solid var(--t);border-left:2px solid var(--t);}
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+.a-head{text-align:center;margin-bottom:28px;}
+.a-orb{width:64px;height:64px;margin:0 auto 14px;position:relative;pointer-events:none;}
+.a-orb svg{width:100%;height:100%;}
+.or1{animation:spin 12s linear infinite;transform-origin:32px 32px;}
+.or2{animation:spin 8s linear infinite reverse;transform-origin:32px 32px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.a-core{position:absolute;inset:20px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.25),transparent);display:flex;align-items:center;justify-content:center;animation:op 3s ease-in-out infinite;}
+@keyframes op{0%,100%{opacity:.6;transform:scale(.9)}50%{opacity:1;transform:scale(1.05)}}
+.a-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,3rem,48px);letter-spacing:12px;color:var(--t);}
+.a-ver{font-size:13px;letter-spacing:3px;color:var(--t3);margin-top:4px;}
 
-html { font-size: var(--base); }
-body {
-  width:100%; height:100vh;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--f);
-  overflow: hidden;
-  transition: background 0.4s, color 0.4s;
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;letter-spacing:2px;color:var(--t3);margin-bottom:6px;}
+.field input{
+  width:100%;background:var(--ibg);
+  border:1px solid var(--b2);border-bottom:2px solid var(--b);
+  color:var(--t);font-family:'Share Tech Mono','Noto Sans Thai',monospace;
+  font-size:18px;padding:12px 10px;outline:none;transition:border-color .3s;
 }
+.field input:focus{border-bottom-color:var(--t);}
+.field input::placeholder{color:var(--t3);font-size:15px;}
 
-/* ── CANVAS ── */
-#bgCanvas {
-  position:fixed; top:0; left:0;
-  width:100vw; height:100vh;
-  z-index:0; pointer-events:none;
-  opacity:1; transition:opacity 0.4s;
+/* สำคัญ — ปุ่ม auth ต้องคลิกได้ */
+.btn-main{
+  display:block;width:100%;margin-top:10px;padding:14px;
+  background:var(--t);color:var(--bg);
+  font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:3px;
+  border:none;cursor:pointer;transition:opacity .2s;
+  font-weight:bold;
 }
-[data-theme="light"] #bgCanvas { opacity:0.25; }
+.btn-main:hover{opacity:.85;}
+.btn-main:active{opacity:.7;}
 
-.hidden { display:none !important; }
+.a-sw{text-align:center;margin-top:14px;font-size:15px;color:var(--t3);}
+.a-sw a{color:var(--t2);cursor:pointer;text-decoration:underline;}
+.a-sw a:hover{color:var(--t);}
 
-/* ─────────────────────────────
-   AUTH
-───────────────────────────── */
-#authScreen {
-  position:fixed; inset:0; z-index:10;
-  display:flex; align-items:center; justify-content:center;
+/* สถานะ loading */
+.btn-main:disabled{opacity:.5;cursor:not-allowed;}
+
+/* ── APP ── */
+#appScreen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;}
+
+.topbar{
+  height:54px;flex-shrink:0;
+  background:var(--bg2);border-bottom:1px solid var(--b);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;z-index:5;
 }
+.tb-l{display:flex;align-items:center;gap:14px;}
+.tb-r{display:flex;align-items:center;gap:10px;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:8px;color:var(--t);}
+.sep{width:1px;height:18px;background:var(--b);}
+.ai-stat{font-size:13px;letter-spacing:2px;color:var(--t3);}
+.online{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t3);}
+.odot{width:6px;height:6px;background:var(--t);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.tb-user{font-size:14px;color:var(--t2);}
+.btn-icon{width:40px;height:40px;background:transparent;border:1px solid var(--b);color:var(--t2);font-size:18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.btn-icon:hover{border-color:var(--t);color:var(--t);}
+.btn-sm{background:none;border:1px solid var(--b);color:var(--t3);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:1px;padding:6px 14px;cursor:pointer;transition:all .2s;}
+.btn-sm:hover{border-color:var(--t);color:var(--t);}
 
-.auth-deco {
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  pointer-events:none; z-index:0;
-}
+.app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
 
-.auth-box {
-  position:relative; z-index:2;
-  width: min(400px, 90vw);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 40px 36px;
-  backdrop-filter: blur(20px);
-}
-.auth-box::before { content:''; position:absolute; top:0; left:0; width:18px; height:18px; border-top:2px solid var(--accent); border-left:2px solid var(--accent); pointer-events:none; }
-.auth-box::after  { content:''; position:absolute; bottom:0; right:0; width:18px; height:18px; border-bottom:2px solid var(--accent); border-right:2px solid var(--accent); pointer-events:none; }
-.c2 { position:absolute; width:18px; height:18px; pointer-events:none; }
-.c2.tr { top:0; right:0; border-top:2px solid var(--accent); border-right:2px solid var(--accent); }
-.c2.bl { bottom:0; left:0; border-bottom:2px solid var(--accent); border-left:2px solid var(--accent); }
+/* sidebar */
+.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--b);display:flex;flex-direction:column;background:var(--bg3);overflow:hidden;}
+.sb-top{padding:12px;border-bottom:1px solid var(--b2);}
+.btn-new{width:100%;padding:10px;background:transparent;border:1px solid var(--b);color:var(--t2);font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-align:left;}
+.btn-new:hover{border-color:var(--t);color:var(--t);}
+.sb-lbl{padding:10px 14px 4px;font-size:13px;letter-spacing:2px;color:var(--t3);}
+.cv-list{flex:1;overflow-y:auto;padding:4px 8px;}
+.cv-list::-webkit-scrollbar{width:2px;}
+.cv-list::-webkit-scrollbar-thumb{background:var(--b);}
+.cv-item{padding:9px 10px;font-size:14px;color:var(--t3);cursor:pointer;transition:all .2s;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cv-item:hover{color:var(--t2);border-left-color:var(--b);}
+.cv-item.active{color:var(--t);border-left-color:var(--t);}
+.sb-ops{padding:10px 8px;border-top:1px solid var(--b2);}
+.op-lbl{font-size:12px;letter-spacing:2px;color:var(--t3);padding:0 6px;margin-bottom:6px;}
+.op-btn{width:100%;text-align:left;background:none;border:none;color:var(--t3);font-family:'Share Tech Mono',monospace;font-size:14px;padding:8px 10px;cursor:pointer;transition:all .2s;border-left:2px solid transparent;}
+.op-btn:hover{color:var(--t);border-left-color:var(--t);}
 
-.auth-head { text-align:center; margin-bottom:28px; }
-.auth-orb { width:64px; height:64px; margin:0 auto 14px; position:relative; pointer-events:none; }
-.auth-orb svg { width:100%; height:100%; }
-.r1 { animation:spin 12s linear infinite; transform-origin:32px 32px; }
-.r2 { animation:spin 8s linear infinite reverse; transform-origin:32px 32px; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.orb-core {
-  position:absolute; inset:20px; border-radius:50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.25), transparent);
-  display:flex; align-items:center; justify-content:center;
-  font-size:18px;
-  animation:pulse 3s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:.6;transform:scale(.9)} 50%{opacity:1;transform:scale(1.05)} }
+/* chat */
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.chat-head{padding:12px 20px;flex-shrink:0;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);}
+.ch-title{font-size:15px;letter-spacing:2px;color:var(--t2);}
+.ch-sub{font-size:13px;color:var(--t3);margin-top:3px;}
+.sig-bar{width:60px;height:2px;background:var(--b2);overflow:hidden;}
+.sig-fill{height:100%;background:var(--t3);animation:sig 2s linear infinite;}
+@keyframes sig{0%{width:0;margin-left:0}50%{width:100%}100%{width:0;margin-left:100%}}
 
-.auth-title { font-family:var(--fb); font-size:clamp(36px,3rem,48px); letter-spacing:12px; color:var(--text); }
-.auth-ver   { font-size:13px; letter-spacing:3px; color:var(--text3); margin-top:4px; }
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;min-height:0;}
+.msgs::-webkit-scrollbar{width:3px;}
+.msgs::-webkit-scrollbar-thumb{background:var(--b);}
 
-.field { margin-bottom:16px; }
-.field label { display:block; font-size:13px; letter-spacing:2px; color:var(--text3); margin-bottom:6px; }
-.field input {
-  width:100%; background:var(--input-bg);
-  border:none; border-bottom:1px solid var(--border);
-  color:var(--text); font-family:var(--f); font-size:18px;
-  padding:10px 4px; outline:none; transition:border-color .3s;
-  letter-spacing:1px;
-}
-.field input:focus { border-bottom-color:var(--accent); }
-.field input::placeholder { color:var(--text3); font-size:15px; }
+/* welcome */
+.welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px;min-height:280px;}
+.w-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,3rem,50px);letter-spacing:10px;color:var(--t);margin-bottom:8px;}
+.w-sub{font-size:15px;color:var(--t3);letter-spacing:1.5px;line-height:2;margin-bottom:22px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.chip{padding:8px 16px;background:transparent;border:1px solid var(--b);color:var(--t3);font-family:'Share Tech Mono',monospace;font-size:14px;cursor:pointer;transition:all .2s;}
+.chip:hover{border-color:var(--t);color:var(--t);background:var(--ibg);}
 
-.btn-auth {
-  width:100%; margin-top:8px; padding:14px;
-  background:transparent; border:1px solid var(--border);
-  color:var(--text); font-family:var(--f); font-size:15px; letter-spacing:4px;
-  cursor:pointer; transition:all .25s;
-}
-.btn-auth:hover { border-color:var(--accent); background:var(--input-bg); }
-.btn-auth:active { background:rgba(255,255,255,0.1); }
+/* messages */
+.msg{display:flex;gap:12px;animation:mi .25s ease-out;}
+@keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{flex-direction:row-reverse;}
+.m-av{width:34px;height:34px;flex-shrink:0;border:1px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t2);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
+.m-av.ai{border-color:var(--t2);color:var(--t);}
+.m-wrap{max-width:66%;display:flex;flex-direction:column;gap:4px;}
+.msg.user .m-wrap{align-items:flex-end;}
+.m-who{font-size:13px;letter-spacing:1px;color:var(--t3);padding:0 4px;}
+.bubble{padding:14px 18px;font-size:18px;line-height:1.75;word-break:break-word;}
+.msg.ai   .bubble{background:var(--mbg);border:1px solid var(--b2);border-left:2px solid var(--b);color:var(--t);}
+.msg.user .bubble{background:var(--ubg);border:1px solid var(--b);color:var(--t);}
+.tdots{display:flex;gap:6px;padding:14px 18px;align-items:center;}
+.tdots span{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:td 1.2s ease-in-out infinite;}
+.tdots span:nth-child(2){animation-delay:.15s;}
+.tdots span:nth-child(3){animation-delay:.3s;}
+@keyframes td{0%,80%,100%{transform:scale(.5);opacity:.3}40%{transform:scale(1);opacity:1}}
 
-.auth-sw { text-align:center; margin-top:14px; font-size:14px; color:var(--text3); }
-.auth-sw a { color:var(--text2); cursor:pointer; text-decoration:underline; }
-.auth-sw a:hover { color:var(--text); }
-
-/* ─────────────────────────────
-   APP SHELL
-───────────────────────────── */
-#appScreen {
-  position:fixed; inset:0; z-index:10;
-  display:flex; flex-direction:column;
-}
-
-/* TOPBAR */
-.topbar {
-  height: 54px; flex-shrink:0;
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 20px;
-  position:relative; z-index:5;
-}
-.tb-left  { display:flex; align-items:center; gap:14px; }
-.tb-right { display:flex; align-items:center; gap:10px; }
-
-.logo { font-family:var(--fb); font-size:22px; letter-spacing:8px; color:var(--text); }
-.tb-sep { width:1px; height:18px; background:var(--border); }
-.tb-ai  { font-size:13px; letter-spacing:2px; color:var(--text3); }
-
-.online-badge { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text3); letter-spacing:1px; }
-.odot { width:6px; height:6px; background:var(--text); border-radius:50%; animation:blink 2s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-.tb-user { font-size:14px; color:var(--text2); }
-
-/* Theme Toggle Button */
-.theme-btn {
-  width:40px; height:40px;
-  background:transparent; border:1px solid var(--border);
-  color:var(--text2); font-size:18px;
-  cursor:pointer; transition:all .2s;
-  display:flex; align-items:center; justify-content:center;
-  border-radius:4px;
-}
-.theme-btn:hover { border-color:var(--accent); color:var(--text); }
-
-.btn-tb {
-  background:none; border:1px solid var(--border);
-  color:var(--text3); font-family:var(--f);
-  font-size:13px; letter-spacing:1px;
-  padding:6px 14px; cursor:pointer; transition:all .2s;
-}
-.btn-tb:hover { border-color:var(--accent); color:var(--text); }
-
-/* BODY */
-.app-body { flex:1; display:flex; overflow:hidden; position:relative; z-index:2; min-height:0; }
-
-/* SIDEBAR */
-.sidebar {
-  width:200px; flex-shrink:0;
-  border-right:1px solid var(--border);
-  display:flex; flex-direction:column;
-  background:var(--bg3);
-  overflow:hidden;
-}
-.sb-top { padding:12px; border-bottom:1px solid var(--border2); }
-.btn-new {
-  width:100%; padding:10px;
-  background:transparent; border:1px solid var(--border);
-  color:var(--text2); font-family:var(--f);
-  font-size:14px; letter-spacing:2px;
-  cursor:pointer; transition:all .2s; text-align:left;
-}
-.btn-new:hover { border-color:var(--accent); color:var(--text); background:var(--input-bg); }
-
-.sb-label { padding:10px 14px 4px; font-size:13px; letter-spacing:2px; color:var(--text3); }
-.conv-list { flex:1; overflow-y:auto; padding:4px 8px; }
-.conv-list::-webkit-scrollbar { width:2px; }
-.conv-list::-webkit-scrollbar-thumb { background:var(--border); }
-.conv-item {
-  padding:9px 10px; font-size:14px; color:var(--text3);
-  cursor:pointer; transition:all .2s; letter-spacing:0.5px;
-  border-left:2px solid transparent;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.conv-item:hover  { color:var(--text2); border-left-color:var(--border); }
-.conv-item.active { color:var(--text);  border-left-color:var(--accent); }
-
-.sb-ops { padding:10px 8px; border-top:1px solid var(--border2); }
-.op-label { font-size:12px; letter-spacing:2px; color:var(--text3); padding:0 6px; margin-bottom:6px; }
-.op-btn {
-  width:100%; text-align:left; background:none; border:none;
-  color:var(--text3); font-family:var(--f);
-  font-size:14px; letter-spacing:0.5px;
-  padding:8px 10px; cursor:pointer; transition:all .2s;
-  border-left:2px solid transparent;
-  display:flex; align-items:center; gap:8px;
-}
-.op-btn:hover { color:var(--text); border-left-color:var(--accent); }
-
-/* CHAT AREA */
-.chat-area { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
-
-.chat-header {
-  padding:12px 20px; flex-shrink:0;
-  border-bottom:1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
-  background:var(--bg2);
-}
-.ch-title { font-size:15px; letter-spacing:2px; color:var(--text2); }
-.ch-sub   { font-size:13px; color:var(--text3); margin-top:3px; }
-.signal-bar { width:60px; height:2px; background:var(--border2); overflow:hidden; }
-.signal-fill { height:100%; background:var(--text3); animation:sig 2s linear infinite; }
-@keyframes sig { 0%{width:0;margin-left:0} 50%{width:100%} 100%{width:0;margin-left:100%} }
-
-/* MESSAGES */
-.messages {
-  flex:1; overflow-y:auto;
-  padding:20px; display:flex; flex-direction:column; gap:16px;
-  min-height:0; /* ← สำคัญ ทำให้ scroll ได้ */
-}
-.messages::-webkit-scrollbar { width:3px; }
-.messages::-webkit-scrollbar-thumb { background:var(--border); }
-
-/* WELCOME */
-.welcome {
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  text-align:center; padding:40px 20px;
-  min-height:300px;
-}
-.w-svg { width:100px; height:100px; margin:0 auto 20px; pointer-events:none; }
-.w-title { font-family:var(--fb); font-size:clamp(38px,3rem,52px); letter-spacing:10px; color:var(--text); margin-bottom:8px; }
-.w-sub   { font-size:15px; color:var(--text3); letter-spacing:1.5px; line-height:2; margin-bottom:24px; }
-.chips   { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
-.chip {
-  padding:8px 16px; background:transparent;
-  border:1px solid var(--border); color:var(--text3);
-  font-family:var(--f); font-size:14px; letter-spacing:1px;
-  cursor:pointer; transition:all .2s;
-}
-.chip:hover { border-color:var(--accent); color:var(--text); background:var(--input-bg); }
-
-/* MESSAGE BUBBLES */
-.msg { display:flex; gap:12px; animation:mi .25s ease-out; }
-@keyframes mi { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-.msg.user { flex-direction:row-reverse; }
-
-.msg-av {
-  width:32px; height:32px; flex-shrink:0;
-  border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  font-size:12px; color:var(--text2); font-family:var(--fb);
-  letter-spacing:1px;
-}
-.msg-av.ai { border-color:var(--text2); color:var(--text); }
-
-.msg-wrap { max-width:65%; display:flex; flex-direction:column; gap:4px; }
-.msg.user .msg-wrap { align-items:flex-end; }
-
-.msg-who { font-size:13px; letter-spacing:1px; color:var(--text3); padding:0 4px; }
-
-.bubble {
-  padding:14px 18px;
-  font-size:18px; line-height:1.75;
-  word-break:break-word; font-family:var(--f);
-}
-.msg.ai   .bubble { background:var(--msg-ai); border:1px solid var(--border2); border-left:2px solid var(--border); color:var(--text); }
-.msg.user .bubble { background:var(--msg-user); border:1px solid var(--border); color:var(--text); }
-
-/* TYPING */
-.typing-dots { display:flex; gap:6px; padding:14px 18px; align-items:center; }
-.typing-dots span { width:6px; height:6px; border-radius:50%; background:var(--text3); animation:td 1.2s ease-in-out infinite; }
-.typing-dots span:nth-child(2) { animation-delay:.15s; }
-.typing-dots span:nth-child(3) { animation-delay:.3s; }
-@keyframes td { 0%,80%,100%{transform:scale(.5);opacity:.3} 40%{transform:scale(1);opacity:1} }
-
-/* ─────────────────────────────
-   INPUT AREA — fixed ไม่หาย
-───────────────────────────── */
-.input-area {
-  flex-shrink:0; /* ← ห้าม shrink ทำให้หาย */
+/* INPUT — สำคัญต้องไม่หาย */
+.inp-area{
+  flex-shrink:0;
   padding:16px 20px;
-  border-top:1px solid var(--border);
+  border-top:2px solid var(--b);
   background:var(--bg2);
-  position:relative; z-index:3;
+  z-index:3;
 }
-.input-row {
-  display:flex; align-items:flex-end; gap:10px;
-  border:1px solid var(--border);
-  border-bottom:2px solid var(--text3);
+.inp-row{
+  display:flex;align-items:flex-end;gap:10px;
+  border:2px solid var(--b);
   padding:12px 14px;
-  background:var(--input-bg);
+  background:var(--ibg);
   transition:border-color .3s;
-  min-height:52px; /* ← ป้องกันหาย */
 }
-.input-row:focus-within {
-  border-color:var(--border);
-  border-bottom-color:var(--accent);
+.inp-row:focus-within{border-color:var(--t2);}
+#msgInput{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--t);font-family:'Share Tech Mono','Noto Sans Thai',monospace;
+  font-size:18px;line-height:1.6;
+  resize:none;max-height:120px;min-height:28px;overflow-y:auto;
 }
-#msgInput {
-  flex:1; background:none; border:none; outline:none;
-  color:var(--text); font-family:var(--f);
-  font-size:18px; line-height:1.5;
-  resize:none; max-height:120px; min-height:28px;
-  overflow-y:auto;
+#msgInput::placeholder{color:var(--t3);font-size:15px;}
+.mic-btn,.send-btn{
+  width:42px;height:42px;flex-shrink:0;
+  background:var(--ibg);border:1px solid var(--b);
+  color:var(--t2);cursor:pointer;font-size:18px;
+  transition:all .2s;display:flex;align-items:center;justify-content:center;
 }
-#msgInput::placeholder { color:var(--text3); font-size:15px; letter-spacing:1px; }
+.mic-btn:hover,.send-btn:hover{border-color:var(--t);color:var(--t);}
+.mic-btn.on{border-color:var(--t);animation:mpulse .8s ease-in-out infinite;}
+@keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.2);}50%{box-shadow:0 0 0 8px rgba(255,255,255,0);}}
+.send-btn:disabled{opacity:.3;cursor:not-allowed;}
 
-.mic-btn, .send-btn {
-  width:40px; height:40px; flex-shrink:0;
-  background:transparent; border:1px solid var(--border);
-  color:var(--text2); cursor:pointer; font-size:18px;
-  transition:all .2s; display:flex; align-items:center; justify-content:center;
-}
-.mic-btn:hover, .send-btn:hover { border-color:var(--accent); color:var(--text); }
-.mic-btn.on { border-color:var(--text); color:var(--text); animation:mic-pulse .8s ease-in-out infinite; }
-@keyframes mic-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.2);} 50%{box-shadow:0 0 0 8px rgba(255,255,255,0);} }
-.send-btn:disabled { opacity:.3; cursor:not-allowed; }
+/* right panel */
+.rpanel{width:185px;flex-shrink:0;border-left:1px solid var(--b);overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg3);}
+.rp-sec{font-size:13px;letter-spacing:2px;color:var(--t3);margin-bottom:2px;}
+.s-card{border:1px solid var(--b2);padding:10px;background:var(--ibg);}
+.s-top{display:flex;justify-content:space-between;margin-bottom:4px;}
+.s-ico{font-size:15px;}
+.s-lbl{font-size:13px;letter-spacing:1px;color:var(--t3);}
+.s-val{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--t);}
+.s-sub{font-size:13px;color:var(--t3);margin-top:2px;}
+.s-bar{height:2px;background:var(--b2);margin-top:8px;}
+.s-fill{height:100%;background:var(--t3);transition:width 1.2s ease;}
+.dev{border:1px solid var(--b2);padding:9px 10px;display:flex;align-items:center;justify-content:space-between;background:var(--ibg);}
+.d-name{font-size:14px;color:var(--t3);display:flex;align-items:center;gap:6px;}
+.tog{width:34px;height:18px;background:transparent;border:1px solid var(--b);cursor:pointer;position:relative;transition:all .3s;}
+.tog.on{border-color:var(--t2);}
+.tog::after{content:'';position:absolute;width:10px;height:10px;background:var(--t3);top:3px;left:3px;transition:all .3s;border-radius:50%;}
+.tog.on::after{left:19px;background:var(--t);}
 
-/* RIGHT PANEL */
-.rpanel {
-  width:185px; flex-shrink:0;
-  border-left:1px solid var(--border);
-  overflow-y:auto; padding:12px;
-  display:flex; flex-direction:column; gap:8px;
-  background:var(--bg3);
-}
-.rpanel::-webkit-scrollbar { width:2px; }
-.rpanel::-webkit-scrollbar-thumb { background:var(--border); }
+/* voice overlay */
+.v-ov{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s;}
+.v-ov.show{opacity:1;pointer-events:all;}
+.v-ring{width:140px;height:140px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;animation:vp 1s ease-in-out infinite;}
+@keyframes vp{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.15);}50%{box-shadow:0 0 0 20px rgba(255,255,255,0);}}
+.v-ico{font-size:42px;}
+.v-txt{font-size:14px;letter-spacing:2px;color:rgba(255,255,255,.5);}
 
-.rp-sec { font-size:13px; letter-spacing:2px; color:var(--text3); margin-bottom:2px; }
+/* toast */
+.toast{position:fixed;bottom:20px;right:20px;z-index:999;padding:14px 20px;background:var(--bg2);border:1px solid var(--b);border-left:3px solid var(--t2);font-size:16px;color:var(--t2);pointer-events:none;animation:ti .25s ease-out;max-width:320px;}
+.toast.ok{border-left-color:var(--t);color:var(--t);}
+.toast.err{border-left-color:rgba(255,100,100,.8);color:rgba(255,180,180,.95);}
+@keyframes ti{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-.stat-card { border:1px solid var(--border2); padding:10px; position:relative; background:var(--input-bg); }
-.stat-top  { display:flex; justify-content:space-between; margin-bottom:4px; }
-.stat-ico  { font-size:15px; }
-.stat-lbl  { font-size:13px; letter-spacing:1px; color:var(--text3); }
-.stat-val  { font-family:var(--fb); font-size:24px; letter-spacing:2px; color:var(--text); }
-.stat-sub  { font-size:13px; color:var(--text3); margin-top:2px; }
-.stat-bar  { height:2px; background:var(--border2); margin-top:8px; }
-.stat-fill { height:100%; background:var(--text3); transition:width 1.2s ease; }
-
-.device    { border:1px solid var(--border2); padding:9px 10px; display:flex; align-items:center; justify-content:space-between; background:var(--input-bg); }
-.dev-name  { font-size:14px; color:var(--text3); display:flex; align-items:center; gap:6px; }
-.toggle    { width:34px; height:18px; background:transparent; border:1px solid var(--border); cursor:pointer; position:relative; transition:all .3s; }
-.toggle.on { border-color:var(--text2); background:var(--input-bg); }
-.toggle::after { content:''; position:absolute; width:10px; height:10px; background:var(--text3); top:3px; left:3px; transition:all .3s; border-radius:50%; }
-.toggle.on::after { left:19px; background:var(--text); }
-
-/* VOICE OVERLAY */
-.voice-overlay {
-  position:fixed; inset:0; z-index:200;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.7); backdrop-filter:blur(8px);
-  opacity:0; pointer-events:none; transition:opacity .3s;
-}
-.voice-overlay.show { opacity:1; pointer-events:all; }
-.voice-ring {
-  width:140px; height:140px; border-radius:50%;
-  border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:10px;
-  animation:vp 1s ease-in-out infinite;
-  background:rgba(0,0,0,0.5);
-}
-@keyframes vp { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.15);} 50%{box-shadow:0 0 0 20px rgba(255,255,255,0);} }
-.voice-ico  { font-size:40px; }
-.voice-txt  { font-size:14px; letter-spacing:2px; color:var(--text3); }
-
-/* TOAST */
-.toast {
-  position:fixed; bottom:20px; right:20px; z-index:999;
-  padding:12px 18px; background:var(--bg2); border:1px solid var(--border);
-  border-left:2px solid var(--text2); font-size:15px; letter-spacing:1px;
-  color:var(--text2); animation:ti .25s ease-out; pointer-events:none;
-  backdrop-filter:blur(20px); max-width:300px;
-}
-.toast.ok  { border-left-color:var(--text);  color:var(--text); }
-.toast.err { border-left-color:rgba(255,100,100,0.7); color:rgba(255,180,180,.9); }
-@keyframes ti { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-
-/* RESPONSIVE */
-@media(max-width:700px) { .sidebar{display:none;} .rpanel{display:none;} }
-@media(max-width:900px) { .rpanel{display:none;} }
+@media(max-width:700px){.sidebar{display:none;}.rpanel{display:none;}}
+@media(max-width:900px){.rpanel{display:none;}}
 </style>
 </head>
 <body>
-
-<canvas id="bgCanvas"></canvas>
+<canvas id="bgC"></canvas>
 
 <!-- AUTH -->
 <div id="authScreen">
   <div class="auth-deco">
-    <svg width="500" height="500" viewBox="0 0 500 500" fill="none" style="pointer-events:none;">
-      <circle cx="250" cy="250" r="220" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4 6"/>
-      <circle cx="250" cy="250" r="180" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="8 12" style="animation:spin 40s linear infinite;transform-origin:250px 250px;"/>
-      <circle cx="250" cy="30" r="3" fill="rgba(255,255,255,0.4)"/>
-      <circle cx="440" cy="170" r="2" fill="rgba(255,255,255,0.3)"/>
-      <circle cx="70" cy="360" r="2" fill="rgba(255,255,255,0.3)"/>
-      <line x1="250" y1="250" x2="250" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
-      <line x1="250" y1="250" x2="440" y2="170" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/>
+    <svg width="480" height="480" viewBox="0 0 480 480" fill="none" style="pointer-events:none;">
+      <circle cx="240" cy="240" r="210" stroke="rgba(255,255,255,.04)" stroke-width="1" stroke-dasharray="4 6"/>
+      <circle cx="240" cy="240" r="170" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="8 12" style="animation:spin 40s linear infinite;transform-origin:240px 240px;"/>
+      <circle cx="240" cy="30" r="3" fill="rgba(255,255,255,.4)"/>
+      <circle cx="420" cy="160" r="2" fill="rgba(255,255,255,.3)"/>
+      <circle cx="70" cy="350" r="2" fill="rgba(255,255,255,.3)"/>
+      <line x1="240" y1="240" x2="240" y2="30" stroke="rgba(255,255,255,.04)" stroke-width="0.5"/>
+      <line x1="240" y1="240" x2="420" y2="160" stroke="rgba(255,255,255,.03)" stroke-width="0.5"/>
     </svg>
   </div>
 
-  <div class="auth-box">
-    <div class="c2 tr"></div><div class="c2 bl"></div>
-    <div class="auth-head">
-      <div class="auth-orb">
+  <div class="auth-card">
+    <div class="cr tr"></div><div class="cr bl"></div>
+
+    <div class="a-head">
+      <div class="a-orb">
         <svg viewBox="0 0 64 64" fill="none">
-          <g class="r1"><circle cx="32" cy="32" r="28" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4 4"/><circle cx="32" cy="4" r="2" fill="rgba(255,255,255,0.6)"/></g>
-          <g class="r2"><circle cx="32" cy="32" r="18" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3 6"/><circle cx="32" cy="14" r="1.5" fill="rgba(255,255,255,0.5)"/></g>
+          <g class="or1"><circle cx="32" cy="32" r="28" stroke="rgba(255,255,255,.15)" stroke-width="1" stroke-dasharray="4 4"/><circle cx="32" cy="4" r="2" fill="rgba(255,255,255,.6)"/></g>
+          <g class="or2"><circle cx="32" cy="32" r="18" stroke="rgba(255,255,255,.1)" stroke-width="1" stroke-dasharray="3 6"/><circle cx="32" cy="14" r="1.5" fill="rgba(255,255,255,.5)"/></g>
         </svg>
-        <div class="orb-core">◎</div>
+        <div class="a-core">◎</div>
       </div>
-      <div class="auth-title">ARIA</div>
-      <div class="auth-ver">NEURAL INTERFACE · v2.1</div>
+      <div class="a-title">ARIA</div>
+      <div class="a-ver">NEURAL INTERFACE · v2.1</div>
     </div>
 
+    <!-- LOGIN -->
     <div id="loginForm">
-      <div class="field"><label>// OPERATOR ID</label><input type="email" id="lE" placeholder="your@email.com"></div>
-      <div class="field"><label>// ACCESS KEY</label><input type="password" id="lP" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')login()"></div>
-      <button class="btn-auth" onclick="login()">AUTHENTICATE</button>
-      <div class="auth-sw">ยังไม่มีบัญชี? <a onclick="toggleAuth()">สมัครใช้งาน</a></div>
+      <div class="field"><label>// EMAIL</label><input type="email" id="lEmail" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="field"><label>// PASSWORD</label><input type="password" id="lPass" placeholder="รหัสผ่าน" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn-main" id="loginBtn" onclick="doLogin()">เข้าสู่ระบบ</button>
+      <div class="a-sw">ยังไม่มีบัญชี? <a onclick="swapForm()">สมัครใช้งาน</a></div>
     </div>
 
+    <!-- REGISTER -->
     <div id="registerForm" class="hidden">
-      <div class="field"><label>// ชื่อ</label><input type="text" id="rN" placeholder="ชื่อของคุณ"></div>
-      <div class="field"><label>// IDENTIFIER</label><input type="email" id="rE" placeholder="your@email.com"></div>
-      <div class="field"><label>// ACCESS KEY</label><input type="password" id="rP" placeholder="อย่างน้อย 6 ตัว" onkeydown="if(event.key==='Enter')register()"></div>
-      <button class="btn-auth" onclick="register()">INITIALIZE PROFILE</button>
-      <div class="auth-sw">มีบัญชีแล้ว? <a onclick="toggleAuth()">เข้าสู่ระบบ</a></div>
+      <div class="field"><label>// ชื่อ</label><input type="text" id="rName" placeholder="ชื่อของคุณ" autocomplete="name"></div>
+      <div class="field"><label>// EMAIL</label><input type="email" id="rEmail" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="field"><label>// PASSWORD</label><input type="password" id="rPass" placeholder="อย่างน้อย 6 ตัว" autocomplete="new-password" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <button class="btn-main" id="regBtn" onclick="doRegister()">สมัครใช้งาน</button>
+      <div class="a-sw">มีบัญชีแล้ว? <a onclick="swapForm()">เข้าสู่ระบบ</a></div>
     </div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="appScreen" class="hidden" style="height:100vh; flex-direction:column;">
-
+<div id="appScreen" class="hidden" style="height:100vh;flex-direction:column;">
   <div class="topbar">
-    <div class="tb-left">
+    <div class="tb-l">
       <div class="logo">ARIA</div>
-      <div class="tb-sep"></div>
-      <div class="tb-ai" id="aiStat">CONNECTING...</div>
+      <div class="sep"></div>
+      <div class="ai-stat" id="aiStat">CONNECTING...</div>
     </div>
-    <div class="tb-right">
-      <div class="online-badge"><div class="odot"></div>ONLINE</div>
+    <div class="tb-r">
+      <div class="online"><div class="odot"></div>ONLINE</div>
       <div class="tb-user" id="tbUser"></div>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="เปลี่ยน Theme">🌙</button>
-      <button class="btn-tb" onclick="logout()">DISCONNECT</button>
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="เปลี่ยนธีม">🌙</button>
+      <button class="btn-sm" onclick="doLogout()">ออก</button>
     </div>
   </div>
 
   <div class="app-body">
-
-    <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="sb-top">
-        <button class="btn-new" onclick="newChat()">+ NEW SESSION</button>
-      </div>
-      <div class="sb-label">// SESSIONS</div>
-      <div class="conv-list" id="convList"></div>
+      <div class="sb-top"><button class="btn-new" onclick="newChat()">+ NEW SESSION</button></div>
+      <div class="sb-lbl">// SESSIONS</div>
+      <div class="cv-list" id="convList"></div>
       <div class="sb-ops">
-        <div class="op-label">// QUICK OPS</div>
+        <div class="op-lbl">// QUICK OPS</div>
         <button class="op-btn" onclick="qs('สวัสดี ARIA')">→ GREET</button>
         <button class="op-btn" onclick="qs('สรุปสุขภาพวันนี้')">→ HEALTH</button>
         <button class="op-btn" onclick="qs('ตารางนัดหมายวันนี้')">→ SCHEDULE</button>
@@ -502,338 +312,356 @@ body {
       </div>
     </div>
 
-    <!-- CHAT -->
-    <div class="chat-area">
-      <div class="chat-header">
+    <div class="chat">
+      <div class="chat-head">
         <div>
           <div class="ch-title" id="chatTitle">ARIA · ACTIVE CHANNEL</div>
-          <div class="ch-sub"   id="chatSub">ENCRYPTED · READY</div>
+          <div class="ch-sub" id="chatSub">ENCRYPTED · READY</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:13px;color:var(--text3);letter-spacing:1px;">SIGNAL</span>
-          <div class="signal-bar"><div class="signal-fill"></div></div>
+          <span style="font-size:13px;color:var(--t3);">SIGNAL</span>
+          <div class="sig-bar"><div class="sig-fill"></div></div>
         </div>
       </div>
 
-      <div class="messages" id="messages">
-        <div class="welcome" id="welcomeEl">
-          <div class="w-svg">
-            <svg viewBox="0 0 100 100" fill="none">
-              <circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="5 4" style="animation:spin 25s linear infinite;transform-origin:50px 50px;"/>
-              <circle cx="50" cy="50" r="30" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="3 5" style="animation:spin 18s linear infinite reverse;transform-origin:50px 50px;"/>
-              <circle cx="50" cy="6"  r="3" fill="rgba(255,255,255,0.5)"/>
-              <circle cx="94" cy="50" r="2" fill="rgba(255,255,255,0.3)"/>
-              <circle cx="6"  cy="50" r="2" fill="rgba(255,255,255,0.3)"/>
-              <line x1="50" y1="50" x2="50" y2="6"  stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
-              <line x1="50" y1="50" x2="94" y2="50" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/>
-              <circle cx="50" cy="50" r="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            </svg>
-          </div>
-          <div class="w-title">ARIA ONLINE</div>
-          <div class="w-sub">พร้อมรับคำสั่ง · พิมพ์หรือกด 🎤 เพื่อพูด</div>
-          <div class="chips">
-            <div class="chip" onclick="qs('สวัสดี ARIA แนะนำตัวหน่อย')">INITIALIZE</div>
-            <div class="chip" onclick="qs('ช่วยวางแผนวันนี้')">PLAN TODAY</div>
-            <div class="chip" onclick="qs('สุขภาพวันนี้เป็นอย่างไร')">VITALS</div>
-            <div class="chip" onclick="qs('ช่วยคิดไอเดียธุรกิจ')">IDEATE</div>
-            <div class="chip" onclick="qs('สรุปการเงินเดือนนี้')">FINANCE</div>
-          </div>
-        </div>
-      </div>
+      <div class="msgs" id="msgs"></div>
 
-      <!-- INPUT — อยู่ใน chat-area ใช้ flex-shrink:0 -->
-      <div class="input-area">
-        <div class="input-row">
-          <textarea id="msgInput"
-            placeholder="// พิมพ์ข้อความ หรือกด 🎤 เพื่อพูด..."
-            rows="1"
+      <div class="inp-area">
+        <div class="inp-row">
+          <textarea id="msgInput" rows="1"
+            placeholder="พิมพ์ข้อความ หรือกด 🎤 เพื่อพูด..."
             onkeydown="handleKey(event)"
             oninput="autoResize(this)"></textarea>
-          <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice Input">🎤</button>
+          <button class="mic-btn" id="micBtn" onclick="toggleVoice()">🎤</button>
           <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT PANEL -->
     <div class="rpanel">
       <div class="rp-sec">// VITALS</div>
-      <div class="stat-card">
-        <div class="stat-top"><span class="stat-ico">◉</span><span class="stat-lbl">HEART RATE</span></div>
-        <div class="stat-val" id="vH">72</div>
-        <div class="stat-sub">BPM · NOMINAL</div>
-        <div class="stat-bar"><div class="stat-fill" style="width:72%"></div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top"><span class="stat-ico">◈</span><span class="stat-lbl">STEPS</span></div>
-        <div class="stat-val" id="vSt">8.5K</div>
-        <div class="stat-sub">TARGET 10K</div>
-        <div class="stat-bar"><div class="stat-fill" style="width:85%"></div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top"><span class="stat-ico">◐</span><span class="stat-lbl">SLEEP</span></div>
-        <div class="stat-val" id="vSl">7.2</div>
-        <div class="stat-sub">HRS · OPTIMAL</div>
-        <div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-top"><span class="stat-ico">◑</span><span class="stat-lbl">MOOD</span></div>
-        <div class="stat-val" id="vM">8.0</div>
-        <div class="stat-sub">INDEX · PEAK</div>
-        <div class="stat-bar"><div class="stat-fill" style="width:80%"></div></div>
-      </div>
+      <div class="s-card"><div class="s-top"><span class="s-ico">◉</span><span class="s-lbl">HEART RATE</span></div><div class="s-val" id="vH">72</div><div class="s-sub">BPM · NOMINAL</div><div class="s-bar"><div class="s-fill" style="width:72%"></div></div></div>
+      <div class="s-card"><div class="s-top"><span class="s-ico">◈</span><span class="s-lbl">STEPS</span></div><div class="s-val" id="vSt">8.5K</div><div class="s-sub">TARGET 10K</div><div class="s-bar"><div class="s-fill" style="width:85%"></div></div></div>
+      <div class="s-card"><div class="s-top"><span class="s-ico">◐</span><span class="s-lbl">SLEEP</span></div><div class="s-val" id="vSl">7.2</div><div class="s-sub">HRS · OPTIMAL</div><div class="s-bar"><div class="s-fill" style="width:90%"></div></div></div>
+      <div class="s-card"><div class="s-top"><span class="s-ico">◑</span><span class="s-lbl">MOOD</span></div><div class="s-val" id="vM">8.0</div><div class="s-sub">INDEX · PEAK</div><div class="s-bar"><div class="s-fill" style="width:80%"></div></div></div>
       <div class="rp-sec" style="margin-top:6px;">// DEVICES</div>
-      <div class="device"><div class="dev-name">○ LIGHTS</div><button class="toggle" onclick="togDev('light',this)"></button></div>
-      <div class="device"><div class="dev-name">○ A/C</div><button class="toggle" onclick="togDev('ac',this)"></button></div>
-      <div class="device"><div class="dev-name">○ FAN</div><button class="toggle" onclick="togDev('fan',this)"></button></div>
+      <div class="dev"><div class="d-name">○ LIGHTS</div><button class="tog" onclick="togDev('light',this)"></button></div>
+      <div class="dev"><div class="d-name">○ A/C</div><button class="tog" onclick="togDev('ac',this)"></button></div>
+      <div class="dev"><div class="d-name">○ FAN</div><button class="tog" onclick="togDev('fan',this)"></button></div>
     </div>
   </div>
 </div>
 
 <!-- VOICE OVERLAY -->
-<div class="voice-overlay" id="voiceOverlay">
-  <div class="voice-ring">
-    <div class="voice-ico">🎤</div>
-    <div class="voice-txt" id="voiceTxt">LISTENING...</div>
+<div class="v-ov" id="vOv">
+  <div class="v-ring">
+    <div class="v-ico">🎤</div>
+    <div class="v-txt" id="vTxt">LISTENING...</div>
   </div>
 </div>
 
 <script>
-// ── THEME
-let isDark = true;
-function toggleTheme() {
-  isDark = !isDark;
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
-  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
-  localStorage.setItem('aria_theme', isDark ? 'dark' : 'light');
+// ════════════════════════════════
+//  THEME
+// ════════════════════════════════
+let dark = localStorage.getItem('aria_theme') !== 'light';
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  const btn = document.getElementById('themeBtn');
+  if (btn) btn.textContent = dark ? '🌙' : '☀️';
 }
-// Load saved theme
-const savedTheme = localStorage.getItem('aria_theme');
-if (savedTheme === 'light') { isDark = false; document.documentElement.setAttribute('data-theme','light'); document.getElementById('themeBtn') && (document.getElementById('themeBtn').textContent = '☀️'); }
+function toggleTheme() { dark = !dark; localStorage.setItem('aria_theme', dark ? 'dark' : 'light'); applyTheme(); }
+applyTheme();
 
-// ── CANVAS BG
-const cv = document.getElementById('bgCanvas');
-const ctx2 = cv.getContext('2d');
+// ════════════════════════════════
+//  CANVAS
+// ════════════════════════════════
+const cv = document.getElementById('bgC'), ctx = cv.getContext('2d');
 function rsz() { cv.width = window.innerWidth; cv.height = window.innerHeight; }
 rsz(); window.addEventListener('resize', rsz);
-
-const dots = Array.from({length:55}, () => ({
-  x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
-  vx: (Math.random()-.5)*.12, vy: (Math.random()-.5)*.12,
-  r: Math.random()*1.2+.3, o: Math.random()*.18+.04
+const dots = Array.from({length:50}, () => ({
+  x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
+  vx:(Math.random()-.5)*.1, vy:(Math.random()-.5)*.1,
+  r:Math.random()*1+.3, o:Math.random()*.15+.04
 }));
-const orbs = [
-  {r:()=>Math.min(cv.width,cv.height)*.36, sp:.0003, n:8, dash:[8,12], o:.06},
-  {r:()=>Math.min(cv.width,cv.height)*.26, sp:-.0005, n:6, dash:[4,8], o:.08},
-  {r:()=>Math.min(cv.width,cv.height)*.18, sp:.0008, n:4, dash:[3,6], o:.1},
-  {r:()=>Math.min(cv.width,cv.height)*.44, sp:-.0002, n:10, dash:[12,16], o:.04},
+const rings = [
+  {r:()=>Math.min(cv.width,cv.height)*.36, sp:.0003, n:8, o:.06},
+  {r:()=>Math.min(cv.width,cv.height)*.25, sp:-.0005, n:6, o:.08},
+  {r:()=>Math.min(cv.width,cv.height)*.17, sp:.0008, n:4, o:.1},
 ];
-let fr = 0;
-function drawBg() {
-  fr++;
-  ctx2.clearRect(0,0,cv.width,cv.height);
+let fr=0;
+function draw() {
+  fr++; ctx.clearRect(0,0,cv.width,cv.height);
   const cx=cv.width/2, cy=cv.height/2;
-  orbs.forEach(orb => {
-    ctx2.save(); ctx2.translate(cx,cy); ctx2.rotate(fr*orb.sp);
-    ctx2.beginPath(); ctx2.arc(0,0,orb.r(),0,Math.PI*2);
-    ctx2.setLineDash(orb.dash); ctx2.strokeStyle=`rgba(255,255,255,${orb.o})`; ctx2.lineWidth=.5; ctx2.stroke();
-    for(let i=0;i<orb.n;i++){
-      const a=(i/orb.n)*Math.PI*2, nx=Math.cos(a)*orb.r(), ny=Math.sin(a)*orb.r();
-      ctx2.beginPath(); ctx2.arc(nx,ny,i%3===0?2.5:1.5,0,Math.PI*2);
-      ctx2.fillStyle=`rgba(255,255,255,${orb.o*5})`; ctx2.setLineDash([]); ctx2.fill();
-      if(i%2===0){ctx2.beginPath();ctx2.moveTo(0,0);ctx2.lineTo(nx,ny);ctx2.strokeStyle=`rgba(255,255,255,${orb.o*.5})`;ctx2.lineWidth=.3;ctx2.stroke();}
+  rings.forEach(ring => {
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(fr*ring.sp);
+    ctx.beginPath(); ctx.arc(0,0,ring.r(),0,Math.PI*2);
+    ctx.setLineDash([6,10]); ctx.strokeStyle=`rgba(255,255,255,${ring.o})`; ctx.lineWidth=.5; ctx.stroke();
+    for(let i=0;i<ring.n;i++){
+      const a=(i/ring.n)*Math.PI*2, nx=Math.cos(a)*ring.r(), ny=Math.sin(a)*ring.r();
+      ctx.beginPath(); ctx.arc(nx,ny,2,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${ring.o*4})`; ctx.setLineDash([]); ctx.fill();
     }
-    ctx2.restore();
+    ctx.restore();
   });
   dots.forEach(d => {
     d.x+=d.vx; d.y+=d.vy;
     if(d.x<0)d.x=cv.width; if(d.x>cv.width)d.x=0;
     if(d.y<0)d.y=cv.height; if(d.y>cv.height)d.y=0;
-    ctx2.beginPath(); ctx2.arc(d.x,d.y,d.r,0,Math.PI*2);
-    ctx2.fillStyle=`rgba(255,255,255,${d.o})`; ctx2.setLineDash([]); ctx2.fill();
+    ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${d.o})`; ctx.setLineDash([]); ctx.fill();
   });
-  requestAnimationFrame(drawBg);
+  requestAnimationFrame(draw);
 }
-drawBg();
+draw();
 
-// ── APP STATE
+// ════════════════════════════════
+//  STATE
+// ════════════════════════════════
 const API = '/api';
-let token = localStorage.getItem('aria_token');
-let user = null, convId = null, isBusy = false;
+let token = localStorage.getItem('aria_tk');
+let user = null, convId = null, busy = false;
 
-if (token) {
-  fetch(API+'/users/me', {headers:{Authorization:'Bearer '+token}})
-    .then(r => r.ok ? r.json() : Promise.reject())
-    .then(u => { user=u; showApp(); })
-    .catch(() => localStorage.removeItem('aria_token'));
-}
+// Auto-login
+(async () => {
+  if (!token) return;
+  try {
+    const r = await fetch(API+'/users/me', {headers:{Authorization:'Bearer '+token}});
+    if (!r.ok) throw new Error();
+    user = await r.json();
+    enterApp();
+  } catch {
+    localStorage.removeItem('aria_tk');
+    token = null;
+  }
+})();
 
+// Check AI
 fetch('/health').then(r=>r.json()).then(d=>{
   const el = document.getElementById('aiStat');
-  if(el) el.textContent = d.ai==='Groq Connected' ? 'GROQ AI ACTIVE' : 'SYSTEM ACTIVE';
+  if (el) el.textContent = d.ai === 'Groq Connected' ? 'GROQ AI ACTIVE' : 'SYSTEM ACTIVE';
 }).catch(()=>{});
 
-// ── AUTH
-function toggleAuth(){
+// ════════════════════════════════
+//  AUTH FUNCTIONS
+// ════════════════════════════════
+function swapForm() {
   document.getElementById('loginForm').classList.toggle('hidden');
   document.getElementById('registerForm').classList.toggle('hidden');
 }
-async function login(){
-  const email=document.getElementById('lE').value.trim();
-  const pass=document.getElementById('lP').value;
-  if(!email||!pass) return toast('กรุณากรอกข้อมูล','err');
-  try{
-    const d=await apiFetch('POST','/auth/login',{email,password:pass});
-    token=d.token; user=d.user; localStorage.setItem('aria_token',token); showApp();
-  }catch(e){toast(e.message,'err');}
+
+async function doLogin() {
+  const email = document.getElementById('lEmail').value.trim();
+  const pass  = document.getElementById('lPass').value;
+  if (!email) return toast('กรุณากรอก Email', 'err');
+  if (!pass)  return toast('กรุณากรอก Password', 'err');
+
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'กำลังเข้าสู่ระบบ...';
+
+  try {
+    const data = await apiCall('POST', '/auth/login', {email, password: pass});
+    token = data.token; user = data.user;
+    localStorage.setItem('aria_tk', token);
+    enterApp();
+  } catch(e) {
+    toast(e.message || 'เข้าสู่ระบบไม่สำเร็จ', 'err');
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+  }
 }
-async function register(){
-  const name=document.getElementById('rN').value.trim();
-  const email=document.getElementById('rE').value.trim();
-  const pass=document.getElementById('rP').value;
-  if(!name||!email||!pass) return toast('กรุณากรอกข้อมูลให้ครบ','err');
-  if(pass.length<6) return toast('รหัสผ่านต้องมีอย่างน้อย 6 ตัว','err');
-  try{
-    const d=await apiFetch('POST','/auth/register',{full_name:name,email,password:pass});
-    token=d.token; user=d.user; localStorage.setItem('aria_token',token); showApp();
-  }catch(e){toast(e.message,'err');}
+
+async function doRegister() {
+  const name  = document.getElementById('rName').value.trim();
+  const email = document.getElementById('rEmail').value.trim();
+  const pass  = document.getElementById('rPass').value;
+  if (!name)        return toast('กรุณากรอกชื่อ', 'err');
+  if (!email)       return toast('กรุณากรอก Email', 'err');
+  if (!pass)        return toast('กรุณากรอก Password', 'err');
+  if (pass.length < 6) return toast('Password ต้องมีอย่างน้อย 6 ตัว', 'err');
+
+  const btn = document.getElementById('regBtn');
+  btn.disabled = true; btn.textContent = 'กำลังสมัคร...';
+
+  try {
+    const data = await apiCall('POST', '/auth/register', {full_name:name, email, password:pass});
+    token = data.token; user = data.user;
+    localStorage.setItem('aria_tk', token);
+    enterApp();
+  } catch(e) {
+    toast(e.message || 'สมัครไม่สำเร็จ', 'err');
+    btn.disabled = false; btn.textContent = 'สมัครใช้งาน';
+  }
 }
-function showApp(){
+
+function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
-  const app=document.getElementById('appScreen');
-  app.classList.remove('hidden'); app.style.display='flex';
-  document.getElementById('tbUser').textContent=(user?.full_name||'').toUpperCase();
+  const app = document.getElementById('appScreen');
+  app.classList.remove('hidden'); app.style.display = 'flex';
+  document.getElementById('tbUser').textContent = (user?.full_name || '').toUpperCase();
   loadHealth(); loadConvs(); newChat();
 }
-function logout(){ localStorage.removeItem('aria_token'); location.reload(); }
 
-// ── CHAT
-async function newChat(){
-  try{
-    const d=await apiFetch('POST','/chat/conversations',{title:'SES·'+new Date().toLocaleTimeString('th')});
-    convId=d.id;
-    document.getElementById('messages').innerHTML='';
-    document.getElementById('chatTitle').textContent='ARIA · ACTIVE CHANNEL';
-    document.getElementById('chatSub').textContent='SESSION #'+convId;
-    const w=document.createElement('div'); w.className='welcome'; w.id='welcomeEl';
-    w.innerHTML=`<div class="w-svg"><svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="44" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="5 4" style="animation:spin 25s linear infinite;transform-origin:50px 50px;"/><circle cx="50" cy="6" r="3" fill="rgba(255,255,255,0.5)"/><circle cx="50" cy="50" r="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/></svg></div><div class="w-title">ARIA ONLINE</div><div class="w-sub">พร้อมรับคำสั่งครับ</div><div class="chips"><div class="chip" onclick="qs('สวัสดี ARIA')">GREET</div><div class="chip" onclick="qs('ช่วยวางแผนวันนี้')">PLAN</div><div class="chip" onclick="qs('สุขภาพวันนี้')">VITALS</div><div class="chip" onclick="qs('ช่วยคิดไอเดีย')">IDEATE</div></div>`;
-    document.getElementById('messages').appendChild(w);
+function doLogout() {
+  localStorage.removeItem('aria_tk'); location.reload();
+}
+
+// ════════════════════════════════
+//  CHAT
+// ════════════════════════════════
+async function newChat() {
+  try {
+    const d = await apiCall('POST', '/chat/conversations', {title:'SESSION '+new Date().toLocaleTimeString('th')});
+    convId = d.id;
+    const box = document.getElementById('msgs'); box.innerHTML = '';
+    document.getElementById('chatTitle').textContent = 'ARIA · ACTIVE CHANNEL';
+    document.getElementById('chatSub').textContent = 'SESSION #'+convId;
+    // welcome
+    box.innerHTML = `<div class="welcome">
+      <div class="w-title">ARIA ONLINE</div>
+      <div class="w-sub">พร้อมรับคำสั่ง · พิมพ์หรือกด 🎤 เพื่อพูด</div>
+      <div class="chips">
+        <div class="chip" onclick="qs('สวัสดี ARIA แนะนำตัวหน่อย')">INITIALIZE</div>
+        <div class="chip" onclick="qs('ช่วยวางแผนวันนี้')">PLAN TODAY</div>
+        <div class="chip" onclick="qs('สุขภาพวันนี้เป็นอย่างไร')">VITALS</div>
+        <div class="chip" onclick="qs('ช่วยคิดไอเดียธุรกิจ')">IDEATE</div>
+        <div class="chip" onclick="qs('สรุปการเงิน')">FINANCE</div>
+      </div>
+    </div>`;
     loadConvs();
-  }catch(e){toast(e.message,'err');}
+  } catch(e) { toast(e.message, 'err'); }
 }
-async function loadConvs(){
-  try{
-    const list=await apiFetch('GET','/chat/conversations');
-    const el=document.getElementById('convList'); el.innerHTML='';
-    list.slice(0,12).forEach(c=>{
-      const d=document.createElement('div');
-      d.className='conv-item'+(c.id===convId?' active':'');
-      d.textContent='· '+(c.title||'SESSION').substring(0,22);
-      d.onclick=()=>selectConv(c.id,c.title); el.appendChild(d);
+
+async function loadConvs() {
+  try {
+    const list = await apiCall('GET', '/chat/conversations');
+    const el = document.getElementById('convList'); el.innerHTML = '';
+    list.slice(0,12).forEach(c => {
+      const d = document.createElement('div');
+      d.className = 'cv-item' + (c.id===convId?' active':'');
+      d.textContent = '· '+(c.title||'SESSION').substring(0,22);
+      d.onclick = () => selConv(c.id, c.title); el.appendChild(d);
     });
-  }catch{}
+  } catch {}
 }
-async function selectConv(id,title){
-  convId=id;
-  document.getElementById('messages').innerHTML='';
-  document.getElementById('chatTitle').textContent=title||'SESSION';
+
+async function selConv(id, title) {
+  convId = id;
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('chatTitle').textContent = title || 'SESSION';
   loadConvs();
-  try{
-    const msgs=await apiFetch('GET',`/chat/conversations/${id}/messages`);
-    msgs.forEach(m=>addBubble(m.type==='user'?'user':'ai',m.content));
-    scrollBottom();
-  }catch{}
+  try {
+    const msgs = await apiCall('GET', `/chat/conversations/${id}/messages`);
+    msgs.forEach(m => addBubble(m.type==='user'?'user':'ai', m.content));
+    scrollEnd();
+  } catch {}
 }
-async function sendMsg(){
-  const el=document.getElementById('msgInput');
-  const txt=el.value.trim();
-  if(!txt||!convId||isBusy) return;
-  el.value=''; el.style.height='auto';
-  document.getElementById('welcomeEl')?.remove();
-  addBubble('user',txt); showTyping(); isBusy=true;
-  document.getElementById('sendBtn').disabled=true;
-  try{
-    const d=await apiFetch('POST','/chat/messages',{conversation_id:convId,content:txt});
-    hideTyping(); addBubble('ai',d.aiMessage.content);
+
+async function sendMsg() {
+  const el = document.getElementById('msgInput');
+  const txt = el.value.trim();
+  if (!txt || !convId || busy) return;
+  el.value = ''; el.style.height = 'auto';
+  document.getElementById('msgs').querySelector('.welcome')?.remove();
+  addBubble('user', txt);
+  showTyping(); busy = true;
+  document.getElementById('sendBtn').disabled = true;
+  try {
+    const d = await apiCall('POST', '/chat/messages', {conversation_id:convId, content:txt});
+    hideTyping(); addBubble('ai', d.aiMessage.content);
     speak(d.aiMessage.content); loadConvs();
-  }catch(e){hideTyping();toast(e.message,'err');}
-  isBusy=false; document.getElementById('sendBtn').disabled=false; scrollBottom();
-}
-function qs(t){ document.getElementById('msgInput').value=t; sendMsg(); }
-function handleKey(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();} }
-function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
-
-function addBubble(role,text){
-  const box=document.getElementById('messages'), isAI=role==='ai';
-  const d=document.createElement('div'); d.className='msg '+role;
-  d.innerHTML=`<div class="msg-av ${isAI?'ai':''}">${isAI?'AR':'OP'}</div><div class="msg-wrap"><div class="msg-who">${isAI?'ARIA':'OPERATOR'}</div><div class="bubble">${text.replace(/\n/g,'<br>')}</div></div>`;
-  box.appendChild(d); scrollBottom();
-}
-function showTyping(){
-  const box=document.getElementById('messages');
-  const el=document.createElement('div'); el.className='msg ai'; el.id='typingEl';
-  el.innerHTML=`<div class="msg-av ai">AR</div><div class="msg-wrap"><div class="msg-who">ARIA · PROCESSING</div><div class="bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>`;
-  box.appendChild(el); scrollBottom();
-}
-function hideTyping(){ document.getElementById('typingEl')?.remove(); }
-function scrollBottom(){ const b=document.getElementById('messages'); b.scrollTop=b.scrollHeight; }
-
-// ── HEALTH
-async function loadHealth(){
-  try{
-    const d=await apiFetch('GET','/health/summary'),h=d.data;
-    document.getElementById('vH').textContent=h.heart_rate;
-    document.getElementById('vSt').textContent=(h.steps/1000).toFixed(1)+'K';
-    document.getElementById('vSl').textContent=h.sleep_hours;
-    document.getElementById('vM').textContent=h.mood+'.0';
-  }catch{}
+  } catch(e) { hideTyping(); toast(e.message, 'err'); }
+  busy = false; document.getElementById('sendBtn').disabled = false; scrollEnd();
 }
 
-// ── DEVICES
-async function togDev(dev,btn){
-  const on=btn.classList.toggle('on');
-  try{ await apiFetch('POST','/smart-home/control',{device:dev,action:on?'on':'off'}); toast(dev.toUpperCase()+' '+(on?'ON':'OFF'),'ok'); }
-  catch(){ btn.classList.toggle('on'); }
+function qs(t) { document.getElementById('msgInput').value = t; sendMsg(); }
+function handleKey(e) { if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); sendMsg(); } }
+function autoResize(el) { el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,120)+'px'; }
+
+function addBubble(role, text) {
+  const box = document.getElementById('msgs'), ai = role==='ai';
+  const d = document.createElement('div'); d.className = 'msg '+role;
+  d.innerHTML = `<div class="m-av ${ai?'ai':''}">${ai?'AR':'OP'}</div><div class="m-wrap"><div class="m-who">${ai?'ARIA':'OPERATOR'}</div><div class="bubble">${text.replace(/\n/g,'<br>')}</div></div>`;
+  box.appendChild(d); scrollEnd();
+}
+function showTyping() {
+  const box = document.getElementById('msgs');
+  const el = document.createElement('div'); el.className='msg ai'; el.id='typEl';
+  el.innerHTML=`<div class="m-av ai">AR</div><div class="m-wrap"><div class="m-who">ARIA · PROCESSING</div><div class="bubble"><div class="tdots"><span></span><span></span><span></span></div></div></div>`;
+  box.appendChild(el); scrollEnd();
+}
+function hideTyping() { document.getElementById('typEl')?.remove(); }
+function scrollEnd() { const b = document.getElementById('msgs'); b.scrollTop = b.scrollHeight; }
+
+// ════════════════════════════════
+//  HEALTH
+// ════════════════════════════════
+async function loadHealth() {
+  try {
+    const d = await apiCall('GET', '/health/summary'), h = d.data;
+    document.getElementById('vH').textContent  = h.heart_rate;
+    document.getElementById('vSt').textContent = (h.steps/1000).toFixed(1)+'K';
+    document.getElementById('vSl').textContent = h.sleep_hours;
+    document.getElementById('vM').textContent  = h.mood+'.0';
+  } catch {}
 }
 
-// ── VOICE INPUT
-let recog=null, isListening=false;
-function initRecog(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('ใช้ Chrome เพื่อใช้ Voice ครับ','err');return null;}
-  const r=new SR(); r.lang='th-TH'; r.continuous=false; r.interimResults=true;
-  r.onstart=()=>{isListening=true;document.getElementById('micBtn').classList.add('on');document.getElementById('micBtn').textContent='🔴';document.getElementById('voiceOverlay').classList.add('show');};
-  r.onresult=e=>{let interim='',final='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)final+=e.results[i][0].transcript;else interim+=e.results[i][0].transcript;}const txt=final||interim;document.getElementById('msgInput').value=txt;document.getElementById('voiceTxt').textContent=txt||'LISTENING...';if(final){stopVoice();setTimeout(()=>sendMsg(),300);}};
-  r.onerror=e=>{stopVoice();toast('Voice: '+e.error,'err');};
-  r.onend=()=>stopVoice();
+async function togDev(dev, btn) {
+  const on = btn.classList.toggle('on');
+  try { await apiCall('POST','/smart-home/control',{device:dev,action:on?'on':'off'}); toast(dev.toUpperCase()+' '+(on?'ON':'OFF'),'ok'); }
+  catch { btn.classList.toggle('on'); }
+}
+
+// ════════════════════════════════
+//  VOICE
+// ════════════════════════════════
+let recog = null, isListen = false;
+function initRecog() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { toast('ใช้ Chrome เพื่อใช้ Voice ครับ','err'); return null; }
+  const r = new SR(); r.lang='th-TH'; r.continuous=false; r.interimResults=true;
+  r.onstart = () => { isListen=true; document.getElementById('micBtn').classList.add('on'); document.getElementById('micBtn').textContent='🔴'; document.getElementById('vOv').classList.add('show'); };
+  r.onresult = e => { let f='',i=''; for(let x=e.resultIndex;x<e.results.length;x++){if(e.results[x].isFinal)f+=e.results[x][0].transcript;else i+=e.results[x][0].transcript;} const t=f||i; document.getElementById('msgInput').value=t; document.getElementById('vTxt').textContent=t||'LISTENING...'; if(f){stopListen();setTimeout(()=>sendMsg(),300);} };
+  r.onerror = e => { stopListen(); toast('Voice: '+e.error,'err'); };
+  r.onend = () => stopListen();
   return r;
 }
-function toggleVoice(){ if(isListening){stopVoice();return;} if(!recog)recog=initRecog(); if(recog)try{recog.start();}catch(e){stopVoice();} }
-function stopVoice(){ isListening=false; if(recog)recog.stop(); document.getElementById('micBtn').classList.remove('on'); document.getElementById('micBtn').textContent='🎤'; document.getElementById('voiceOverlay').classList.remove('show'); }
+function toggleVoice() { if(isListen){stopListen();return;} if(!recog)recog=initRecog(); if(recog)try{recog.start();}catch{stopListen();} }
+function stopListen() { isListen=false; if(recog)recog.stop(); document.getElementById('micBtn').classList.remove('on'); document.getElementById('micBtn').textContent='🎤'; document.getElementById('vOv').classList.remove('show'); }
 
-// ── VOICE OUTPUT
-function speak(text){
+function speak(text) {
   if(!window.speechSynthesis)return;
   window.speechSynthesis.cancel();
-  const clean=text.replace(/<[^>]*>/g,'').substring(0,300);
-  const u=new SpeechSynthesisUtterance(clean);
-  u.lang='th-TH'; u.rate=1.0; u.pitch=1.1; u.volume=1;
-  const voices=window.speechSynthesis.getVoices();
-  const v=voices.find(v=>v.lang.includes('th'))||null;
-  if(v)u.voice=v;
+  const u = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g,'').substring(0,300));
+  u.lang='th-TH'; u.rate=1.0; u.pitch=1.1;
+  const v = window.speechSynthesis.getVoices().find(v=>v.lang.includes('th'));
+  if(v) u.voice=v;
   window.speechSynthesis.speak(u);
 }
 
-// ── API
-async function apiFetch(method,path,body){
-  const r=await fetch(API+path,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})}, ...(body?{body:JSON.stringify(body)}:{})});
-  const d=await r.json(); if(!r.ok)throw new Error(d.error||'Request failed'); return d;
+// ════════════════════════════════
+//  API HELPER
+// ════════════════════════════════
+async function apiCall(method, path, body) {
+  const res = await fetch(API + path, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? {Authorization: 'Bearer '+token} : {})
+    },
+    ...(body ? {body: JSON.stringify(body)} : {})
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed ('+res.status+')');
+  return data;
 }
-function toast(msg,type='info'){
+
+function toast(msg, type='info') {
   document.querySelector('.toast')?.remove();
-  const el=document.createElement('div'); el.className='toast '+(type||'');
-  el.textContent='· '+msg; document.body.appendChild(el);
-  setTimeout(()=>el.remove(),3000);
+  const el = document.createElement('div');
+  el.className = 'toast '+(type||'');
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
 }
 </script>
 </body>
