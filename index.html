@@ -20,7 +20,7 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{font-size:18px;}
-body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Share Tech Mono','Noto Sans Thai',monospace;overflow:hidden;transition:background .3s,color .3s;}
+body{width:100%;height:100vh;max-height:100vh;background:var(--bg);color:var(--t);font-family:'Share Tech Mono','Noto Sans Thai',monospace;overflow:hidden;transition:background .3s,color .3s;display:flex;flex-direction:column;}
 #bgC{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;}
 [data-theme="light"] #bgC{opacity:.15;}
 .hidden{display:none!important;}
@@ -80,7 +80,7 @@ body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Sh
 .btn-main:disabled{opacity:.5;cursor:not-allowed;}
 
 /* ── APP ── */
-#appScreen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;}
+#appScreen{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;height:100vh;max-height:100vh;overflow:hidden;}
 
 .topbar{
   height:54px;flex-shrink:0;
@@ -102,10 +102,10 @@ body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Sh
 .btn-sm{background:none;border:1px solid var(--b);color:var(--t3);font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:1px;padding:6px 14px;cursor:pointer;transition:all .2s;}
 .btn-sm:hover{border-color:var(--t);color:var(--t);}
 
-.app-body{flex:1;display:flex;overflow:hidden;min-height:0;}
+.app-body{flex:1;display:flex;overflow:hidden;height:0;min-height:0;}
 
 /* sidebar */
-.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--b);display:flex;flex-direction:column;background:var(--bg3);overflow:hidden;}
+.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--b);display:flex;flex-direction:column;background:var(--bg3);overflow:hidden;height:100%;}
 .sb-top{padding:12px;border-bottom:1px solid var(--b2);}
 .btn-new{width:100%;padding:10px;background:transparent;border:1px solid var(--b);color:var(--t2);font-family:'Share Tech Mono',monospace;font-size:14px;letter-spacing:2px;cursor:pointer;transition:all .2s;text-align:left;}
 .btn-new:hover{border-color:var(--t);color:var(--t);}
@@ -122,7 +122,7 @@ body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Sh
 .op-btn:hover{color:var(--t);border-left-color:var(--t);}
 
 /* chat */
-.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.chat{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;min-height:0;height:100%;}
 .chat-head{padding:12px 20px;flex-shrink:0;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);}
 .ch-title{font-size:15px;letter-spacing:2px;color:var(--t2);}
 .ch-sub{font-size:13px;color:var(--t3);margin-top:3px;}
@@ -130,7 +130,7 @@ body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Sh
 .sig-fill{height:100%;background:var(--t3);animation:sig 2s linear infinite;}
 @keyframes sig{0%{width:0;margin-left:0}50%{width:100%}100%{width:0;margin-left:100%}}
 
-.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;min-height:0;}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;min-height:0;height:0;}
 .msgs::-webkit-scrollbar{width:3px;}
 .msgs::-webkit-scrollbar-thumb{background:var(--b);}
 
@@ -195,7 +195,7 @@ body{width:100%;height:100vh;background:var(--bg);color:var(--t);font-family:'Sh
 .send-btn:disabled{opacity:.3;cursor:not-allowed;}
 
 /* right panel */
-.rpanel{width:185px;flex-shrink:0;border-left:1px solid var(--b);overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg3);}
+.rpanel{width:185px;flex-shrink:0;border-left:1px solid var(--b);overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--bg3);height:100%;}
 .rp-sec{font-size:13px;letter-spacing:2px;color:var(--t3);margin-bottom:2px;}
 .s-card{border:1px solid var(--b2);padding:10px;background:var(--ibg);}
 .s-top{display:flex;justify-content:space-between;margin-bottom:4px;}
@@ -496,7 +496,7 @@ async function doRegister() {
 function enterApp() {
   document.getElementById('authScreen').classList.add('hidden');
   const app = document.getElementById('appScreen');
-  app.classList.remove('hidden'); app.style.display = 'flex';
+  app.classList.remove('hidden'); app.style.display = 'flex'; app.style.height = '100vh'; app.style.maxHeight = '100vh';
   document.getElementById('tbUser').textContent = (user?.full_name || '').toUpperCase();
   loadHealth(); loadConvs(); newChat();
 }
