@@ -15,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname)); // serve index.html
 
 // Constants
 const JWT_SECRET = process.env.JWT_SECRET || 'aria_secret_key_2024';
