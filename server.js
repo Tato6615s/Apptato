@@ -471,3 +471,15 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+app.use(express.static(__dirname));
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+```
+
+---
+
+แล้วก็ตรวจสอบว่า **`index.html` อยู่ใน repo แล้วจริงๆ** โดยเปิด:
+```
+github.com/Tato6615s/TATO-app
