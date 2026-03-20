@@ -528,6 +528,7 @@ async function selConv(id,title){
 async function sendMsg(){
   const el=document.getElementById('msgInput'),txt=el.value.trim();
   if(!txt||!convId||busy)return;
+  ensureAudioCtx(); // unlock audio context
   el.value='';el.style.height='auto';
   document.getElementById('msgs').querySelector('.welcome')?.remove();
   addBubble('user',txt);showTyping();busy=true;
@@ -537,7 +538,7 @@ async function sendMsg(){
   busy=false;document.getElementById('sendBtn').disabled=false;scrollEnd();
 }
 
-function qs(t){document.getElementById('msgInput').value=t;sendMsg();}
+function qs(t){ensureAudioCtx();document.getElementById('msgInput').value=t;sendMsg();}
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 
@@ -560,69 +561,97 @@ async function togDev(dev,btn){const on=btn.classList.toggle('on');try{await api
 // VOICE
 let recog=null,isListen=false;
 function initRecog(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){toast('ใช้ Chrome เพื่อใช้ Voice ครับ','err');return null;}const r=new SR();r.lang='th-TH';r.continuous=false;r.interimResults=true;r.onstart=()=>{isListen=true;document.getElementById('micBtn').classList.add('on');document.getElementById('micBtn').textContent='🔴';document.getElementById('vOv').classList.add('show');};r.onresult=e=>{let f='',i='';for(let x=e.resultIndex;x<e.results.length;x++){if(e.results[x].isFinal)f+=e.results[x][0].transcript;else i+=e.results[x][0].transcript;}const t=f||i;document.getElementById('msgInput').value=t;document.getElementById('vTxt').textContent=t||'LISTENING...';if(f){stopListen();setTimeout(()=>sendMsg(),300);}};r.onerror=e=>{stopListen();toast('Voice: '+e.error,'err');};r.onend=()=>stopListen();return r;}
-function toggleVoice(){if(isListen){stopListen();return;}if(!recog)recog=initRecog();if(recog)try{recog.start();}catch{stopListen();}}
+function toggleVoice(){ensureAudioCtx();if(isListen){stopListen();return;}if(!recog)recog=initRecog();if(recog)try{recog.start();}catch{stopListen();}}
 function stopListen(){isListen=false;if(recog)recog.stop();document.getElementById('micBtn').classList.remove('on');document.getElementById('micBtn').textContent='🎤';document.getElementById('vOv').classList.remove('show');}
 
-// ── VOICE OUTPUT — ใช้ ElevenLabs ถ้ามี ไม่งั้นใช้ Browser TTS
+// ── VOICE OUTPUT
 let voiceEnabled = localStorage.getItem('aria_voice') !== 'off';
+let audioCtx = null;
 let currentAudio = null;
+
+// สร้าง AudioContext หลังจาก user กด (bypass autoplay policy)
+function ensureAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
 
 function speak(text, audioBase64) {
   if (!voiceEnabled) return;
-  // หยุดเสียงเดิมก่อน
-  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  stopSpeak();
 
   if (audioBase64) {
-    // ใช้ ElevenLabs audio (เสียงผู้หญิงธรรมชาติ)
-    try {
-      const blob = b64toBlob(audioBase64, 'audio/mpeg');
-      const url = URL.createObjectURL(blob);
-      currentAudio = new Audio(url);
-      currentAudio.play().catch(e => speakBrowser(text));
-      currentAudio.onended = () => { URL.revokeObjectURL(url); currentAudio = null; };
-    } catch(e) { speakBrowser(text); }
+    // ElevenLabs audio
+    playBase64Audio(audioBase64);
   } else {
-    // fallback — Browser TTS
+    // Browser TTS fallback
     speakBrowser(text);
   }
 }
 
+function playBase64Audio(base64) {
+  try {
+    ensureAudioCtx();
+    const bin = atob(base64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    audioCtx.decodeAudioData(bytes.buffer, (decoded) => {
+      const src = audioCtx.createBufferSource();
+      src.buffer = decoded;
+      src.connect(audioCtx.destination);
+      src.start(0);
+      src.onended = () => {};
+    }, () => {
+      // decode failed — fallback to Audio element
+      const blob = new Blob([bytes], {type:'audio/mpeg'});
+      const url = URL.createObjectURL(blob);
+      currentAudio = new Audio(url);
+      currentAudio.play().catch(() => speakBrowser(''));
+      currentAudio.onended = () => URL.revokeObjectURL(url);
+    });
+  } catch(e) {
+    console.log('Audio error:', e);
+    speakBrowser('');
+  }
+}
+
 function speakBrowser(text) {
-  if (!window.speechSynthesis) return;
-  const clean = text.replace(/<[^>]*>/g,'').substring(0,300);
+  if (!window.speechSynthesis || !text) return;
+  window.speechSynthesis.cancel();
+  const clean = text.replace(/<[^>]*>/g,'').substring(0, 300);
   const u = new SpeechSynthesisUtterance(clean);
-  u.lang = 'th-TH'; u.rate = 0.95; u.pitch = 1.15; u.volume = 1;
+  u.lang = 'th-TH'; u.rate = 0.9; u.pitch = 1.2; u.volume = 1;
   // หาเสียงผู้หญิงภาษาไทย
   const voices = window.speechSynthesis.getVoices();
-  const v = voices.find(v => v.lang.includes('th') && v.name.toLowerCase().includes('female'))
-         || voices.find(v => v.lang.includes('th'))
+  const v = voices.find(v => v.lang.startsWith('th') && v.name.toLowerCase().includes('female'))
+         || voices.find(v => v.lang.startsWith('th'))
          || voices.find(v => v.name.toLowerCase().includes('female'))
          || null;
   if (v) u.voice = v;
   window.speechSynthesis.speak(u);
 }
 
-function b64toBlob(b64, type) {
-  const bin = atob(b64);
-  const arr = new Uint8Array(bin.length);
-  for (let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
-  return new Blob([arr],{type});
-}
-
 function stopSpeak() {
   if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   if (window.speechSynthesis) window.speechSynthesis.cancel();
+  if (audioCtx) try { audioCtx.suspend(); } catch {}
 }
 
 function toggleVoiceOutput() {
   voiceEnabled = !voiceEnabled;
   localStorage.setItem('aria_voice', voiceEnabled ? 'on' : 'off');
   const btn = document.getElementById('voiceToggle');
-  if (btn) { btn.textContent = voiceEnabled ? '🔊' : '🔇'; btn.title = voiceEnabled ? 'ปิดเสียง' : 'เปิดเสียง'; }
-  toast(voiceEnabled ? 'เปิดเสียง ARIA แล้วค่ะ' : 'ปิดเสียง ARIA แล้วค่ะ');
+  if (btn) { btn.textContent = voiceEnabled ? '🔊' : '🔇'; }
+  toast(voiceEnabled ? '🔊 เปิดเสียง ARIA แล้วค่ะ' : '🔇 ปิดเสียงแล้วค่ะ');
 }
 
+function b64toBlob(b64, type) {
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], {type});
+}
 
 // API
 async function apiCall(method,path,body){const res=await fetch(API+path,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})}, ...(body?{body:JSON.stringify(body)}:{})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Error '+res.status);return data;}
