@@ -318,9 +318,9 @@ html, body {
   z-index:100;cursor:pointer;
   font-family:'Share Tech Mono',monospace;
   display:flex;align-items:center;justify-content:center;gap:10px;
-  animation:bannerPulse 2s ease-in-out infinite;
+  
 }
-@keyframes bannerPulse{0%,100%{opacity:1}50%{opacity:.8}}
+
 
 #voiceToggle.muted{opacity:.4;}
 
@@ -580,7 +580,7 @@ async function sendMsg(){
   unlockAudio();
   el.value='';el.style.height='auto';
   document.getElementById('msgs').querySelector('.welcome')?.remove();
-  document.getElementById('voiceBanner')?.style && (document.getElementById('voiceBanner').style.display='none');
+  document.getElementById('voiceBanner')?.remove();
   addBubble('user',txt);showTyping();busy=true;
   document.getElementById('sendBtn').disabled=true;
   try{const d=await apiCall('POST','/chat/messages',{conversation_id:convId,content:txt});hideTyping();addBubble('ai',d.aiMessage.content,d.audio);loadConvs();}
@@ -702,7 +702,7 @@ function toggleVoiceOutput() {
   if (btn) btn.textContent = voiceEnabled ? '🔊' : '🔇';
   // ซ่อน banner
   const banner = document.getElementById('voiceBanner');
-  if (banner) banner.style.display = 'none';
+  if (banner) banner.remove();
   if (voiceEnabled) {
     speakBrowser('สวัสดีค่ะ ดิฉัน ARIA พร้อมแล้วค่ะ');
     toast('🔊 เปิดเสียงแล้วค่ะ');
@@ -716,7 +716,7 @@ function toggleVoiceOutput() {
 async function apiCall(method,path,body){const res=await fetch(API+path,{method,headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})}, ...(body?{body:JSON.stringify(body)}:{})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Error '+res.status);return data;}
 function activateVoice() {
   const banner = document.getElementById('voiceBanner');
-  if (banner) banner.style.display = 'none';
+  if (banner) banner.remove();
   voiceEnabled = true;
   localStorage.setItem('aria_voice','on');
   const btn = document.getElementById('voiceToggle');
