@@ -2001,8 +2001,117 @@
   .contact-bar { border-radius: 28px; margin: 0 1.5rem 2rem; }
   @media (max-width: 600px) { .contact-bar { margin: 0 0 0; border-radius: 0; } }
 
-  /* ── Quiz section background ── */
-  .quiz-section { background: linear-gradient(150deg, #fce4ec 0%, #fff0f4 50%, #fdf8fa 100%); }
+
+  /* ── STICKY BOTTOM BOOK BUTTON (mobile only) ── */
+  .sticky-book-bar {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 80;
+    padding: 1rem 1.25rem calc(1rem + env(safe-area-inset-bottom));
+    background: linear-gradient(0deg, rgba(253,248,245,1) 60%, rgba(253,248,245,0) 100%);
+    pointer-events: none;
+  }
+  .sticky-book-bar a {
+    pointer-events: all; display: block;
+    background: var(--text);
+    color: #fff; text-align: center; text-decoration: none;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700; font-size: 15px;
+    padding: 15px; border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(180,120,80,0.4);
+    letter-spacing: 0.3px;
+  }
+  @media (max-width: 700px) { .sticky-book-bar { display: block; } body { padding-bottom: 90px; } }
+
+  /* ── BACK TO TOP BUTTON ── */
+  #backToTop {
+    position: fixed; bottom: 5.5rem; right: 1.25rem; z-index: 79;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--white); border: 1px solid var(--border);
+    color: var(--text); font-size: 16px; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(180,90,120,0.12);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s !important;
+  }
+  #backToTop.show { opacity: 1; pointer-events: all; }
+  #backToTop:hover { background: var(--rose-pale); transform: translateY(-2px); }
+  @media (min-width: 701px) { #backToTop { bottom: 2rem; right: 2rem; } }
+
+  /* ── SECTION headings: line accent ── */
+  .section-title { position: relative; display: inline-block; }
+
+  /* ── PORTFOLIO grid: responsive ── */
+  @media (max-width: 500px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .port-item { border-radius: 10px; }
+  }
+
+  /* ── MEMBER CARD: prettier ── */
+  .member-card-display { border-radius: 20px; }
+  .member-points-big { font-size: 44px; }
+
+  /* ── AGENT JOIN: mobile stack ── */
+  @media (max-width: 700px) {
+    .agent-join-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* ── SLIP UPLOAD: bigger tap area ── */
+  .slip-upload-area { border-radius: 18px; padding: 2rem; }
+  .slip-upload-icon { font-size: 36px; }
+
+  /* ── FOCUS RING: สีสวย accessibility ── */
+  :focus-visible { outline: 2.5px solid var(--rose); outline-offset: 2px; }
+
+  /* ── PIN INPUT: ใหญ่ขึ้น ── */
+  .pin-input { width: 180px; font-size: 32px; padding: 14px; letter-spacing: 12px; }
+
+  /* ── LOADING OVERLAY: smoother ── */
+  .loading-spinner { width: 44px; height: 44px; border-width: 3px; }
+
+  /* ── SCROLL PROGRESS BAR ── */
+  #scrollProgress {
+    position: fixed; top: 0; left: 0; z-index: 200;
+    height: 3px; width: 0%; background: linear-gradient(90deg, var(--peach), var(--rose), var(--text));
+    transition: width 0.1s linear !important;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* ── QUICK ACTIONS FLOATING (Admin) ── */
+  .admin-fab-row {
+    position: sticky; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(0deg, var(--white) 70%, transparent);
+    padding: 10px 1.5rem 1rem; display: flex; gap: 8px; flex-wrap: wrap;
+    margin: 0 -1.5rem; pointer-events: none;
+  }
+  .admin-fab-row button { pointer-events: all; }
+
+  /* ── Booking section mobile ── */
+  @media (max-width: 600px) {
+    .booking-inner { max-width: 100%; }
+    .form-card { border-radius: 20px; margin: 0 0; }
+    .form-body { padding: 1.25rem; }
+    .form-header { padding: 1.75rem 1.25rem; }
+  }
+
+  /* ── Section spacing mobile ── */
+  @media (max-width: 600px) {
+    section { padding: 3.5rem 1.25rem; }
+    .promo-section, .member-section, .check-booking-section, .cust-ref-section, .agent-join-section { padding: 3.5rem 1.25rem; }
+    .portfolio-section { padding: 3.5rem 1.25rem; }
+    .contact-bar { padding: 3rem 1.25rem; }
+  }
+
+  /* ── Booking table: scroll on mobile ── */
+  .booking-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; }
+  .booking-table { min-width: 560px; }
+
+  /* ── Better empty state ── */
+  .empty-state { padding: 4rem 2rem; }
+  .empty-state::before { content: '📭'; display: block; font-size: 40px; margin-bottom: 1rem; }
+
+  /* ── Smooth page enter ── */
+  @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  main, .hero-wrapper, section, .booking-section, .portfolio-section, .promo-section, .member-section { animation: pageEnter 0.5s ease both; }
+
 
   /* ── STICKY BOTTOM BOOK BUTTON (mobile only) ── */
   .sticky-book-bar {
@@ -2115,12 +2224,6 @@
   main, .hero-wrapper, section, .booking-section, .portfolio-section, .promo-section, .member-section { animation: pageEnter 0.5s ease both; }
 
   /* ===== QUIZ SECTION — Cannabis Lab Style ===== */
-  .quiz-section-OLD {
-    background: linear-gradient(150deg, #fce4ec 0%, #fff5f8 100%);
-    padding: 3rem 2rem 4rem;
-    position: relative;
-    display: flex; justify-content: center;
-  }
   .quiz-card-outer {
     width: 100%; max-width: 1040px;
     background: var(--cream2);
@@ -3578,7 +3681,6 @@
   <div class="nav-links">
     <a href="#services">บริการ</a>
     <a href="#packages">แพ็กเกจ</a>
-    <a href="#quiz">Quiz</a>
     <a href="#portfolio">ผลงาน</a>
     <a href="#reviews">รีวิว</a>
     <a href="#check-booking">เช็คการจอง</a>
@@ -3594,7 +3696,6 @@
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services" onclick="closeMobileMenu()">บริการ</a>
   <a href="#packages" onclick="closeMobileMenu()">แพ็กเกจ/โปรโมชั่น</a>
-  <a href="#quiz" onclick="closeMobileMenu()">Quiz — เลือกบริการ</a>
   <a href="#portfolio" onclick="closeMobileMenu()">ผลงาน</a>
   <a href="#reviews" onclick="closeMobileMenu()">รีวิว</a>
   <a href="#check-booking" onclick="closeMobileMenu()">เช็คการจอง</a>
@@ -3916,180 +4017,6 @@
   </div>
 </div>
 
-<!-- QUIZ SECTION -->
-<div class="quiz-section" id="quiz">
-  <div class="quiz-card-outer">
-
-    <!-- Internal nav bar — Cannabis Lab style -->
-    <div class="quiz-nav-bar">
-      <div class="quiz-nav-bar-logo">BROW STUDIO</div>
-      <div class="quiz-nav-links">
-        <a href="#services">บริการ</a>
-        <a href="#packages">แพ็กเกจ</a>
-        <a href="#portfolio">ผลงาน</a>
-        <a href="#reviews">รีวิว</a>
-        <a href="#quiz" class="active">Quiz</a>
-      </div>
-      <div class="quiz-nav-bar-actions">
-        <div class="quiz-nav-icon-btn" onclick="openAdmin()" title="Admin">🔒</div>
-        <div class="quiz-nav-icon-btn" onclick="document.getElementById('member').scrollIntoView({behavior:'smooth'})" title="สมาชิก">👤</div>
-      </div>
-    </div>
-
-    <!-- Quiz body -->
-    <div class="quiz-inner">
-
-      <!-- Question row: Back | Title | Next — inline -->
-      <div class="quiz-question-row" id="quizQuestionRow">
-        <button class="quiz-inline-back" id="quizInlineBack" onclick="quizInlineBackHandler()" style="visibility:hidden;">← Back</button>
-        <div id="quizQuestionTitle" class="quiz-question-title">วันนี้คุณ<em>รู้สึก</em><br>แบบไหน?</div>
-        <button class="quiz-inline-next" id="quizInlineNext" disabled onclick="quizInlineNextHandler()">Next →</button>
-      </div>
-
-      <!-- Step numbers: 01 02 03 — match actual steps -->
-      <div class="quiz-step-numbers" id="quizStepNums">
-        <span class="quiz-step-num active" data-step="0">01</span>
-        <span class="quiz-step-num" data-step="1">02</span>
-        <span class="quiz-step-num" data-step="2">03</span>
-      </div>
-
-      <!-- Hidden legacy dots (kept for JS compatibility) -->
-      <div class="quiz-step-dots" id="quizDots" style="display:none;">
-        <div class="quiz-dot active" data-step="0"></div>
-        <div class="quiz-dot" data-step="1"></div>
-        <div class="quiz-dot" data-step="2"></div>
-      </div>
-
-      <!-- STEP 0 -->
-      <div id="quizStep0" class="quiz-step">
-        <div class="quiz-cards-grid">
-          <div class="quiz-card" onclick="quizSelect(0,'energy','พลังงานน้อย','ต้องการ Boost',this)">
-            <span class="quiz-card-icon">🌱</span>
-            <div class="quiz-card-title">พลังงานน้อย</div>
-            <div class="quiz-card-sub">ต้องการ Boost</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(0,'focus','ความคิดวุ่นวาย','ต้องการโฟกัส',this)">
-            <span class="quiz-card-icon">🌀</span>
-            <div class="quiz-card-title">ความคิดวุ่นวาย</div>
-            <div class="quiz-card-sub">ต้องการโฟกัส</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(0,'beauty','ต้องการความงาม','อยากดูดีมากขึ้น',this)">
-            <span class="quiz-card-icon">✨</span>
-            <div class="quiz-card-title">ต้องการความงาม</div>
-            <div class="quiz-card-sub">อยากดูดีมากขึ้น</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 1 -->
-      <div id="quizStep1" class="quiz-step" style="display:none;">
-        <div class="quiz-cards-grid">
-          <div class="quiz-card" onclick="quizSelect(1,'eyebrow','คิ้ว','ดูเป็นธรรมชาติ',this)">
-            <span class="quiz-card-icon">✦</span>
-            <div class="quiz-card-title">คิ้ว</div>
-            <div class="quiz-card-sub">ดูเป็นธรรมชาติ สวยงาม</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(1,'lash','ขนตา','ยาว หนา ปิ้ง',this)">
-            <span class="quiz-card-icon">👁</span>
-            <div class="quiz-card-title">ขนตา</div>
-            <div class="quiz-card-sub">ยาว หนา ปิ้ง</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(1,'both','คิ้ว + ขนตา','ครบเซ็ต Full Look',this)">
-            <span class="quiz-card-icon">💫</span>
-            <div class="quiz-card-title">คิ้ว + ขนตา</div>
-            <div class="quiz-card-sub">ครบเซ็ต Full Look</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2 -->
-      <div id="quizStep2" class="quiz-step" style="display:none;">
-        <div class="quiz-cards-grid">
-          <div class="quiz-card" onclick="quizSelect(2,'natural','ธรรมชาติ','Soft & Subtle Look',this)">
-            <span class="quiz-card-icon">🍃</span>
-            <div class="quiz-card-title">ธรรมชาติ</div>
-            <div class="quiz-card-sub">Soft & Subtle Look</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(2,'bold','เด่น มีเสน่ห์','Bold & Defined',this)">
-            <span class="quiz-card-icon">🔥</span>
-            <div class="quiz-card-title">เด่น มีเสน่ห์</div>
-            <div class="quiz-card-sub">Bold & Defined</div>
-          </div>
-          <div class="quiz-card" onclick="quizSelect(2,'expert','ให้ผู้เชี่ยวชาญแนะนำ','แล้วแต่ผู้เชี่ยวชาญ',this)">
-            <span class="quiz-card-icon">🎨</span>
-            <div class="quiz-card-title">ผู้เชี่ยวชาญแนะนำ</div>
-            <div class="quiz-card-sub">แล้วแต่ผู้เชี่ยวชาญ</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RESULT -->
-      <div id="quizResult" class="quiz-result">
-        <div class="quiz-result-label">✦ คำแนะนำสำหรับคุณ</div>
-        <div class="quiz-result-title" id="quizResultTitle">สักคิ้ว 6D Microblading</div>
-        <p class="quiz-result-desc" id="quizResultDesc">เส้นขนเหมือนจริง ดูธรรมชาติ เหมาะกับคุณที่ต้องการคิ้วดูปัง ไม่ต้องวาดทุกวัน</p>
-        <span class="quiz-result-price" id="quizResultPrice">฿2,500</span>
-        <div>
-          <a href="#booking" class="quiz-result-btn" onclick="quizBookNow()">จองคิวเลย 🌸</a>
-          <button class="quiz-result-restart" onclick="quizRestart()">ทำ Quiz ใหม่</button>
-        </div>
-      </div>
-
-      <!-- Bottom row: disclaimer left + product teaser right -->
-      <div class="quiz-bottom-row" style="margin-top:1.5rem;">
-        <p class="quiz-disclaimer">Quiz นี้เป็นเพียงข้อแนะนำจากทีมผู้เชี่ยวชาญ<br>กรุณาปรึกษาช่างก่อนทำบริการค่ะ สำหรับผู้ใหญ่เท่านั้น</p>
-        <div class="quiz-product-teaser" id="quizProductTeaser" style="display:none;" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
-          <div class="quiz-product-img" id="quizTeaserIcon">✦</div>
-          <div>
-            <div class="quiz-product-name" id="quizTeaserName">สักคิ้ว 6D</div>
-            <div class="quiz-product-price" id="quizTeaserPrice">฿2,500</div>
-          </div>
-          <div class="quiz-product-arrow">›</div>
-        </div>
-      </div>
-
-    </div><!-- end quiz-inner -->
-  </div><!-- end quiz-card-outer -->
-</div>
-
-<!-- PACKAGES / PROMO -->
-<div class="promo-section" id="packages">
-  <div class="promo-inner">
-    <span class="section-tag">แพ็กเกจพิเศษ</span>
-    <h2 class="section-title">โปรโมชั่น<br>และแพ็กเกจ</h2>
-    <p class="section-desc">ประหยัดมากขึ้นด้วยแพ็กเกจคุ้มค่า หรือกรอกโค้ดส่วนลดที่ได้รับ</p>
-    <div class="promo-grid" id="promoGrid"></div>
-
-    <!-- Promo Code Row -->
-    <div style="margin-top:2rem;padding:1.5rem;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);max-width:420px;">
-      <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:0.75rem;">🎟 มีโค้ดส่วนลด?</div>
-      <div class="promo-code-row">
-        <input class="promo-code-input" id="promoCodeInput" placeholder="กรอกโค้ดส่วนลด เช่น AGENT10" style="text-transform:uppercase;">
-        <button class="promo-code-btn" onclick="applyPromoCode()">ใช้โค้ด</button>
-      </div>
-      <div class="promo-discount-tag" id="promoDiscountTag"></div>
-    </div>
-  </div>
-</div>
-
-<!-- CHECK BOOKING / CANCEL / RESCHEDULE -->
-<div class="check-booking-section" id="check-booking">
-  <div class="check-booking-inner">
-    <span class="section-tag">ตรวจสอบการจอง</span>
-    <h2 class="section-title">เช็คนัด<br>ยกเลิก/เลื่อน</h2>
-    <p class="section-desc">ค้นหาการจองด้วยเบอร์โทรหรือรหัสอ้างอิง สามารถยกเลิกหรือเลื่อนนัดได้ด้วยตัวเองค่ะ</p>
-    <div class="check-booking-card">
-      <div class="field">
-        <label>เบอร์โทรหรือรหัสการจอง (เช่น BS-123456)</label>
-        <div style="display:flex;gap:8px;">
-          <input type="text" id="checkBookingInput" placeholder="0812345678 หรือ BS-123456" style="flex:1;">
-          <button class="btn-submit" onclick="checkBooking()" style="max-width:100px;margin:0;padding:11px 16px;">ค้นหา</button>
-        </div>
-      </div>
-      <div id="checkBookingResults"></div>
-    </div>
-  </div>
-</div>
 
 <!-- MEMBER POINTS -->
 <div class="member-section" id="member">
