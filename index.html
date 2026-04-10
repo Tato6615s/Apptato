@@ -4235,6 +4235,15 @@ var LINE_EVENT_LABELS = {
 
 // ===== STATE =====
 var bk = { branch:'', branchName:'', svc:'', svcId:'', price:'', priceNum:0, dur:'', type:'', date:'', time:'', slipData:null };
+
+// ===== TIME SLOTS CONFIG =====
+var ALL_SLOTS = [
+  '09:00','09:30','10:00','10:30','11:00','11:30',
+  '12:00','12:30','13:00','13:30','14:00','14:30',
+  '15:00','15:30','16:00','16:30','17:00','17:30','18:00'
+];
+var MAX_PER_SLOT = 2; // default capacity per slot (overridden by Supabase bs_settings)
+
 // Agent referral — อ่านจาก URL ?ref=AGENTID
 var currentAgentRef = (function() { try { return new URLSearchParams(window.location.search).get('ref') || ''; } catch(e) { return ''; } })();
 var calYear, calMonth;
@@ -4887,7 +4896,10 @@ function renderTimeSlots(dateStr) {
     ALL_SLOTS.forEach(function(slot) {
       var bookedCount = counts[slot] || 0;
       var isFull = bookedCount >= MAX_PER_SLOT;
-      var isPastTime = (dateStr === todayStr) && (parseInt(slot) <= now.getHours());
+      var slotParts = slot.split(':');
+      var slotMinutes = parseInt(slotParts[0]) * 60 + (parseInt(slotParts[1]) || 0);
+      var nowMinutes = now.getHours() * 60 + now.getMinutes();
+      var isPastTime = (dateStr === todayStr) && (slotMinutes <= nowMinutes);
       var disabled = isFull || isPastTime;
       var remaining = MAX_PER_SLOT - bookedCount;
       var cls = 'time-btn';
