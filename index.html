@@ -73,6 +73,84 @@
   }
   .lang-btn.active { background: var(--text); color: #fff; }
   .lang-btn:hover:not(.active) { color: var(--text); }
+  /* ===== DARK MODE ===== */
+  [data-theme="dark"] {
+    --rose: #e8829a;
+    --rose-light: #c06070;
+    --rose-pale: #2a1a22;
+    --rose-dark: #f0b0c0;
+    --gold: #c8a060;
+    --gold-light: #a07840;
+    --cream: #1a1015;
+    --cream2: #1e1218;
+    --white: #1a1015;
+    --peach: #3a2030;
+    --beige: #2e1828;
+    --text: #f0e8ec;
+    --text-muted: #b08898;
+    --border: rgba(232,130,154,0.22);
+    --border-soft: rgba(232,130,154,0.12);
+    --success: #4db87a;
+    --error: #e05050;
+    --shadow-soft: 0 4px 28px rgba(0,0,0,0.4);
+    --shadow-card: 0 10px 48px rgba(0,0,0,0.5);
+    --shadow-float: 0 24px 80px rgba(0,0,0,0.6);
+    --bg-warm: linear-gradient(145deg, #1a1015 0%, #1e1218 60%, #1a1015 100%);
+    --gradient-peach: linear-gradient(135deg, #1e1218 0%, #1a1015 100%);
+    --gradient-hero: radial-gradient(ellipse 100% 80% at 50% 0%, #2a1520 0%, #1a1015 60%, #1a1015 100%);
+    --glass: rgba(26,16,21,0.9);
+    --glass-border: rgba(232,130,154,0.18);
+  }
+  [data-theme="dark"] body {
+    background: #1a1015;
+    color: var(--text);
+  }
+  [data-theme="dark"] nav {
+    background: rgba(26,16,21,0.95) !important;
+    border-bottom-color: rgba(232,130,154,0.15);
+  }
+  [data-theme="dark"] .svc-card,
+  [data-theme="dark"] .review-card,
+  [data-theme="dark"] .pkg-card,
+  [data-theme="dark"] .stat-card {
+    background: #231520;
+    border-color: rgba(232,130,154,0.15);
+  }
+  [data-theme="dark"] .admin-overlay { background: rgba(0,0,0,0.7); }
+  [data-theme="dark"] .admin-panel { background: #1e1218; border-color: rgba(232,130,154,0.15); }
+  [data-theme="dark"] .admin-nav { background: #150e12; }
+  [data-theme="dark"] .admin-topbar { background: #1e1218; border-color: rgba(232,130,154,0.15); }
+  [data-theme="dark"] .admin-tab-panel { background: #1e1218; }
+  [data-theme="dark"] .booking-table th { background: #2a1a22; color: var(--text); }
+  [data-theme="dark"] .booking-table td { border-color: rgba(232,130,154,0.1); color: var(--text); }
+  [data-theme="dark"] .booking-table tr:hover td { background: #2a1a22; }
+  [data-theme="dark"] .filter-btn { background: #231520; color: var(--text-muted); border-color: rgba(232,130,154,0.2); }
+  [data-theme="dark"] .filter-btn.active { background: var(--rose); color: #fff; }
+  [data-theme="dark"] .booking-form-wrap,
+  [data-theme="dark"] .step-content { background: #1e1218; }
+  [data-theme="dark"] input, [data-theme="dark"] textarea, [data-theme="dark"] select {
+    background: #2a1a22 !important;
+    color: var(--text) !important;
+    border-color: rgba(232,130,154,0.25) !important;
+  }
+  [data-theme="dark"] .calendar-day { background: #231520; color: var(--text); }
+  [data-theme="dark"] .calendar-day.available:hover { background: var(--rose-pale); }
+  [data-theme="dark"] .hero-booking-card { background: rgba(26,16,21,0.95); }
+  [data-theme="dark"] footer { background: #150e12; }
+  [data-theme="dark"] .footer-bottom { background: #0f0a0d; }
+
+  /* Dark mode toggle button */
+  .theme-toggle {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(232,130,154,0.25);
+    background: rgba(232,130,154,0.07);
+    cursor: pointer; font-size: 16px;
+    transition: all 0.2s; flex-shrink: 0;
+    color: var(--text);
+  }
+  .theme-toggle:hover { background: rgba(232,130,154,0.15); transform: scale(1.08); }
+
 
   /* ===== NAV ===== */
   nav {
@@ -2731,28 +2809,28 @@
         <!-- Group: หลัก -->
         <div class="adm-group">
           <div class="adm-group-label">หลัก</div>
-          <button class="admin-nav-btn active" onclick="switchAdminTab('bookings', this)"><span class="nav-icon">📋</span><span class="nav-label">การจอง</span><span class="notif-dot" id="notif-bookings" style="display:none;">!</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('slips', this)"><span class="nav-icon">💳</span><span class="nav-label">ตรวจสลิป</span><span class="notif-dot" id="notif-slips" style="display:none;">!</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('revenue', this)"><span class="nav-icon">📊</span><span class="nav-label">รายได้</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('crm', this)"><span class="nav-icon">👤</span><span class="nav-label">ลูกค้า (CRM)</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('weekly', this)"><span class="nav-icon">📆</span><span class="nav-label">ปฏิทินสัปดาห์</span></button>
+          <button class="admin-nav-btn active" onclick="switchAdminTab('bookings', this)"><span class="nav-icon">📋</span><span class="nav-label" data-i18n="adm_tab_bookings">การจอง</span><span class="notif-dot" id="notif-bookings" style="display:none;">!</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('slips', this)"><span class="nav-icon">💳</span><span class="nav-label" data-i18n="adm_tab_slips">ตรวจสลิป</span><span class="notif-dot" id="notif-slips" style="display:none;">!</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('revenue', this)"><span class="nav-icon">📊</span><span class="nav-label" data-i18n="adm_tab_revenue">รายได้</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('crm', this)"><span class="nav-icon">👤</span><span class="nav-label" data-i18n="adm_tab_crm">ลูกค้า (CRM)</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('weekly', this)"><span class="nav-icon">📆</span><span class="nav-label" data-i18n="adm_tab_weekly">ปฏิทินสัปดาห์</span></button>
         </div>
 
         <!-- Group: จัดการ -->
         <div class="adm-group">
           <div class="adm-group-label">จัดการ</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('services', this)"><span class="nav-icon">🛎</span><span class="nav-label">บริการ</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('services', this)"><span class="nav-icon">🛎</span><span class="nav-label" data-i18n="adm_tab_services">บริการ</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('staff', this)"><span class="nav-icon">👩‍🎨</span><span class="nav-label">ช่าง / Staff</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('branches', this)"><span class="nav-icon">🏪</span><span class="nav-label">สาขา</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('holidays', this)"><span class="nav-icon">📅</span><span class="nav-label">วันหยุด</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('packages', this)"><span class="nav-icon">🎁</span><span class="nav-label">แพ็กเกจ</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('branches', this)"><span class="nav-icon">🏪</span><span class="nav-label" data-i18n="adm_tab_branches">สาขา</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('holidays', this)"><span class="nav-icon">📅</span><span class="nav-label" data-i18n="adm_tab_holidays">วันหยุด</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('packages', this)"><span class="nav-icon">🎁</span><span class="nav-label" data-i18n="adm_tab_packages">แพ็กเกจ</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('agents', this)"><span class="nav-icon">👥</span><span class="nav-label">Agent</span></button>
         </div>
 
         <!-- Group: การตลาด -->
         <div class="adm-group">
           <div class="adm-group-label">การตลาด</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('reviews', this)"><span class="nav-icon">⭐</span><span class="nav-label">รีวิว</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('reviews', this)"><span class="nav-icon">⭐</span><span class="nav-label" data-i18n="adm_tab_reviews">รีวิว</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('portfolio', this)"><span class="nav-icon">🖼</span><span class="nav-label">Portfolio</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('beforeafter', this)"><span class="nav-icon">🖼</span><span class="nav-label">Before/After</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('referral', this)"><span class="nav-icon">🔗</span><span class="nav-label">Referral</span></button>
@@ -2765,18 +2843,18 @@
         <!-- Group: ระบบ -->
         <div class="adm-group">
           <div class="adm-group-label">ระบบ</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('reminders', this)"><span class="nav-icon">🔔</span><span class="nav-label">แจ้งเตือน</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('autoreminder', this)"><span class="nav-icon">⏰</span><span class="nav-label">แจ้งเตือนอัตโนมัติ</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('reminders', this)"><span class="nav-icon">🔔</span><span class="nav-label" data-i18n="adm_tab_reminders">แจ้งเตือน</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('autoreminder', this)"><span class="nav-icon">⏰</span><span class="nav-label" data-i18n="adm_tab_autoreminder">แจ้งเตือนอัตโนมัติ</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('followup', this)"><span class="nav-icon">🔔</span><span class="nav-label">Follow-up</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('line', this)"><span class="nav-icon">📨</span><span class="nav-label">Telegram</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('gcal', this)"><span class="nav-icon">📅</span><span class="nav-label">Google Cal</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('exportexcel', this)"><span class="nav-icon">📊</span><span class="nav-label">Export Excel</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('settings', this)"><span class="nav-icon">⚙️</span><span class="nav-label">ตั้งค่า</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('settings', this)"><span class="nav-icon">⚙️</span><span class="nav-label" data-i18n="adm_tab_settings">ตั้งค่า</span></button>
         </div>
 
         <div class="adm-sidebar-footer">
-          <button class="admin-nav-btn" onclick="closeAdmin()"><span class="nav-icon">↩</span><span class="nav-label" style="color:rgba(255,255,255,0.3);">กลับหน้าหลัก</span></button>
-          <button class="admin-nav-btn" onclick="adminLogout()" style="margin-top:4px;"><span class="nav-icon">🔒</span><span class="nav-label" style="color:rgba(255,120,120,0.8);">ออกจากระบบ</span></button>
+          <button class="admin-nav-btn" onclick="closeAdmin()"><span class="nav-icon">↩</span><span class="nav-label" style="color:rgba(255,255,255,0.3);" data-i18n="adm_back">กลับหน้าหลัก</span></button>
+          <button class="admin-nav-btn" onclick="adminLogout()" style="margin-top:4px;"><span class="nav-icon">🔒</span><span class="nav-label" style="color:rgba(255,120,120,0.8);" data-i18n="adm_logout">ออกจากระบบ</span></button>
         </div>
       </div>
 
@@ -2784,7 +2862,8 @@
       <div class="admin-main-area">
         <!-- Topbar -->
         <div class="admin-topbar">
-          <div class="admin-topbar-title" id="adminTopbarTitle">การจอง</div>
+          <div class="admin-topbar-title" id="adminTopbarTitle" data-i18n="adm_tab_bookings">การจอง</div>
+          <button class="theme-toggle" style="margin-left:auto;" onclick="toggleTheme()" title="Toggle dark/light mode" id="adminThemeToggle">🌙</button>
           <div class="admin-topbar-actions">
             <span class="admin-topbar-date" id="adminTopbarDate"></span>
             <button onclick="adminRefreshAll()" style="background:#fff5f8;border:1px solid #f0d0dc;color:#8a3050;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminRefreshBtn">🔄 รีเฟรช</button>
@@ -2797,17 +2876,17 @@
         <div id="tab-bookings" class="admin-tab-panel active">
           <!-- Quick Actions -->
           <div class="admin-quick-actions">
-            <button class="admin-qa-btn" onclick="switchAdminTab('slips', document.querySelector('[onclick*=slips]'))"><span class="qa-icon">💳</span><span class="qa-txt">ตรวจสลิป</span></button>
-            <button class="admin-qa-btn" onclick="switchAdminTab('weekly', document.querySelector('[onclick*=weekly]'))"><span class="qa-icon">📆</span><span class="qa-txt">ปฏิทินสัปดาห์</span></button>
-            <button class="admin-qa-btn" onclick="switchAdminTab('reminders', document.querySelector('[onclick*=reminders]'))"><span class="qa-icon">📨</span><span class="qa-txt">ส่งแจ้งเตือน</span></button>
-            <button class="admin-qa-btn" onclick="switchAdminTab('revenue', document.querySelector('[onclick*=revenue]'))"><span class="qa-icon">📊</span><span class="qa-txt">ดูรายได้</span></button>
+            <button class="admin-qa-btn" onclick="switchAdminTab('slips', document.querySelector('[onclick*=slips]'))"><span class="qa-icon">💳</span><span class="qa-txt" data-i18n="adm_tab_slips">ตรวจสลิป</span></button>
+            <button class="admin-qa-btn" onclick="switchAdminTab('weekly', document.querySelector('[onclick*=weekly]'))"><span class="qa-icon">📆</span><span class="qa-txt" data-i18n="adm_tab_weekly">ปฏิทินสัปดาห์</span></button>
+            <button class="admin-qa-btn" onclick="switchAdminTab('reminders', document.querySelector('[onclick*=reminders]'))"><span class="qa-icon">📨</span><span class="qa-txt" data-i18n="adm_tab_reminders">ส่งแจ้งเตือน</span></button>
+            <button class="admin-qa-btn" onclick="switchAdminTab('revenue', document.querySelector('[onclick*=revenue]'))"><span class="qa-icon">📊</span><span class="qa-txt" data-i18n="adm_tab_revenue">ดูรายได้</span></button>
           </div>
           <div class="admin-stats" id="adminStats"></div>
           <div class="filter-bar">
-            <button class="filter-btn active" onclick="switchFilter('all', this)">ทั้งหมด</button>
-            <button class="filter-btn" onclick="switchFilter('pending', this)">รอยืนยัน</button>
-            <button class="filter-btn" onclick="switchFilter('confirmed', this)">ยืนยันแล้ว</button>
-            <button class="filter-btn" onclick="switchFilter('cancelled', this)">ยกเลิก</button>
+            <button class="filter-btn active" onclick="switchFilter('all', this)" data-i18n="adm_filter_all">ทั้งหมด</button>
+            <button class="filter-btn" onclick="switchFilter('pending', this)" data-i18n="adm_filter_pending">รอยืนยัน</button>
+            <button class="filter-btn" onclick="switchFilter('confirmed', this)" data-i18n="adm_filter_confirmed">ยืนยันแล้ว</button>
+            <button class="filter-btn" onclick="switchFilter('cancelled', this)" data-i18n="adm_filter_cancelled">ยกเลิก</button>
           </div>
           <div class="booking-table-wrap"><div id="adminTableWrap"></div></div>
         </div>
@@ -3742,6 +3821,7 @@
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('zh')">中文</button>
     </div>
+    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
     <div class="nav-divider"></div>
     <button class="nav-admin" onclick="openAdmin()" title="Admin Dashboard">⚙</button>
     <a href="#booking" class="nav-book" data-i18n="nav_book">Book Now →</a>
@@ -4324,6 +4404,22 @@ var I18N = {
     beautyos_desc: 'The all-in-one booking & management platform for beauty salons worldwide.<br>Online booking · Staff scheduling · Payments · Reviews · Analytics',
     beautyos_trial: 'Start Free Trial →', beautyos_owners: 'For Salon Owners',
     footer_tagline: 'Professional Brow & Lash Studio',
+    // ADMIN
+    adm_stat_total: 'Total Bookings', adm_stat_pending: 'Pending', adm_stat_confirmed: 'Confirmed',
+    adm_stat_today_rev: "Today's Revenue", adm_stat_total_rev: 'Total Revenue',
+    adm_no_bookings: 'No bookings yet 🌸',
+    adm_status_pending: 'Pending', adm_status_confirmed: 'Confirmed', adm_status_cancelled: 'Cancelled',
+    adm_has_slip: 'Slip', adm_btn_confirm: 'Confirm', adm_btn_cancel: 'Cancel',
+    adm_col_booking: 'Booking', adm_col_datetime: 'Date & Time', adm_col_customer: 'Customer',
+    adm_col_status: 'Status', adm_col_action: 'Action',
+    adm_tab_bookings: 'Bookings', adm_tab_slips: 'Slips', adm_tab_revenue: 'Revenue',
+    adm_tab_crm: 'Customers (CRM)', adm_tab_weekly: 'Weekly Calendar',
+    adm_tab_services: 'Services', adm_tab_staff: 'Staff', adm_tab_branches: 'Branches',
+    adm_tab_holidays: 'Holidays', adm_tab_packages: 'Packages',
+    adm_tab_reviews: 'Reviews', adm_tab_reminders: 'Notifications',
+    adm_tab_autoreminder: 'Auto Reminders', adm_tab_settings: 'Settings',
+    adm_filter_all: 'All', adm_filter_pending: 'Pending', adm_filter_confirmed: 'Confirmed', adm_filter_cancelled: 'Cancelled',
+    adm_logout: 'Logout', adm_back: 'Back to Site',
   },
   th: {
     // NAV
@@ -4374,6 +4470,22 @@ var I18N = {
     beautyos_desc: 'แพลตฟอร์มจัดการร้านความงามครบวงจร สำหรับร้านทั่วโลก<br>จองออนไลน์ · จัดตารางช่าง · ชำระเงิน · รีวิว · วิเคราะห์ข้อมูล',
     beautyos_trial: 'ทดลองใช้ฟรี →', beautyos_owners: 'สำหรับเจ้าของร้าน',
     footer_tagline: 'สักคิ้ว ต่อขนตา มืออาชีพ',
+    // ADMIN
+    adm_stat_total: 'การจองทั้งหมด', adm_stat_pending: 'รอยืนยัน', adm_stat_confirmed: 'ยืนยันแล้ว',
+    adm_stat_today_rev: 'รายได้วันนี้', adm_stat_total_rev: 'รายได้รวม',
+    adm_no_bookings: 'ยังไม่มีการจองค่ะ 🌸',
+    adm_status_pending: 'รอยืนยัน', adm_status_confirmed: 'ยืนยันแล้ว', adm_status_cancelled: 'ยกเลิก',
+    adm_has_slip: 'มีสลิป', adm_btn_confirm: 'ยืนยัน', adm_btn_cancel: 'ยกเลิก',
+    adm_col_booking: 'การจอง', adm_col_datetime: 'วันเวลา', adm_col_customer: 'ลูกค้า',
+    adm_col_status: 'สถานะ', adm_col_action: 'จัดการ',
+    adm_tab_bookings: 'การจอง', adm_tab_slips: 'ตรวจสลิป', adm_tab_revenue: 'รายได้',
+    adm_tab_crm: 'ลูกค้า (CRM)', adm_tab_weekly: 'ปฏิทินสัปดาห์',
+    adm_tab_services: 'บริการ', adm_tab_staff: 'ช่าง / Staff', adm_tab_branches: 'สาขา',
+    adm_tab_holidays: 'วันหยุด', adm_tab_packages: 'แพ็กเกจ',
+    adm_tab_reviews: 'รีวิว', adm_tab_reminders: 'แจ้งเตือน',
+    adm_tab_autoreminder: 'แจ้งเตือนอัตโนมัติ', adm_tab_settings: 'ตั้งค่า',
+    adm_filter_all: 'ทั้งหมด', adm_filter_pending: 'รอยืนยัน', adm_filter_confirmed: 'ยืนยันแล้ว', adm_filter_cancelled: 'ยกเลิก',
+    adm_logout: 'ออกจากระบบ', adm_back: 'กลับหน้าหลัก',
   },
   zh: {
     // NAV
@@ -4424,6 +4536,22 @@ var I18N = {
     beautyos_desc: '面向全球美容沙龙的一站式预约管理平台<br>在线预约 · 员工排班 · 收款管理 · 评价系统 · 数据分析',
     beautyos_trial: '免费试用 →', beautyos_owners: '适合沙龙经营者',
     footer_tagline: '专业眉毛纹绣与睫毛美容工作室',
+    // ADMIN
+    adm_stat_total: '全部预约', adm_stat_pending: '待确认', adm_stat_confirmed: '已确认',
+    adm_stat_today_rev: '今日收入', adm_stat_total_rev: '总收入',
+    adm_no_bookings: '暂无预约记录 🌸',
+    adm_status_pending: '待确认', adm_status_confirmed: '已确认', adm_status_cancelled: '已取消',
+    adm_has_slip: '有凭证', adm_btn_confirm: '确认', adm_btn_cancel: '取消',
+    adm_col_booking: '预约信息', adm_col_datetime: '日期时间', adm_col_customer: '客户',
+    adm_col_status: '状态', adm_col_action: '操作',
+    adm_tab_bookings: '预约管理', adm_tab_slips: '凭证审核', adm_tab_revenue: '收入统计',
+    adm_tab_crm: '客户管理', adm_tab_weekly: '周日历',
+    adm_tab_services: '服务项目', adm_tab_staff: '员工管理', adm_tab_branches: '门店管理',
+    adm_tab_holidays: '假日设置', adm_tab_packages: '套餐管理',
+    adm_tab_reviews: '评价管理', adm_tab_reminders: '通知提醒',
+    adm_tab_autoreminder: '自动提醒', adm_tab_settings: '系统设置',
+    adm_filter_all: '全部', adm_filter_pending: '待确认', adm_filter_confirmed: '已确认', adm_filter_cancelled: '已取消',
+    adm_logout: '退出登录', adm_back: '返回首页',
   }
 };
 
@@ -4439,17 +4567,31 @@ function t(key) {
   return (I18N[currentLang] && I18N[currentLang][key]) || (I18N['en'] && I18N['en'][key]) || key;
 }
 
+function _updateAdminTopbarTitle(tab) {
+  if (!tab) return;
+  var titles = {
+    bookings: t('adm_tab_bookings'), slips: t('adm_tab_slips'), revenue: t('adm_tab_revenue'), crm: t('adm_tab_crm'),
+    weekly: t('adm_tab_weekly'), services: t('adm_tab_services'), staff: t('adm_tab_staff'),
+    branches: t('adm_tab_branches'), holidays: t('adm_tab_holidays'), packages: t('adm_tab_packages'), agents: 'Agent',
+    reviews: t('adm_tab_reviews'), portfolio: 'Portfolio', beforeafter: 'Before/After',
+    referral: 'Referral', customerreferral: 'Referral', points: 'Points',
+    waitlistadmin: 'Waitlist', reminders: t('adm_tab_reminders'), autoreminder: t('adm_tab_autoreminder'),
+    followup: 'Follow-up', line: 'Telegram', gcal: 'Google Calendar',
+    exportexcel: 'Export Excel', settings: t('adm_tab_settings')
+  };
+  var el = document.getElementById('adminTopbarTitle');
+  if (el && titles[tab]) el.textContent = titles[tab];
+}
+
 function applyLang() {
-  // text content — skip any element inside the admin panel
+  // text content
   document.querySelectorAll('[data-i18n]').forEach(function(el) {
-    if (el.closest('#adminOverlay')) return; // admin panel stays in Thai always
     var key = el.getAttribute('data-i18n');
     var val = t(key);
     if (val) el.innerHTML = val;
   });
   // placeholder
   document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
-    if (el.closest('#adminOverlay')) return;
     var key = el.getAttribute('data-i18n-ph');
     var val = t(key);
     if (val) el.placeholder = val;
@@ -4461,6 +4603,16 @@ function applyLang() {
     var map = { 'TH': 'th', 'EN': 'en', '中文': 'zh' };
     b.classList.toggle('active', map[b.textContent.trim()] === currentLang);
   });
+  // re-render admin dashboard if open (so table headers/status labels update)
+  if (adminLoggedIn && currentAdminTab === 'bookings') {
+    renderAdminDashboard();
+  } else if (adminLoggedIn && currentAdminTab === 'slips') {
+    renderAdminSlips();
+  } else if (adminLoggedIn && currentAdminTab === 'revenue') {
+    renderRevenue();
+  }
+  // update admin topbar title
+  _updateAdminTopbarTitle(currentAdminTab);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -4470,7 +4622,24 @@ document.addEventListener('DOMContentLoaded', function() {
     var map = { 'TH': 'th', 'EN': 'en', '中文': 'zh' };
     b.classList.toggle('active', map[b.textContent.trim()] === currentLang);
   });
+  // apply saved theme
+  applyTheme(localStorage.getItem('beautyos_theme') || 'light');
 });
+
+// ===== DARK / LIGHT MODE =====
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  var btn = document.getElementById('themeToggleBtn');
+  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  var btn2 = document.getElementById('adminThemeToggle');
+  if (btn2) btn2.textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme') || 'light';
+  var next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('beautyos_theme', next);
+  applyTheme(next);
+}
 </script>
 
 <script>
@@ -5647,10 +5816,10 @@ function renderAdminDashboard() {
   var today = new Date().toISOString().split('T')[0];
   var todayRev = bookings.filter(function(b){ return b.date===today && b.status!=='cancelled'; }).reduce(function(s,b){ return s+parseInt(b.price||0); }, 0);
   document.getElementById('adminStats').innerHTML =
-    '<div class="admin-stat"><span class="admin-stat-num">'+bookings.length+'</span><span class="admin-stat-label">การจองทั้งหมด</span></div>' +
-    '<div class="admin-stat"><span class="admin-stat-num">'+pending+'</span><span class="admin-stat-label">รอยืนยัน</span></div>' +
-    '<div class="admin-stat"><span class="admin-stat-num">'+confirmed+'</span><span class="admin-stat-label">ยืนยันแล้ว</span></div>' +
-    '<div class="admin-stat"><span class="admin-stat-num">'+(todayRev > 0 ? (todayRev/1000).toFixed(1)+'K' : revenue > 0 ? (revenue/1000).toFixed(1)+'K' : '0')+'฿</span><span class="admin-stat-label">'+(todayRev>0?'รายได้วันนี้':'รายได้รวม')+'</span></div>';
+    '<div class="admin-stat"><span class="admin-stat-num">'+bookings.length+'</span><span class="admin-stat-label">'+t('adm_stat_total')+'</span></div>' +
+    '<div class="admin-stat"><span class="admin-stat-num">'+pending+'</span><span class="admin-stat-label">'+t('adm_stat_pending')+'</span></div>' +
+    '<div class="admin-stat"><span class="admin-stat-num">'+confirmed+'</span><span class="admin-stat-label">'+t('adm_stat_confirmed')+'</span></div>' +
+    '<div class="admin-stat"><span class="admin-stat-num">'+(todayRev > 0 ? (todayRev/1000).toFixed(1)+'K' : revenue > 0 ? (revenue/1000).toFixed(1)+'K' : '0')+'฿</span><span class="admin-stat-label">'+(todayRev>0?t('adm_stat_today_rev'):t('adm_stat_total_rev'))+'</span></div>';
   renderBookingTable();
 }
 
@@ -5658,27 +5827,28 @@ function renderBookingTable() {
   var bookings = getBookings();
   if (currentFilter !== 'all') bookings = bookings.filter(function(b){ return b.status===currentFilter; });
   var wrap = document.getElementById('adminTableWrap');
-  if (bookings.length === 0) { wrap.innerHTML = '<div class="empty-state">ยังไม่มีการจองค่ะ 🌸</div>'; return; }
-  var STATUS_TH = { pending:'รอยืนยัน', confirmed:'ยืนยันแล้ว', cancelled:'ยกเลิก' };
+  if (bookings.length === 0) { wrap.innerHTML = '<div class="empty-state">'+t('adm_no_bookings')+'</div>'; return; }
+  var STATUS_LABEL = { pending: t('adm_status_pending'), confirmed: t('adm_status_confirmed'), cancelled: t('adm_status_cancelled') };
   var STATUS_CLS = { pending:'status-pending', confirmed:'status-confirmed', cancelled:'status-cancelled' };
   var rows = bookings.map(function(b) {
-    var slipBadge = b.slipData ? ' <span style="font-size:10px;background:#fff5e0;color:#c08020;border:1px solid #f0d080;border-radius:50px;padding:1px 7px;font-weight:700;">มีสลิป</span>' : '';
+    var slipBadge = b.slipData ? ' <span style="font-size:10px;background:#fff5e0;color:#c08020;border:1px solid #f0d080;border-radius:50px;padding:1px 7px;font-weight:700;">'+t('adm_has_slip')+'</span>' : '';
     var branchBadge = b.branchName ? ' <span style="font-size:10px;background:var(--rose-pale);color:var(--rose-dark);border:1px solid var(--rose-light);border-radius:50px;padding:1px 7px;font-weight:700;">'+b.branchName+'</span>' : '';
     var agentBadge = b.agent_ref ? ' <span class="agent-ref-badge">'+b.agent_ref+'</span>' : '';
     var actions = '';
     if (b.status === 'pending') {
-      actions = '<button class="action-btn confirm-btn" onclick="adminAction(\''+b.ref+'\',\'confirmed\')">✓ ยืนยัน</button>' +
-                '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">✕ ยกเลิก</button>';
+      actions = '<button class="action-btn confirm-btn" onclick="adminAction(\''+b.ref+'\',\'confirmed\')">&#10003; '+t('adm_btn_confirm')+'</button>' +
+                '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>';
     } else if (b.status === 'confirmed') {
-      actions = '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">✕ ยกเลิก</button>';
+      actions = '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>';
     }
+    var timeSuffix = currentLang === 'th' ? ' น.' : '';
     return '<tr><td><strong>'+b.ref+'</strong>'+slipBadge+branchBadge+agentBadge+'<br><span style="font-size:11px;color:var(--text-muted)">'+b.svc+'</span></td>' +
-      '<td>'+b.dateDisplay+'<br><span style="color:var(--rose);font-size:12px;font-weight:600;">'+b.time+' น.</span></td>' +
+      '<td>'+b.dateDisplay+'<br><span style="color:var(--rose);font-size:12px;font-weight:600;">'+b.time+timeSuffix+'</span></td>' +
       '<td>'+b.name+'<br><span style="font-size:11px;color:var(--text-muted)">'+b.phone+'</span></td>' +
-      '<td><span class="status-badge '+STATUS_CLS[b.status]+'">'+STATUS_TH[b.status]+'</span></td>' +
+      '<td><span class="status-badge '+STATUS_CLS[b.status]+'">'+STATUS_LABEL[b.status]+'</span></td>' +
       '<td>'+actions+'</td></tr>';
   }).join('');
-  wrap.innerHTML = '<table class="booking-table"><thead><tr><th>การจอง</th><th>วันเวลา</th><th>ลูกค้า</th><th>สถานะ</th><th>จัดการ</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  wrap.innerHTML = '<table class="booking-table"><thead><tr><th>'+t('adm_col_booking')+'</th><th>'+t('adm_col_datetime')+'</th><th>'+t('adm_col_customer')+'</th><th>'+t('adm_col_status')+'</th><th>'+t('adm_col_action')+'</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
 
 async function adminAction(ref, status) {
@@ -8346,14 +8516,14 @@ switchAdminTab = function(tab, btn) {
   if (btn) btn.classList.add('active');
   // Update topbar title
   var titles = {
-    bookings: 'การจอง', slips: 'ตรวจสลิป', revenue: 'รายได้', crm: 'ลูกค้า (CRM)',
-    weekly: 'ปฏิทินสัปดาห์', services: 'บริการ', staff: 'ช่าง / Staff',
-    branches: 'สาขา', holidays: 'วันหยุด', packages: 'แพ็กเกจ', agents: 'Agent',
-    reviews: 'รีวิว', portfolio: 'Portfolio', beforeafter: 'Before/After',
-    referral: 'Referral', customerreferral: 'Referral ลูกค้า', points: 'Points',
-    waitlistadmin: 'Waitlist', reminders: 'แจ้งเตือน', autoreminder: 'แจ้งเตือนอัตโนมัติ',
+    bookings: t('adm_tab_bookings'), slips: t('adm_tab_slips'), revenue: t('adm_tab_revenue'), crm: t('adm_tab_crm'),
+    weekly: t('adm_tab_weekly'), services: t('adm_tab_services'), staff: t('adm_tab_staff'),
+    branches: t('adm_tab_branches'), holidays: t('adm_tab_holidays'), packages: t('adm_tab_packages'), agents: 'Agent',
+    reviews: t('adm_tab_reviews'), portfolio: 'Portfolio', beforeafter: 'Before/After',
+    referral: 'Referral', customerreferral: 'Referral', points: 'Points',
+    waitlistadmin: 'Waitlist', reminders: t('adm_tab_reminders'), autoreminder: t('adm_tab_autoreminder'),
     followup: 'Follow-up', line: 'Telegram', gcal: 'Google Calendar',
-    exportexcel: 'Export Excel', settings: 'ตั้งค่า'
+    exportexcel: 'Export Excel', settings: t('adm_tab_settings')
   };
   var el = document.getElementById('adminTopbarTitle');
   if (el && titles[tab]) el.textContent = titles[tab];
@@ -8371,7 +8541,9 @@ checkCustRefParam();
   var d = document.getElementById('adminTopbarDate');
   if (!d) return;
   var now = new Date();
-  d.textContent = now.toLocaleDateString('th-TH', { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+  var localeMap = { th: 'th-TH', en: 'en-GB', zh: 'zh-Hans-CN' };
+  var loc = localeMap[currentLang] || 'th-TH';
+  d.textContent = now.toLocaleDateString(loc, { weekday:'short', year:'numeric', month:'short', day:'numeric' });
 })();
 
 var _origSubmitBookingV2 = submitBooking;
