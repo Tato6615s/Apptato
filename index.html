@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Brow Studio สักคิ้ว ต่อขนตา มืออาชีพ จองคิวออนไลน์ได้เลย">
-<title>Brow Studio | สักคิ้ว ต่อขนตา </title>
+<meta name="description" content="Brow Studio — Professional Brow, Lash & Beauty Services. Book online instantly. Powered by BeautyOS — the all-in-one booking platform for beauty salons worldwide.">
+<meta property="og:title" content="Brow Studio | Online Booking">
+<meta property="og:description" content="Book brow, lash & beauty services online. Instant confirmation, no waiting.">
+<title>Brow Studio | Book Online</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Noto+Serif+Display:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap">
@@ -53,6 +55,24 @@
     overflow-x: hidden;
   }
   h1,h2,h3,h4,h5,h6 { font-family: 'Clash Display', sans-serif; }
+
+  /* ===== LANG SWITCHER ===== */
+  .lang-switcher {
+    display: flex; gap: 2px; align-items: center;
+    background: rgba(232,130,154,0.08);
+    border: 1px solid rgba(232,130,154,0.2);
+    border-radius: 50px; padding: 3px;
+  }
+  .lang-btn {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 5px 11px; border-radius: 50px;
+    border: none; background: transparent;
+    color: var(--text-muted); cursor: pointer;
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+    transition: all 0.18s;
+  }
+  .lang-btn.active { background: var(--text); color: #fff; }
+  .lang-btn:hover:not(.active) { color: var(--text); }
 
   /* ===== NAV ===== */
   nav {
@@ -3679,29 +3699,34 @@
 <nav id="mainNav">
   <div class="nav-logo">BROW <span>STUDIO</span></div>
   <div class="nav-links">
-    <a href="#services">บริการ</a>
-    <a href="#packages">แพ็กเกจ</a>
-    <a href="#portfolio">ผลงาน</a>
-    <a href="#reviews">รีวิว</a>
-    <a href="#check-booking">เช็คการจอง</a>
-    <a href="#member">สมาชิก</a>
-    <a href="#agent-join">ร่วมธุรกิจ</a>
+    <a href="#services" data-i18n="nav_services">Services</a>
+    <a href="#packages" data-i18n="nav_packages">Packages</a>
+    <a href="#portfolio" data-i18n="nav_portfolio">Portfolio</a>
+    <a href="#reviews" data-i18n="nav_reviews">Reviews</a>
+    <a href="#check-booking" data-i18n="nav_mybooking">My Booking</a>
+    <a href="#member" data-i18n="nav_member">Membership</a>
+    <a href="#agent-join" data-i18n="nav_partner">Partner</a>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
+    <div class="lang-switcher">
+      <button class="lang-btn" onclick="setLang('th')">TH</button>
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    </div>
     <button class="nav-admin" onclick="openAdmin()">⚙ Admin</button>
-    <a href="#booking" class="nav-book">จองคิวออนไลน์ →</a>
+    <a href="#booking" class="nav-book" data-i18n="nav_book">Book Now →</a>
     <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburgerBtn">☰</button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#services" onclick="closeMobileMenu()">บริการ</a>
-  <a href="#packages" onclick="closeMobileMenu()">แพ็กเกจ/โปรโมชั่น</a>
-  <a href="#portfolio" onclick="closeMobileMenu()">ผลงาน</a>
-  <a href="#reviews" onclick="closeMobileMenu()">รีวิว</a>
-  <a href="#check-booking" onclick="closeMobileMenu()">เช็คการจอง</a>
-  <a href="#member" onclick="closeMobileMenu()">คะแนนสมาชิก</a>
-  <a href="#agent-join" onclick="closeMobileMenu()">ร่วมธุรกิจ</a>
-  <a href="#booking" onclick="closeMobileMenu()" style="color:var(--orange);font-weight:700;">จองคิวเลย →</a>
+  <a href="#services" onclick="closeMobileMenu()" data-i18n="nav_services">Services</a>
+  <a href="#packages" onclick="closeMobileMenu()" data-i18n="nav_packages">Packages</a>
+  <a href="#portfolio" onclick="closeMobileMenu()" data-i18n="nav_portfolio">Portfolio</a>
+  <a href="#reviews" onclick="closeMobileMenu()" data-i18n="nav_reviews">Reviews</a>
+  <a href="#check-booking" onclick="closeMobileMenu()" data-i18n="nav_mybooking">My Booking</a>
+  <a href="#member" onclick="closeMobileMenu()" data-i18n="nav_member">Membership</a>
+  <a href="#agent-join" onclick="closeMobileMenu()" data-i18n="nav_partner">Partner</a>
+  <a href="#booking" onclick="closeMobileMenu()" style="color:var(--orange);font-weight:700;" data-i18n="nav_book">Book Now →</a>
 </div>
 
 <!-- STICKY MOBILE CTA -->
@@ -3720,25 +3745,25 @@
     <div class="hero-orb hero-orb-2"></div>
     <div class="hero-orb hero-orb-3"></div>
 
-    <div class="hero-tag">✦ Brow Studio · เชียงใหม่</div>
-    <h1 id="heroHeadline">คิ้วสวย<br><em>เป็นเรื่อง</em><br>ของคุณ</h1>
-    <p class="hero-sub" id="heroSubline">สักคิ้ว ต่อขนตา ด้วยช่างมืออาชีพ เทคนิคล่าสุด ปลอดภัย ได้ผลลัพธ์ที่ตรงใจ</p>
+    <div class="hero-tag">✦ Brow Studio · <span data-i18n="hero_tag_loc">Powered by BeautyOS</span></div>
+    <h1 id="heroHeadline" data-i18n="hero_h1">Your Brows.<br><em>Your Way.</em><br>Booked.</h1>
+    <p class="hero-sub" id="heroSubline" data-i18n="hero_sub">Professional brow, lash & beauty services — book online in seconds, get instant confirmation.</p>
     <div class="hero-btns">
-      <a href="#booking" class="btn-primary" id="heroCta">จองคิวเลย →</a>
-      <a href="#services" class="btn-secondary">ดูบริการทั้งหมด</a>
+      <a href="#booking" class="btn-primary" id="heroCta" data-i18n="hero_cta">Book Now →</a>
+      <a href="#services" class="btn-secondary" data-i18n="hero_cta2">View Services</a>
     </div>
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-num">500+</span>
-        <span class="stat-label">ลูกค้าที่ไว้วางใจ</span>
+        <span class="stat-label" data-i18n="stat1">Happy Clients</span>
       </div>
       <div class="stat">
         <span class="stat-num">2</span>
-        <span class="stat-label">สาขาในเชียงใหม่</span>
+        <span class="stat-label" data-i18n="stat2">Locations</span>
       </div>
       <div class="stat">
         <span class="stat-num">5★</span>
-        <span class="stat-label">รีวิวระดับดีเยี่ยม</span>
+        <span class="stat-label" data-i18n="stat3">Top Rated</span>
       </div>
     </div>
   </div>
@@ -3746,27 +3771,27 @@
   <!-- RIGHT: Booking card -->
   <div class="hero-right">
     <div class="hero-recommended-label">
-      จองคิวออนไลน์
-      <span>เลือกบริการ · วัน · เวลา</span>
+      <span data-i18n="hero_book_online">Book Online</span>
+      <span data-i18n="hero_book_sub">Choose Service · Date · Time</span>
     </div>
 
     <!-- Service grid -->
-    <div class="hero-booking-label" style="margin-top:0.25rem;">บริการ</div>
+    <div class="hero-booking-label" style="margin-top:0.25rem;" data-i18n="label_service">Service</div>
     <div class="hero-svc-grid" id="heroSvcGrid" style="margin-bottom:1rem;">
-      <div class="hero-svc-opt selected" onclick="selectHeroSvc(this,'สักคิ้ว 6D','2,500')">
-        <div class="hero-svc-name">สักคิ้ว 6D</div>
+      <div class="hero-svc-opt selected" onclick="selectHeroSvc(this,'Brow Tattoo 6D','2,500')">
+        <div class="hero-svc-name">Brow Tattoo 6D</div>
         <div class="hero-svc-price">฿2,500</div>
       </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'ต่อขนตา','1,200')">
-        <div class="hero-svc-name">ต่อขนตา</div>
+      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Lash Extensions','1,200')">
+        <div class="hero-svc-name">Lash Extensions</div>
         <div class="hero-svc-price">฿1,200</div>
       </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'สักปาก','3,000')">
-        <div class="hero-svc-name">สักปาก</div>
+      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Lip Tattoo','3,000')">
+        <div class="hero-svc-name">Lip Tattoo</div>
         <div class="hero-svc-price">฿3,000</div>
       </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'ไมโครเบลดดิ้ง','3,500')">
-        <div class="hero-svc-name">ไมโครเบลดดิ้ง</div>
+      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Microblading','3,500')">
+        <div class="hero-svc-name">Microblading</div>
         <div class="hero-svc-price">฿3,500</div>
       </div>
     </div>
@@ -3783,7 +3808,7 @@
     </div>
 
     <!-- Time slots -->
-    <div class="hero-booking-label">เวลาว่าง</div>
+    <div class="hero-booking-label" data-i18n="label_times">Available Times</div>
     <div class="hero-time-grid" style="margin-bottom:1rem;" id="heroTimeGrid">
       <div class="hero-time-btn" onclick="selectHeroTime(this,'10:00')">10:00</div>
       <div class="hero-time-btn" onclick="selectHeroTime(this,'11:00')">11:00</div>
@@ -3795,7 +3820,7 @@
       <div class="hero-time-btn" onclick="selectHeroTime(this,'17:00')">17:00</div>
     </div>
 
-    <a href="#booking" class="hero-book-btn" onclick="scrollToSection('booking')">จองคิวเลย 🌸</a>
+    <a href="#booking" class="hero-book-btn" onclick="scrollToSection('booking')" data-i18n="nav_book">Book Now ✦</a>
   </div>
 
 </div>
@@ -3803,23 +3828,23 @@
 
 <!-- SERVICES -->
 <section id="services">
-  <h2 class="section-title">บริการ<br>ครบวงจร</h2>
-  <p class="section-desc">ด้วยเทคนิคล่าสุดและช่างมืออาชีพ รับรองความปลอดภัยและผลลัพธ์สวยงาม</p>
+  <h2 class="section-title" data-i18n="sec_services_title">Our<br>Services</h2>
+  <p class="section-desc" data-i18n="sec_services_desc">Expert techniques by certified artists — safe, precise, and designed to last.</p>
   <div class="services-grid" id="servicesGrid"></div>
 </section>
 
 <!-- PORTFOLIO -->
 <div class="portfolio-section" id="portfolio">
   <div class="portfolio-inner">
-    <h2 class="section-title">ผลงาน<br>จริงจากลูกค้า</h2>
-    <p class="section-desc">ภาพผลงานจริงจากลูกค้าของเรา</p>
+    <h2 class="section-title" data-i18n="sec_portfolio_title">Real Results<br>from Real Clients</h2>
+    <p class="section-desc" data-i18n="sec_portfolio_desc">Every photo is a real client — no filters, no stock images.</p>
     <div class="portfolio-grid" id="portfolioGrid"></div>
   </div>
 </div>
 
 <!-- REVIEWS -->
 <section id="reviews">
-  <h2 class="section-title">เสียงจาก<br>ลูกค้าของเรา</h2>
+  <h2 class="section-title" data-i18n="sec_reviews_title">What Our<br>Clients Say</h2>
   <div class="reviews-grid" id="reviewsGrid"></div>
   <div class="write-review-section">
     <div class="write-review-title">✍️ เขียนรีวิวของคุณ</div>
@@ -3853,19 +3878,19 @@
 <!-- BOOKING -->
 <div class="booking-section" id="booking">
   <div class="booking-inner">
-    <h2 class="section-title">จองคิว<br>ง่าย รวดเร็ว ทันใจ</h2>
-    <p class="section-desc">ไม่ต้อง DM ไม่ต้องโทร จองได้ทุกเวลา พร้อม AI ช่วยตรวจสอบ</p>
+    <h2 class="section-title" data-i18n="sec_book_title">Book Your<br>Appointment</h2>
+    <p class="section-desc" data-i18n="sec_book_desc">No DMs, no phone calls. Book anytime, get instant confirmation.</p>
     <div class="form-card">
       <div class="form-header">
         <h3>Brow Studio</h3>
-        <p id="bookingHeaderSub">เชียงใหม่ · เปิด จ–ส 10:00–18:00 น.</p>
+        <p id="bookingHeaderSub" data-i18n="book_header_sub">Chiang Mai · Open Mon–Sat 10:00–18:00</p>
       </div>
       <div class="step-bar">
-        <div class="step-item active" id="st1">1. สาขา</div>
-        <div class="step-item" id="st2">2. บริการ</div>
-        <div class="step-item" id="st3">3. วัน-เวลา</div>
-        <div class="step-item" id="st4">4. ข้อมูล</div>
-        <div class="step-item" id="st5">5. ยืนยัน</div>
+        <div class="step-item active" id="st1" data-i18n="step1">1. Branch</div>
+        <div class="step-item" id="st2" data-i18n="step2">2. Service</div>
+        <div class="step-item" id="st3" data-i18n="step3">3. Date & Time</div>
+        <div class="step-item" id="st4" data-i18n="step4">4. Your Info</div>
+        <div class="step-item" id="st5" data-i18n="step5">5. Confirm</div>
       </div>
       <div class="form-body">
         <!-- PAGE 0: Branch -->
@@ -3935,51 +3960,51 @@
 
         <!-- PAGE 3: Info -->
         <div id="fp3" style="display:none">
-          <div class="ai-badge">🤖 AI ตรวจสอบข้อมูล</div>
-          <div class="ai-message" id="aiMsg3">กรอกข้อมูลด้านล่างได้เลยค่ะ ระบบจะช่วยตรวจสอบให้อัตโนมัติ 🌸</div>
+          <div class="ai-badge">🤖 <span data-i18n="ai_check">AI Verification</span></div>
+          <div class="ai-message" id="aiMsg3" data-i18n="ai_check_msg">Fill in your details below — our system will verify automatically.</div>
           <div class="field">
-            <label>ชื่อ-นามสกุล</label>
-            <input type="text" id="nameIn" placeholder="เช่น สมหญิง ใจดี" />
-            <div class="field-error" id="nameErr">กรุณากรอกชื่อ-นามสกุล</div>
+            <label data-i18n="field_name">Full Name</label>
+            <input type="text" id="nameIn" placeholder="e.g. Jane Smith" data-i18n-ph="ph_name" />
+            <div class="field-error" id="nameErr" data-i18n="err_name">Please enter your full name</div>
           </div>
           <div class="field">
-            <label>เบอร์โทรศัพท์</label>
-            <input type="tel" id="phoneIn" placeholder="08X-XXX-XXXX" />
-            <div class="field-error" id="phoneErr">รูปแบบเบอร์โทรไม่ถูกต้อง</div>
+            <label data-i18n="field_phone">Phone Number</label>
+            <input type="tel" id="phoneIn" placeholder="+66 8X XXX XXXX" data-i18n-ph="ph_phone" />
+            <div class="field-error" id="phoneErr" data-i18n="err_phone">Invalid phone number format</div>
           </div>
           <div class="field">
-            <label>Line ID (ถ้ามี)</label>
-            <input type="text" id="lineIn" placeholder="@yourline" />
+            <label data-i18n="field_line">Line ID / WhatsApp (optional)</label>
+            <input type="text" id="lineIn" placeholder="@yourline or +country code" data-i18n-ph="ph_line" />
           </div>
           <div class="field">
-            <label>หมายเหตุ / แจ้งอาการแพ้</label>
-            <textarea id="noteIn" placeholder="เช่น แพ้ยางพารา เคยทำมาก่อน..."></textarea>
+            <label data-i18n="field_note">Notes / Allergies</label>
+            <textarea id="noteIn" placeholder="e.g. latex allergy, previous work done..." data-i18n-ph="ph_note"></textarea>
           </div>
           <button class="btn-submit" id="validateBtn" onclick="validateAndNext()">
-            <span>ตรวจสอบข้อมูล ✦</span>
+            <span data-i18n="btn_verify">Verify Info ✦</span>
           </button>
-          <button class="btn-back-form" onclick="goPage(2)">← ย้อนกลับ</button>
+          <button class="btn-back-form" onclick="goPage(2)" data-i18n="btn_back">← Back</button>
         </div>
 
         <!-- PAGE 4: Confirm -->
         <div id="fp4" style="display:none">
-          <div class="ai-message" id="aiMsg4" style="margin-bottom:1rem;">ตรวจสอบข้อมูลการจองด้านล่างก่อนยืนยันนะคะ 🌷</div>
+          <div class="ai-message" id="aiMsg4" style="margin-bottom:1rem;" data-i18n="ai_confirm_msg">Please review your booking details before confirming.</div>
           <div class="confirm-summary">
-            <div class="confirm-row"><span class="confirm-lbl">สาขา</span><span class="confirm-val" id="cbr">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">บริการ</span><span class="confirm-val" id="cs">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">วันที่</span><span class="confirm-val" id="cd">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">เวลา</span><span class="confirm-val" id="ct">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">ชื่อ</span><span class="confirm-val" id="cn">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">เบอร์</span><span class="confirm-val" id="cp">—</span></div>
-            <div class="confirm-row"><span class="confirm-lbl">ราคา</span><span class="confirm-val confirm-price-val" id="cpr">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_branch">Branch</span><span class="confirm-val" id="cbr">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_service">Service</span><span class="confirm-val" id="cs">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_date">Date</span><span class="confirm-val" id="cd">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_time">Time</span><span class="confirm-val" id="ct">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_name">Name</span><span class="confirm-val" id="cn">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_phone">Phone</span><span class="confirm-val" id="cp">—</span></div>
+            <div class="confirm-row"><span class="confirm-lbl" data-i18n="lbl_price">Price</span><span class="confirm-val confirm-price-val" id="cpr">—</span></div>
           </div>
           <div class="deposit-note" id="depositNoteBox">
-            💳 มัดจำ 20% ผ่าน PromptPay<br>
-            <strong id="depositAccDisplay">เลขบัญชี: 0XX-X-XXXXX-X</strong> (<span id="depositNameDisplay">Brow Studio</span>)<br>
-            <span id="depositNoteText">อัปโหลดสลิปด้านล่าง หรือแนบทาง Line: @browstudio</span>
+            💳 <span data-i18n="deposit_msg">20% deposit required to confirm your booking</span><br>
+            <strong id="depositAccDisplay" data-i18n="deposit_methods">Pay via: PromptPay · Stripe · Bank Transfer</strong><br>
+            <span id="depositNoteText" data-i18n="deposit_sub">Upload your payment slip below, or contact us via Line/WhatsApp to arrange payment.</span>
           </div>
           <div class="field">
-            <label>📎 แนบสลิปการโอนเงิน <span style="color:var(--text-muted);font-weight:400;">(ไม่บังคับ)</span></label>
+            <label>📎 <span data-i18n="slip_label">Upload Payment Slip</span> <span style="color:var(--text-muted);font-weight:400;" data-i18n="optional">(optional)</span></label>
             <div class="slip-upload-area" id="slipUploadArea" onclick="document.getElementById('slipFileInput').click()">
               <div class="slip-upload-icon" id="slipUploadIcon">📄</div>
               <div class="slip-upload-txt" id="slipUploadTxt">คลิกเพื่อเลือกไฟล์สลิป</div>
@@ -4182,16 +4207,230 @@
 
 <!-- CONTACT -->
 <div class="contact-bar">
-  <h3>ติดต่อเรา</h3>
-  <p>2 สาขา เชียงใหม่ · เปิด จ–ส 10:00–18:00 น.</p>
+  <h3 data-i18n="contact_title">Get in Touch</h3>
+  <p data-i18n="contact_sub">2 Locations in Chiang Mai, Thailand · Open Mon–Sat 10:00–18:00</p>
   <div class="contact-links">
-    <a href="tel:0800000000" class="contact-link">📞 08X-XXX-XXXX</a>
+    <a href="tel:0800000000" class="contact-link">📞 +66 8X-XXX-XXXX</a>
     <a href="https://line.me/ti/p/@browstudio" class="contact-link" target="_blank">💬 Line: @browstudio</a>
     <a href="https://www.facebook.com/browstudio" class="contact-link" target="_blank">Facebook</a>
     <a href="https://www.instagram.com/browstudio" class="contact-link" target="_blank">Instagram</a>
   </div>
 </div>
-<footer>© 2025 Brow Studio เชียงใหม่ · สักคิ้ว ต่อขนตา มืออาชีพ · 2 สาขา · <span style="color:var(--orange);">✦</span></footer>
+
+<!-- BEAUTYOS PLATFORM STRIP -->
+<div style="background:#2a1a1f;padding:1.5rem 2rem;text-align:center;border-top:1px solid rgba(232,130,154,0.15);">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px;font-family:'Clash Display',sans-serif;" data-i18n="powered_by">Powered by</div>
+    <div style="font-family:'Clash Display',sans-serif;font-size:22px;font-weight:500;color:#fff;letter-spacing:1px;margin-bottom:8px;">BeautyOS <span style="color:#e8829a;">✦</span></div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;line-height:1.7;" data-i18n="beautyos_desc">The all-in-one booking & management platform for beauty salons worldwide.<br>Online booking · Staff scheduling · Payments · Reviews · Analytics</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#" style="font-size:12px;color:#e8829a;text-decoration:none;border:1px solid rgba(232,130,154,0.4);padding:8px 20px;border-radius:50px;letter-spacing:0.5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(232,130,154,0.12)'" onmouseout="this.style.background='transparent'" data-i18n="beautyos_trial">Start Free Trial →</a>
+      <a href="#" style="font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;padding:8px 20px;letter-spacing:0.5px;" data-i18n="beautyos_owners">For Salon Owners</a>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Brow Studio · Chiang Mai, Thailand · <span data-i18n="footer_tagline">Professional Brow & Lash Studio</span> · <span style="color:var(--orange);">✦</span> Powered by BeautyOS</footer>
+
+<script>
+// ============================================================
+//  i18n ENGINE — TH / EN / ZH (Simplified)
+// ============================================================
+var I18N = {
+  en: {
+    // NAV
+    nav_services: 'Services', nav_packages: 'Packages', nav_portfolio: 'Portfolio',
+    nav_reviews: 'Reviews', nav_mybooking: 'My Booking', nav_member: 'Membership',
+    nav_partner: 'Partner', nav_book: 'Book Now →',
+    // HERO
+    hero_tag_loc: 'Powered by BeautyOS',
+    hero_h1: 'Your Brows.<br><em>Your Way.</em><br>Booked.',
+    hero_sub: 'Professional brow, lash & beauty services — book online in seconds, get instant confirmation.',
+    hero_cta: 'Book Now →', hero_cta2: 'View Services',
+    stat1: 'Happy Clients', stat2: 'Locations', stat3: 'Top Rated',
+    hero_book_online: 'Book Online',
+    hero_book_sub: 'Choose Service · Date · Time',
+    label_service: 'Service', label_times: 'Available Times',
+    // SECTIONS
+    sec_services_title: 'Our<br>Services',
+    sec_services_desc: 'Expert techniques by certified artists — safe, precise, and designed to last.',
+    sec_portfolio_title: 'Real Results<br>from Real Clients',
+    sec_portfolio_desc: 'Every photo is a real client — no filters, no stock images.',
+    sec_reviews_title: 'What Our<br>Clients Say',
+    sec_book_title: 'Book Your<br>Appointment',
+    sec_book_desc: 'No DMs, no phone calls. Book anytime, get instant confirmation.',
+    book_header_sub: 'Chiang Mai · Open Mon–Sat 10:00–18:00',
+    // STEPS
+    step1: '1. Branch', step2: '2. Service', step3: '3. Date & Time',
+    step4: '4. Your Info', step5: '5. Confirm',
+    // FORM
+    ai_check: 'AI Verification',
+    ai_check_msg: 'Fill in your details below — our system will verify automatically.',
+    ai_confirm_msg: 'Please review your booking details before confirming.',
+    field_name: 'Full Name', ph_name: 'e.g. Jane Smith', err_name: 'Please enter your full name',
+    field_phone: 'Phone Number', ph_phone: '+66 8X XXX XXXX', err_phone: 'Invalid phone number format',
+    field_line: 'Line ID / WhatsApp (optional)', ph_line: '@yourline or +country code',
+    field_note: 'Notes / Allergies', ph_note: 'e.g. latex allergy, previous work done...',
+    btn_verify: 'Verify Info ✦', btn_back: '← Back',
+    // CONFIRM
+    lbl_branch: 'Branch', lbl_service: 'Service', lbl_date: 'Date',
+    lbl_time: 'Time', lbl_name: 'Name', lbl_phone: 'Phone', lbl_price: 'Price',
+    deposit_msg: '20% deposit required to confirm your booking',
+    deposit_methods: 'Pay via: PromptPay · Stripe · Bank Transfer',
+    deposit_sub: 'Upload your payment slip below, or contact us via Line/WhatsApp.',
+    slip_label: 'Upload Payment Slip', optional: '(optional)',
+    // CONTACT & FOOTER
+    contact_title: 'Get in Touch',
+    contact_sub: '2 Locations in Chiang Mai, Thailand · Open Mon–Sat 10:00–18:00',
+    powered_by: 'Powered by',
+    beautyos_desc: 'The all-in-one booking & management platform for beauty salons worldwide.<br>Online booking · Staff scheduling · Payments · Reviews · Analytics',
+    beautyos_trial: 'Start Free Trial →', beautyos_owners: 'For Salon Owners',
+    footer_tagline: 'Professional Brow & Lash Studio',
+  },
+  th: {
+    // NAV
+    nav_services: 'บริการ', nav_packages: 'แพ็กเกจ', nav_portfolio: 'ผลงาน',
+    nav_reviews: 'รีวิว', nav_mybooking: 'เช็คการจอง', nav_member: 'สมาชิก',
+    nav_partner: 'ร่วมธุรกิจ', nav_book: 'จองคิวเลย →',
+    // HERO
+    hero_tag_loc: 'Powered by BeautyOS',
+    hero_h1: 'คิ้วสวย<br><em>เป็นเรื่อง</em><br>ของคุณ',
+    hero_sub: 'สักคิ้ว ต่อขนตา ด้วยช่างมืออาชีพ เทคนิคล่าสุด ปลอดภัย ได้ผลลัพธ์ที่ตรงใจ',
+    hero_cta: 'จองคิวเลย →', hero_cta2: 'ดูบริการทั้งหมด',
+    stat1: 'ลูกค้าที่ไว้วางใจ', stat2: 'สาขา', stat3: 'รีวิวดีเยี่ยม',
+    hero_book_online: 'จองคิวออนไลน์',
+    hero_book_sub: 'เลือกบริการ · วัน · เวลา',
+    label_service: 'บริการ', label_times: 'เวลาว่าง',
+    // SECTIONS
+    sec_services_title: 'บริการ<br>ครบวงจร',
+    sec_services_desc: 'ด้วยเทคนิคล่าสุดและช่างมืออาชีพ รับรองความปลอดภัยและผลลัพธ์สวยงาม',
+    sec_portfolio_title: 'ผลงาน<br>จริงจากลูกค้า',
+    sec_portfolio_desc: 'ภาพผลงานจริงจากลูกค้าของเรา ไม่มีการตกแต่งภาพ',
+    sec_reviews_title: 'เสียงจาก<br>ลูกค้าของเรา',
+    sec_book_title: 'จองคิว<br>ง่าย รวดเร็ว ทันใจ',
+    sec_book_desc: 'ไม่ต้อง DM ไม่ต้องโทร จองได้ทุกเวลา พร้อม AI ช่วยตรวจสอบ',
+    book_header_sub: 'เชียงใหม่ · เปิด จ–ส 10:00–18:00 น.',
+    // STEPS
+    step1: '1. สาขา', step2: '2. บริการ', step3: '3. วัน-เวลา',
+    step4: '4. ข้อมูล', step5: '5. ยืนยัน',
+    // FORM
+    ai_check: 'AI ตรวจสอบข้อมูล',
+    ai_check_msg: 'กรอกข้อมูลด้านล่างได้เลยค่ะ ระบบจะช่วยตรวจสอบให้อัตโนมัติ 🌸',
+    ai_confirm_msg: 'ตรวจสอบข้อมูลการจองด้านล่างก่อนยืนยันนะคะ 🌷',
+    field_name: 'ชื่อ-นามสกุล', ph_name: 'เช่น สมหญิง ใจดี', err_name: 'กรุณากรอกชื่อ-นามสกุล',
+    field_phone: 'เบอร์โทรศัพท์', ph_phone: '08X-XXX-XXXX', err_phone: 'รูปแบบเบอร์โทรไม่ถูกต้อง',
+    field_line: 'Line ID (ถ้ามี)', ph_line: '@yourline',
+    field_note: 'หมายเหตุ / แจ้งอาการแพ้', ph_note: 'เช่น แพ้ยางพารา เคยทำมาก่อน...',
+    btn_verify: 'ตรวจสอบข้อมูล ✦', btn_back: '← ย้อนกลับ',
+    // CONFIRM
+    lbl_branch: 'สาขา', lbl_service: 'บริการ', lbl_date: 'วันที่',
+    lbl_time: 'เวลา', lbl_name: 'ชื่อ', lbl_phone: 'เบอร์', lbl_price: 'ราคา',
+    deposit_msg: 'มัดจำ 20% เพื่อยืนยันการจอง',
+    deposit_methods: 'ชำระผ่าน: PromptPay · Stripe · โอนธนาคาร',
+    deposit_sub: 'อัปโหลดสลิปด้านล่าง หรือแนบทาง Line: @browstudio',
+    slip_label: 'แนบสลิปการโอนเงิน', optional: '(ไม่บังคับ)',
+    // CONTACT & FOOTER
+    contact_title: 'ติดต่อเรา',
+    contact_sub: '2 สาขา เชียงใหม่ · เปิด จ–ส 10:00–18:00 น.',
+    powered_by: 'ขับเคลื่อนโดย',
+    beautyos_desc: 'แพลตฟอร์มจัดการร้านความงามครบวงจร สำหรับร้านทั่วโลก<br>จองออนไลน์ · จัดตารางช่าง · ชำระเงิน · รีวิว · วิเคราะห์ข้อมูล',
+    beautyos_trial: 'ทดลองใช้ฟรี →', beautyos_owners: 'สำหรับเจ้าของร้าน',
+    footer_tagline: 'สักคิ้ว ต่อขนตา มืออาชีพ',
+  },
+  zh: {
+    // NAV
+    nav_services: '服务项目', nav_packages: '套餐优惠', nav_portfolio: '作品展示',
+    nav_reviews: '客户评价', nav_mybooking: '查看预约', nav_member: '会员中心',
+    nav_partner: '加盟合作', nav_book: '立即预约 →',
+    // HERO
+    hero_tag_loc: '由 BeautyOS 提供支持',
+    hero_h1: '完美眉型<br><em>由你定义</em><br>即刻预约',
+    hero_sub: '专业眉毛纹绣、睫毛嫁接及美容服务 — 在线预约，即时确认。',
+    hero_cta: '立即预约 →', hero_cta2: '查看全部服务',
+    stat1: '信赖客户', stat2: '门店', stat3: '好评如潮',
+    hero_book_online: '在线预约',
+    hero_book_sub: '选择服务 · 日期 · 时间',
+    label_service: '服务项目', label_times: '可用时段',
+    // SECTIONS
+    sec_services_title: '全套<br>美容服务',
+    sec_services_desc: '专业认证美容师，安全精准，效果持久。',
+    sec_portfolio_title: '真实客户<br>真实效果',
+    sec_portfolio_desc: '所有照片均为真实客户，无滤镜，无素材图。',
+    sec_reviews_title: '客户<br>真实评价',
+    sec_book_title: '预约您的<br>专属服务',
+    sec_book_desc: '无需私信，无需电话。随时预约，即时确认。',
+    book_header_sub: '清迈 · 周一至周六 10:00–18:00',
+    // STEPS
+    step1: '1. 门店', step2: '2. 服务', step3: '3. 日期时间',
+    step4: '4. 个人信息', step5: '5. 确认',
+    // FORM
+    ai_check: 'AI 信息验证',
+    ai_check_msg: '请填写以下信息，系统将自动为您验证。',
+    ai_confirm_msg: '请在确认前核对您的预约信息。',
+    field_name: '姓名', ph_name: '例：张小美', err_name: '请输入您的姓名',
+    field_phone: '手机号码', ph_phone: '+86 / +66 手机号码', err_phone: '手机号码格式不正确',
+    field_line: 'Line ID / 微信 (选填)', ph_line: '@line或微信号',
+    field_note: '备注 / 过敏说明', ph_note: '例：对乳胶过敏，曾做过相关项目...',
+    btn_verify: '验证信息 ✦', btn_back: '← 返回',
+    // CONFIRM
+    lbl_branch: '门店', lbl_service: '服务', lbl_date: '日期',
+    lbl_time: '时间', lbl_name: '姓名', lbl_phone: '电话', lbl_price: '价格',
+    deposit_msg: '需支付20%预付款以确认预约',
+    deposit_methods: '支付方式：PromptPay · Stripe · 银行转账',
+    deposit_sub: '请上传付款凭证，或通过Line/微信联系我们安排付款。',
+    slip_label: '上传付款凭证', optional: '(选填)',
+    // CONTACT & FOOTER
+    contact_title: '联系我们',
+    contact_sub: '泰国清迈 2家门店 · 周一至周六 10:00–18:00',
+    powered_by: '技术支持',
+    beautyos_desc: '面向全球美容沙龙的一站式预约管理平台<br>在线预约 · 员工排班 · 收款管理 · 评价系统 · 数据分析',
+    beautyos_trial: '免费试用 →', beautyos_owners: '适合沙龙经营者',
+    footer_tagline: '专业眉毛纹绣与睫毛美容工作室',
+  }
+};
+
+var currentLang = localStorage.getItem('beautyos_lang') || 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('beautyos_lang', lang);
+  applyLang();
+  // update active button
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', b.textContent.trim() === (lang === 'en' ? 'EN' : lang === 'th' ? 'TH' : '中文'));
+  });
+}
+
+function t(key) {
+  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N['en'] && I18N['en'][key]) || key;
+}
+
+function applyLang() {
+  // text content
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n');
+    var val = t(key);
+    if (val) el.innerHTML = val;
+  });
+  // placeholder
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+    var key = el.getAttribute('data-i18n-ph');
+    var val = t(key);
+    if (val) el.placeholder = val;
+  });
+  // html lang attr
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-Hans' : currentLang;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  applyLang();
+  // set correct active lang button on load
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    var map = { 'TH': 'th', 'EN': 'en', '中文': 'zh' };
+    b.classList.toggle('active', map[b.textContent.trim()] === currentLang);
+  });
+});
+</script>
 
 <script>
 // ===== DEFAULT SERVICES =====
