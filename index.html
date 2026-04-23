@@ -143,13 +143,24 @@
   .theme-toggle {
     display: flex; align-items: center; justify-content: center;
     width: 36px; height: 36px; border-radius: 50%;
-    border: 1px solid rgba(232,130,154,0.25);
-    background: rgba(232,130,154,0.07);
+    border: 1.5px solid rgba(232,130,154,0.35);
+    background: rgba(232,130,154,0.1);
     cursor: pointer; font-size: 16px;
     transition: all 0.2s; flex-shrink: 0;
     color: var(--text);
+    line-height: 1;
   }
-  .theme-toggle:hover { background: rgba(232,130,154,0.15); transform: scale(1.08); }
+  .theme-toggle:hover { background: rgba(232,130,154,0.22); transform: scale(1.08); border-color: var(--rose); }
+  [data-theme="dark"] .theme-toggle {
+    background: rgba(232,130,154,0.18);
+    border-color: rgba(232,130,154,0.5);
+    color: #f8d0dc;
+    box-shadow: 0 0 0 2px rgba(232,130,154,0.12);
+  }
+  [data-theme="dark"] .theme-toggle:hover {
+    background: rgba(232,130,154,0.32);
+    border-color: var(--rose);
+  }
 
 
   /* ===== NAV ===== */
@@ -195,8 +206,8 @@
   .nav-book:hover { background: var(--orange); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,130,154,0.35); }
   .nav-admin {
     background: transparent; color: var(--text-muted);
-    border: 1px solid var(--border);
-    border-radius: 50px;
+    border: 1.5px solid rgba(232,130,154,0.28);
+    border-radius: 50%;
     width: 34px; height: 34px;
     display: flex; align-items: center; justify-content: center;
     font-size: 13px;
@@ -204,7 +215,16 @@
     cursor: pointer; transition: all 0.2s;
     flex-shrink: 0;
   }
-  .nav-admin:hover { background: var(--rose-pale); color: var(--text); border-color: var(--peach); }
+  .nav-admin:hover { background: var(--rose-pale); color: var(--rose); border-color: var(--rose); transform: scale(1.08); }
+  [data-theme="dark"] .nav-admin {
+    border-color: rgba(232,130,154,0.4);
+    color: #c08898;
+  }
+  [data-theme="dark"] .nav-admin:hover {
+    background: rgba(232,130,154,0.18);
+    color: var(--rose-light);
+    border-color: var(--rose);
+  }
 
   .nav-right {
     display: flex; align-items: center; gap: 8px;
@@ -2863,7 +2883,9 @@
         <!-- Topbar -->
         <div class="admin-topbar">
           <div class="admin-topbar-title" id="adminTopbarTitle" data-i18n="adm_tab_bookings">การจอง</div>
-          <button class="theme-toggle" style="margin-left:auto;" onclick="toggleTheme()" title="Toggle dark/light mode" id="adminThemeToggle">🌙</button>
+          <button class="theme-toggle" style="margin-left:auto;" onclick="toggleTheme()" title="Toggle dark/light mode" id="adminThemeToggle">
+            <svg id="themeIconAdmin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
           <div class="admin-topbar-actions">
             <span class="admin-topbar-date" id="adminTopbarDate"></span>
             <button onclick="adminRefreshAll()" style="background:#fff5f8;border:1px solid #f0d0dc;color:#8a3050;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminRefreshBtn">🔄 รีเฟรช</button>
@@ -3821,9 +3843,13 @@
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('zh')">中文</button>
     </div>
-    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
+    <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <svg id="themeIconNav" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <div class="nav-divider"></div>
-    <button class="nav-admin" onclick="openAdmin()" title="Admin Dashboard">⚙</button>
+    <button class="nav-admin" onclick="openAdmin()" title="Admin Dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
     <a href="#booking" class="nav-book" data-i18n="nav_book">Book Now →</a>
     <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburgerBtn">☰</button>
   </div>
@@ -3843,7 +3869,9 @@
       <button class="lang-btn active" onclick="setLang('en');closeMobileMenu()">EN</button>
       <button class="lang-btn" onclick="setLang('zh');closeMobileMenu()">中文</button>
     </div>
-    <button class="mobile-admin-btn" onclick="closeMobileMenu();openAdmin()">⚙ Admin</button>
+    <button class="mobile-admin-btn" onclick="closeMobileMenu();openAdmin()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Admin
+    </button>
   </div>
 </div>
 
@@ -4627,12 +4655,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===== DARK / LIGHT MODE =====
+var SVG_MOON = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+var SVG_SUN  = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
+  var icon = theme === 'dark' ? SVG_SUN : SVG_MOON;
   var btn = document.getElementById('themeToggleBtn');
-  if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  if (btn) btn.innerHTML = icon;
   var btn2 = document.getElementById('adminThemeToggle');
-  if (btn2) btn2.textContent = theme === 'dark' ? '☀️' : '🌙';
+  if (btn2) btn2.innerHTML = icon;
 }
 function toggleTheme() {
   var current = document.documentElement.getAttribute('data-theme') || 'light';
