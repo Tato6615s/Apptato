@@ -5259,28 +5259,33 @@ var DEFAULT_MEMBERS = [
 ];
 
 // ===== DEFAULT BEFORE/AFTER =====
+var _BA_BSVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f5ebe8" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#c08090">📷</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#a06070" font-family="sans-serif">BEFORE</text></svg>');
+var _BA_ASVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f0e8f0" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#8b3a6a">✨</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#6b2a50" font-family="sans-serif">AFTER</text></svg>');
 var DEFAULT_BA = [
-  { id:'ba-demo-1', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before:'', after:'', created_at:'2025-01-10T10:00:00Z' },
-  { id:'ba-demo-2', service:'ต่อขนตา Volume', client:'ลูกค้า B', before:'', after:'', created_at:'2025-01-12T10:00:00Z' },
-  { id:'ba-demo-3', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before:'', after:'', created_at:'2025-01-14T10:00:00Z' }
+  { id:'ba-demo-1', svc:'สักคิ้ว Powder Ombre', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-10T10:00:00Z' },
+  { id:'ba-demo-2', svc:'ต่อขนตา Volume', service:'ต่อขนตา Volume', client:'ลูกค้า B', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-12T10:00:00Z' },
+  { id:'ba-demo-3', svc:'สักคิ้ว 6D Microblading', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-14T10:00:00Z' }
 ];
 
 // ===== DEFAULT WAITLIST =====
 var DEFAULT_WAITLIST = [
   { id:'wl1', name:'คุณอรอุมา สุขสันต์', phone:'0898887766', svc:'สักคิ้ว Powder Ombre', preferred_date:'2025-02-10', created_at:new Date().toISOString() },
-  { id:'wl2', name:'คุณกัญญา ดาวเด่น', phone:'0876543210', svc:'ต่อขนตา Volume', preferred_date:'2025-02-12', created_at:new Date().toISOString() }
+  { id:'wl2', name:'คุณกัญญา ดาวเด่น', phone:'0876543210', svc:'ต่อขนตา Volume', preferred_date:'2025-02-12', created_at:new Date().toISOString() },
+  { id:'wl3', name:'คุณมนัสนันท์ ศรีสวัสดิ์', phone:'0861234509', svc:'สักคิ้ว 6D Microblading', preferred_date:'2025-02-15', created_at:new Date().toISOString() }
 ];
 
 // ===== DEFAULT CUST REFERRAL =====
 var DEFAULT_CUST_REFERRAL = [
   { id:'cr1', referrer_name:'คุณสมหญิง ใจดี', referrer_phone:'0891234567', referred_name:'คุณวิไล รักสวย', referred_phone:'0834567890', booking_ref:'BK-DEMO-004', reward_pts:200, status:'rewarded', created_at:'2025-01-05T10:00:00Z' },
-  { id:'cr2', referrer_name:'คุณจันทรา พรมดี', referrer_phone:'0856789012', referred_name:'คุณแพรวา มีสุข', referred_phone:'0812345678', booking_ref:'BK-DEMO-002', reward_pts:200, status:'pending', created_at:new Date().toISOString() }
+  { id:'cr2', referrer_name:'คุณจันทรา พรมดี', referrer_phone:'0856789012', referred_name:'คุณแพรวา มีสุข', referred_phone:'0812345678', booking_ref:'BK-DEMO-002', reward_pts:200, status:'pending', created_at:new Date().toISOString() },
+  { id:'cr3', referrer_name:'คุณแพรวา มีสุข', referrer_phone:'0812345678', referred_name:'คุณนภา สดใส', referred_phone:'0823456789', booking_ref:'BK-DEMO-003', reward_pts:200, status:'pending', created_at:new Date().toISOString() }
 ];
 
 // ===== DEFAULT FOLLOW-UP =====
 var DEFAULT_FOLLOWUP_BOOKINGS = [
   { ref:'BK-FU-001', name:'คุณวิไล รักสวย', phone:'0834567890', svc:'ต่อขนตา Classic', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'11:00', status:'confirmed', followup_sent:false },
-  { ref:'BK-FU-002', name:'คุณมาลี สุขใจ', phone:'0845678901', svc:'สักคิ้ว 6D Microblading', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', status:'confirmed', followup_sent:true }
+  { ref:'BK-FU-002', name:'คุณมาลี สุขใจ', phone:'0845678901', svc:'สักคิ้ว 6D Microblading', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', status:'confirmed', followup_sent:true },
+  { ref:'BK-FU-003', name:'คุณนภา สดใส', phone:'0823456789', svc:'สักคิ้ว Powder Ombre', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'13:00', status:'confirmed', followup_sent:false }
 ];
 async function loadReviews() {
   var rows = await sbGet('bs_reviews');
@@ -6084,7 +6089,12 @@ async function openAdmin() {
       loadHolidays(), loadClosedBranches(), loadTelegramSettings(),
       loadServices(), loadAgents(), loadCommissions()
     ]);
-    renderAdminDashboard();
+    // ── Auto-seed demo data ถ้า Supabase ยังว่างเปล่า ──
+    if (getBookings().length === 0) {
+      setTimeout(function() { adminSeedDemoData(); }, 300);
+    } else {
+      renderAdminDashboard();
+    }
     showToast('✅ โหลดข้อมูลล่าสุดแล้ว', 'success');
   }
 }
@@ -6418,6 +6428,9 @@ async function switchAdminTab(tab, btn) {
   else if (tab === 'beforeafter') { await loadBA(); renderBAGrid(); }
   else if (tab === 'referral') { await Promise.all([loadAgents(), loadBookings()]); renderReferralList(); }
   else if (tab === 'followup') { await loadBookings(); renderFollowUp(); }
+  else if (tab === 'points') { await Promise.all([loadBookings(), loadMembers()]); loadPointsSettings(); }
+  else if (tab === 'waitlistadmin') { loadWaitlistAdmin(); }
+  else if (tab === 'customerreferral') { loadCustRefAdmin(); }
   else if (tab === 'gcal') { loadGCalSettings(); }
 }
 
@@ -9199,9 +9212,7 @@ switchAdminTab = function(tab, btn) {
   var el = document.getElementById('adminTopbarTitle');
   if (el && titles[tab]) el.textContent = titles[tab];
   if (tab === 'autoreminder')    { loadAutoReminderSettings(); }
-  if (tab === 'points')          { loadPointsSettings(); }
-  if (tab === 'customerreferral'){ loadCustRefAdmin(); }
-  if (tab === 'waitlistadmin')   { loadWaitlistAdmin(); }
+  // points / waitlistadmin / customerreferral are now handled inside main switchAdminTab
 };
 
 // Init
