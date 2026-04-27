@@ -6183,32 +6183,66 @@ function adminSeedDemoData() {
     _cache.services._all = DEFAULT_SERVICES.slice();
     _cache.packages = DEFAULT_PACKAGES.slice();
     _cache.members = DEFAULT_MEMBERS.slice();
-
-    // ── เพิ่ม Demo data ส่วนที่ยังขาด ──
     _cache.coupons = DEFAULT_COUPONS.slice();
 
+    // ── วันหยุด Demo (seed ✓ ครบ) ──
+    var _nextSunStr = (function(){
+      var d=new Date(); d.setDate(d.getDate()+(7-d.getDay())%7||7); return d.toISOString().split('T')[0];
+    })();
+    var _nextnextSunStr = (function(){
+      var d=new Date(); var offset=(7-d.getDay())%7||7; d.setDate(d.getDate()+offset+7); return d.toISOString().split('T')[0];
+    })();
+    _cache.holidays = [_nextSunStr, _nextnextSunStr];
+
+    // ── Waitlist Demo (seed ✓ ครบ) ──
     _cache.waitlist = DEFAULT_WAITLIST.slice();
-    // Waitlist ใช้ localStorage ด้วย
     try { localStorage.setItem('bs_waitlist', JSON.stringify(DEFAULT_WAITLIST)); } catch(e){}
 
+    // ── Customer Referral Demo ──
     _cache.custReferral = DEFAULT_CUST_REFERRAL.slice();
+    try { localStorage.setItem('bs_cust_refs', JSON.stringify([
+      { phone:'0891234567', name:'คุณสมหญิง ใจดี', friendsCount:3, createdAt:'2025-01-05T10:00:00Z' },
+      { phone:'0856789012', name:'คุณจันทรา พรมดี', friendsCount:5, createdAt:'2024-12-15T10:00:00Z' },
+      { phone:'0812345678', name:'คุณแพรวา มีสุข', friendsCount:1, createdAt:'2025-01-12T10:00:00Z' }
+    ])); } catch(e){}
 
-    _cache.followup = DEFAULT_FOLLOWUP_BOOKINGS.slice();
+    // ── Follow-up Demo — ต้องมี booking อายุ 7+ วัน ──
+    var _7dAgo = (function(){ var d=new Date(); d.setDate(d.getDate()-8); return d.toISOString().split('T')[0]; })();
+    var _10dAgo = (function(){ var d=new Date(); d.setDate(d.getDate()-10); return d.toISOString().split('T')[0]; })();
+    var _14dAgo = (function(){ var d=new Date(); d.setDate(d.getDate()-14); return d.toISOString().split('T')[0]; })();
+    // เพิ่ม booking เก่าเข้าไปใน _cache.bookings เพื่อให้ Follow-up เจอ
+    _cache.bookings = _cache.bookings.concat([
+      { ref:'BK-FU-OLD-001', id:'BK-FU-OLD-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:_7dAgo, dateDisplay:fmtDate(_7dAgo), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
+      { ref:'BK-FU-OLD-002', id:'BK-FU-OLD-002', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_10dAgo, dateDisplay:fmtDate(_10dAgo), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'', status:'confirmed', slipData:null, agent_ref:null },
+      { ref:'BK-FU-OLD-003', id:'BK-FU-OLD-003', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_14dAgo, dateDisplay:fmtDate(_14dAgo), time:'10:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-03' }
+    ]);
 
-    _cache.baItems = DEFAULT_BA.slice();
-    // baItems เป็น global var (ไม่ได้อยู่ใน _cache)
-    if (typeof baItems !== 'undefined') baItems = DEFAULT_BA.slice();
+    // ── Before/After Demo — ใช้ SVG placeholder สีสวยแทน src:''. ──
+    var _BSVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f5ebe8" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#c08090">📷</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#a06070" font-family="sans-serif">BEFORE</text></svg>');
+    var _ASVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f0e8f0" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#8b3a6a">✨</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#6b2a50" font-family="sans-serif">AFTER</text></svg>');
+    var _demoBA = [
+      { id:'ba-demo-1', svc:'สักคิ้ว Powder Ombre', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-10T10:00:00Z' },
+      { id:'ba-demo-2', svc:'ต่อขนตา Volume', service:'ต่อขนตา Volume', client:'ลูกค้า B', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-12T10:00:00Z' },
+      { id:'ba-demo-3', svc:'สักคิ้ว 6D Microblading', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-14T10:00:00Z' }
+    ];
+    _cache.baItems = _demoBA.slice();
+    if (typeof baItems !== 'undefined') baItems = _demoBA.slice();
 
-    // Demo portfolio (placeholder items)
-    if (!_cache.portfolio || _cache.portfolio.length === 0) {
-      _cache.portfolio = [
-        { id:'port-demo-1', src:'', label:'สักคิ้ว 6D Microblading', created_at:'2025-01-05T10:00:00Z' },
-        { id:'port-demo-2', src:'', label:'Powder Ombre', created_at:'2025-01-08T10:00:00Z' },
-        { id:'port-demo-3', src:'', label:'ต่อขนตา Volume', created_at:'2025-01-10T10:00:00Z' }
-      ];
-    }
+    // ── Portfolio Demo — ใช้ SVG placeholder สีสวย ──
+    var _portColors = ['#F7E0E5','#E0EAF7','#E0F7E9','#F7F0E0','#EDE0F7','#F7E0EF'];
+    var _portLabels = ['สักคิ้ว 6D Microblading','Powder Ombre','ต่อขนตา Classic','ต่อขนตา Volume','สักคิ้ว Combo','Full Lash Set'];
+    var _portEmojis = ['✦','🌸','👁','✨','💫','🎨'];
+    _cache.portfolio = _portLabels.map(function(label, i){
+      var svg = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect fill="'+_portColors[i]+'" width="300" height="300"/>' +
+        '<text x="50%" y="42%" text-anchor="middle" font-size="48" fill="#6b3050">'+_portEmojis[i]+'</text>' +
+        '<text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#6b3050" font-family="sans-serif">'+label+'</text></svg>'
+      );
+      return { id:'port-demo-'+(i+1), src:svg, label:label, created_at:'2025-01-'+(i+5<10?'0'+(i+5):i+5)+'T10:00:00Z' };
+    });
 
-    // Re-render current tab
+    // Re-render current tab + also update front-end
+    renderPortfolio();
     if (currentAdminTab === 'bookings') renderAdminDashboard();
     else if (currentAdminTab === 'slips') renderAdminSlips();
     else if (currentAdminTab === 'revenue') renderRevenue();
@@ -6219,13 +6253,17 @@ function adminSeedDemoData() {
     else if (currentAdminTab === 'packages') { if(typeof renderPackagesAdmin==='function') renderPackagesAdmin(); if(typeof renderCouponsAdmin==='function') renderCouponsAdmin(); }
     else if (currentAdminTab === 'points') { if(typeof renderPointsAdmin==='function') renderPointsAdmin(); }
     else if (currentAdminTab === 'waitlistadmin') { if(typeof renderWaitlistAdmin==='function') renderWaitlistAdmin(); }
-    else if (currentAdminTab === 'customerreferral') { if(typeof renderCustomerReferral==='function') renderCustomerReferral(); }
+    else if (currentAdminTab === 'customerreferral') { if(typeof loadCustRefAdmin==='function') loadCustRefAdmin(); }
     else if (currentAdminTab === 'followup') { if(typeof renderFollowUp==='function') renderFollowUp(); }
     else if (currentAdminTab === 'beforeafter') { if(typeof renderBAGrid==='function') renderBAGrid(); }
-    else if (currentAdminTab === 'staff') { if(typeof renderStaffDashboard==='function') renderStaffDashboard(); }
+    else if (currentAdminTab === 'staff') { if(typeof initStaffMonthFilter==='function') initStaffMonthFilter(); if(typeof renderStaffDashboard==='function') renderStaffDashboard(); }
+    else if (currentAdminTab === 'holidays') renderHolidayTab();
+    else if (currentAdminTab === 'portfolio') renderAdminPortfolio();
+    else if (currentAdminTab === 'reminders') renderReminders();
+    else if (currentAdminTab === 'weekly') renderWeeklyCalendar();
     else renderAdminDashboard();
 
-    showToast('✅ โหลดข้อมูลตัวอย่างครบทุกส่วนแล้วค่ะ 🌸 (' + _cache.bookings.length + ' การจอง · ' + _cache.agents.length + ' Agent · ' + (_cache.members||[]).length + ' สมาชิก)', 'success');
+    showToast('✅ โหลดข้อมูลตัวอย่างครบทุกส่วนแล้วค่ะ 🌸 (' + _cache.bookings.length + ' การจอง · ' + _cache.agents.length + ' Agent · ' + (_cache.members||[]).length + ' สมาชิก · ' + (_cache.holidays||[]).length + ' วันหยุด · ' + (_cache.waitlist||[]).length + ' Waitlist)', 'success');
   } catch(e) {
     console.error('Seed error', e);
     showToast('❌ โหลดข้อมูลตัวอย่างไม่สำเร็จ', 'error');
