@@ -3108,6 +3108,7 @@
             <span class="admin-topbar-date" id="adminTopbarDate"></span>
             <button onclick="adminRefreshAll()" style="background:var(--rose-pale);border:1px solid var(--border);color:var(--rose-dark);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminRefreshBtn">🔄 รีเฟรช</button>
             <button onclick="openQRModal()" style="background:var(--rose-pale);border:1px solid var(--border);color:var(--rose-dark);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;">🔲 QR</button>
+            <button onclick="confirmResetDemoData()" style="background:#fff0f0;border:1px solid rgba(184,48,48,0.25);color:#b83030;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" title="โหลดข้อมูลตัวอย่างทั้งหมดใหม่">🗂 รีเซตข้อมูลตัวอย่าง</button>
           </div>
         </div>
         <div class="admin-body">
@@ -6125,6 +6126,25 @@ async function adminRefreshAll() {
   if (btn) { btn.disabled = false; btn.textContent = '🔄 รีเฟรช'; }
 }
 
+// ===== CONFIRM RESET DEMO DATA (เรียกจากปุ่ม topbar) =====
+function confirmResetDemoData() {
+  // แสดง confirm dialog ก่อน
+  var confirmed = window.confirm(
+    '🗂 รีเซตข้อมูลตัวอย่าง?\n\n' +
+    'ระบบจะโหลดข้อมูล Demo ทั้งหมดเข้า Admin:\n' +
+    '• 7 การจอง (วันนี้/เมื่อวาน/พรุ่งนี้)\n' +
+    '• 4 สมาชิก (Silver/Gold/Diamond)\n' +
+    '• 3 Agent + 4 Commission\n' +
+    '• 3 รีวิว, 3 แพ็กเกจ, 3 คูปอง\n' +
+    '• Waitlist 2 คน, Referral 2 รายการ\n\n' +
+    'ข้อมูลนี้จะแสดงเฉพาะใน session นี้ เท่านั้น (ไม่เขียนทับ Supabase)\n\n' +
+    'ยืนยันหรือไม่?'
+  );
+  if (confirmed) {
+    adminSeedDemoData();
+  }
+}
+
 // ===== SEED DEMO DATA =====
 // โหลดข้อมูลตัวอย่างเข้า cache เพื่อดูหน้า Admin โดยไม่ต้องมีข้อมูลจริงใน Supabase
 function adminSeedDemoData() {
@@ -6164,6 +6184,30 @@ function adminSeedDemoData() {
     _cache.packages = DEFAULT_PACKAGES.slice();
     _cache.members = DEFAULT_MEMBERS.slice();
 
+    // ── เพิ่ม Demo data ส่วนที่ยังขาด ──
+    _cache.coupons = DEFAULT_COUPONS.slice();
+
+    _cache.waitlist = DEFAULT_WAITLIST.slice();
+    // Waitlist ใช้ localStorage ด้วย
+    try { localStorage.setItem('bs_waitlist', JSON.stringify(DEFAULT_WAITLIST)); } catch(e){}
+
+    _cache.custReferral = DEFAULT_CUST_REFERRAL.slice();
+
+    _cache.followup = DEFAULT_FOLLOWUP_BOOKINGS.slice();
+
+    _cache.baItems = DEFAULT_BA.slice();
+    // baItems เป็น global var (ไม่ได้อยู่ใน _cache)
+    if (typeof baItems !== 'undefined') baItems = DEFAULT_BA.slice();
+
+    // Demo portfolio (placeholder items)
+    if (!_cache.portfolio || _cache.portfolio.length === 0) {
+      _cache.portfolio = [
+        { id:'port-demo-1', src:'', label:'สักคิ้ว 6D Microblading', created_at:'2025-01-05T10:00:00Z' },
+        { id:'port-demo-2', src:'', label:'Powder Ombre', created_at:'2025-01-08T10:00:00Z' },
+        { id:'port-demo-3', src:'', label:'ต่อขนตา Volume', created_at:'2025-01-10T10:00:00Z' }
+      ];
+    }
+
     // Re-render current tab
     if (currentAdminTab === 'bookings') renderAdminDashboard();
     else if (currentAdminTab === 'slips') renderAdminSlips();
@@ -6172,10 +6216,16 @@ function adminSeedDemoData() {
     else if (currentAdminTab === 'crm') renderCRM();
     else if (currentAdminTab === 'reviews') renderAdminReviews();
     else if (currentAdminTab === 'services') renderSvcAdminList();
-    else if (currentAdminTab === 'packages') { if(typeof renderPackagesAdmin==='function') renderPackagesAdmin(); }
+    else if (currentAdminTab === 'packages') { if(typeof renderPackagesAdmin==='function') renderPackagesAdmin(); if(typeof renderCouponsAdmin==='function') renderCouponsAdmin(); }
+    else if (currentAdminTab === 'points') { if(typeof renderPointsAdmin==='function') renderPointsAdmin(); }
+    else if (currentAdminTab === 'waitlistadmin') { if(typeof renderWaitlistAdmin==='function') renderWaitlistAdmin(); }
+    else if (currentAdminTab === 'customerreferral') { if(typeof renderCustomerReferral==='function') renderCustomerReferral(); }
+    else if (currentAdminTab === 'followup') { if(typeof renderFollowUp==='function') renderFollowUp(); }
+    else if (currentAdminTab === 'beforeafter') { if(typeof renderBAGrid==='function') renderBAGrid(); }
+    else if (currentAdminTab === 'staff') { if(typeof renderStaffDashboard==='function') renderStaffDashboard(); }
     else renderAdminDashboard();
 
-    showToast('✅ โหลดข้อมูลตัวอย่างแล้ว — ' + _cache.bookings.length + ' การจอง, ' + _cache.agents.length + ' Agent', 'success');
+    showToast('✅ โหลดข้อมูลตัวอย่างครบทุกส่วนแล้วค่ะ 🌸 (' + _cache.bookings.length + ' การจอง · ' + _cache.agents.length + ' Agent · ' + (_cache.members||[]).length + ' สมาชิก)', 'success');
   } catch(e) {
     console.error('Seed error', e);
     showToast('❌ โหลดข้อมูลตัวอย่างไม่สำเร็จ', 'error');
@@ -6242,6 +6292,13 @@ async function checkPin() {
     renderAdminDashboard();
     renderLineTab();
     showToast('✅ ข้อมูลอัปเดตล่าสุดแล้วค่ะ', 'success');
+
+    // ── Auto-seed demo data ถ้า Supabase ยังว่างเปล่า ──
+    if (getBookings().length === 0) {
+      setTimeout(function() {
+        adminSeedDemoData();
+      }, 400);
+    }
 
   } else {
     // ❌ ผิด
