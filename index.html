@@ -3019,6 +3019,7 @@
       <h2>⚙ ADMIN · BROW STUDIO</h2>
       <div style="display:flex;gap:8px;align-items:center;">
         <button onclick="adminRefreshAll()" title="โหลดข้อมูลใหม่จาก Supabase" style="background:var(--rose-pale);border:1px solid var(--peach);color:var(--text);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminRefreshBtn">🔄 รีเฟรช</button>
+        <button onclick="adminSeedDemoData()" title="โหลดข้อมูลตัวอย่างเข้า Admin" style="background:#4A1E2A;border:1px solid #4A1E2A;color:#fff;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminSeedBtn" data-i18n="adm_seed_btn">🌱 โหลดข้อมูลตัวอย่าง</button>
         <button onclick="openQRModal()" title="QR Code จองคิว" style="background:var(--rose-pale);border:1px solid var(--peach);color:var(--text);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;">🔲 QR</button>
         <button class="admin-close" onclick="closeAdmin()">✕</button>
       </div>
@@ -4405,23 +4406,23 @@
 <!-- MEMBER POINTS -->
 <div class="member-section" id="member">
   <div class="member-inner">
-    <h2 class="section-title">คะแนนสะสม<br>สมาชิก</h2>
-    <p class="section-desc">สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ</p>
+    <h2 class="section-title" data-i18n="member_title">คะแนนสะสม<br>สมาชิก</h2>
+    <p class="section-desc" data-i18n="member_desc">สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:2rem 0 1rem;">
       <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">🥉</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px;">Silver</div>
-        <div style="font-size:12px;color:var(--text-muted);">0–999 คะแนน · ส่วนลด 3%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="member_silver_pts">0–999 คะแนน · ส่วนลด 3%</div>
       </div>
       <div style="background:var(--white);border:1.5px solid var(--gold);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">🥇</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--gold);margin-bottom:4px;">Gold</div>
-        <div style="font-size:12px;color:var(--text-muted);">1000–2999 คะแนน · ส่วนลด 7%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="member_gold_pts">1000–2999 คะแนน · ส่วนลด 7%</div>
       </div>
       <div style="background:linear-gradient(135deg,var(--cream2),#fff);border:1.5px solid var(--rose);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">💎</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px;">Diamond</div>
-        <div style="font-size:12px;color:var(--text-muted);">3000+ คะแนน · ส่วนลด 12%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="member_diamond_pts">3000+ คะแนน · ส่วนลด 12%</div>
       </div>
     </div>
     <div class="member-lookup-card">
@@ -4429,18 +4430,18 @@
         <div class="member-card-name" id="memberCardName">—</div>
         <div class="member-card-phone" id="memberCardPhone">—</div>
         <div class="member-points-big" id="memberPointsBig">0</div>
-        <div class="member-points-label">คะแนนสะสม</div>
+        <div class="member-points-label" data-i18n="member_pts_label">คะแนนสะสม</div>
         <div class="member-tier" id="memberTier">Silver</div>
       </div>
       <div class="field">
-        <label>ค้นหาด้วยเบอร์โทร</label>
+        <label data-i18n="member_search_label">ค้นหาด้วยเบอร์โทร</label>
         <div style="display:flex;gap:8px;">
-          <input type="tel" id="memberPhoneInput" placeholder="08X-XXX-XXXX" style="flex:1;">
-          <button class="btn-submit" onclick="lookupMember()" style="max-width:90px;margin:0;padding:11px 14px;">ค้นหา</button>
+          <input type="tel" id="memberPhoneInput" data-i18n-ph="ph_phone" placeholder="08X-XXX-XXXX" style="flex:1;">
+          <button class="btn-submit" onclick="lookupMember()" style="max-width:90px;margin:0;padding:11px 14px;" data-i18n="member_search_btn">ค้นหา</button>
         </div>
       </div>
       <div class="points-history" id="memberPointsHistory" style="display:none;">
-        <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">ประวัติคะแนน</div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;" data-i18n="member_history_label">ประวัติคะแนน</div>
         <div id="memberHistoryList"></div>
       </div>
     </div>
@@ -4452,9 +4453,9 @@
   <div class="agent-join-inner">
     <!-- LEFT: Info -->
     <div class="agent-join-left">
-      <div class="agent-join-badge">🌸 ร่วมธุรกิจ</div>
-      <h2 class="agent-join-title">เป็น Agent<br><em>รับค่าคอมทันที</em></h2>
-      <p class="agent-join-desc">
+      <div class="agent-join-badge" data-i18n="agent_badge">🌸 ร่วมธุรกิจ</div>
+      <h2 class="agent-join-title" data-i18n="agent_title">เป็น Agent<br><em>รับค่าคอมทันที</em></h2>
+      <p class="agent-join-desc" data-i18n="agent_desc">
         แนะนำลูกค้ามาใช้บริการ Brow Studio<br>
         รับค่าคอมมิชชั่นทุกครั้งที่ลูกค้าจองคิวผ่านลิงก์ของคุณ<br>
         ไม่ต้องลงทุน ไม่ต้องมีประสบการณ์ — เริ่มได้เลยวันนี้!
@@ -4463,29 +4464,29 @@
         <div class="agent-perk-item">
           <div class="agent-perk-icon">💸</div>
           <div class="agent-perk-text">
-            ค่าคอมมิชชั่นสูงสุด 10%
-            <span>ต่อทุกการจองที่มาจากลิงก์ของคุณ</span>
+            <span data-i18n="agent_perk1_title">ค่าคอมมิชชั่นสูงสุด 10%</span>
+            <span data-i18n="agent_perk1_sub">ต่อทุกการจองที่มาจากลิงก์ของคุณ</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">🔗</div>
           <div class="agent-perk-text">
-            ลิงก์ส่วนตัว พร้อมใช้งานทันที
-            <span>แชร์ผ่าน Line, Facebook, IG ได้เลย</span>
+            <span data-i18n="agent_perk2_title">ลิงก์ส่วนตัว พร้อมใช้งานทันที</span>
+            <span data-i18n="agent_perk2_sub">แชร์ผ่าน Line, Facebook, IG ได้เลย</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">📊</div>
           <div class="agent-perk-text">
-            ติดตามยอดและค่าคอมได้แบบ Real-time
-            <span>ระบบ Dashboard โปร่งใส ตรวจสอบได้ทุกเวลา</span>
+            <span data-i18n="agent_perk3_title">ติดตามยอดและค่าคอมได้แบบ Real-time</span>
+            <span data-i18n="agent_perk3_sub">ระบบ Dashboard โปร่งใส ตรวจสอบได้ทุกเวลา</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">🏦</div>
           <div class="agent-perk-text">
-            โอนเงินทุกสิ้นเดือน
-            <span>ผ่านบัญชีธนาคารที่ลงทะเบียนไว้</span>
+            <span data-i18n="agent_perk4_title">โอนเงินทุกสิ้นเดือน</span>
+            <span data-i18n="agent_perk4_sub">ผ่านบัญชีธนาคารที่ลงทะเบียนไว้</span>
           </div>
         </div>
       </div>
@@ -4494,17 +4495,17 @@
     <!-- RIGHT: Form -->
     <div class="agent-join-form-card">
       <div id="agentJoinFormWrap">
-        <div class="agent-form-title">สมัครเป็น Agent</div>
-        <p class="agent-form-sub">กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.</p>
+        <div class="agent-form-title" data-i18n="agent_form_title">สมัครเป็น Agent</div>
+        <p class="agent-form-sub" data-i18n="agent_form_sub">กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.</p>
 
         <div class="agent-field-row">
           <div class="agent-field">
-            <label>ชื่อ-นามสกุล *</label>
-            <input type="text" id="ajName" placeholder="เช่น สมหญิง ใจดี">
+            <label data-i18n="field_name">ชื่อ-นามสกุล *</label>
+            <input type="text" id="ajName" data-i18n-ph="ph_name" placeholder="เช่น สมหญิง ใจดี">
           </div>
           <div class="agent-field">
-            <label>เบอร์โทรศัพท์ *</label>
-            <input type="tel" id="ajPhone" placeholder="08X-XXX-XXXX">
+            <label data-i18n="field_phone">เบอร์โทรศัพท์ *</label>
+            <input type="tel" id="ajPhone" data-i18n-ph="ph_phone" placeholder="08X-XXX-XXXX">
           </div>
         </div>
 
@@ -4514,47 +4515,47 @@
         </div>
 
         <div class="agent-field">
-          <label>ช่องทาง Social ที่จะโปรโมต</label>
+          <label data-i18n="agent_social_label">ช่องทาง Social ที่จะโปรโมต</label>
           <select id="ajChannel">
-            <option value="">เลือกช่องทางหลัก</option>
+            <option value="" data-i18n="agent_social_ph">เลือกช่องทางหลัก</option>
             <option value="line">Line / Line OA</option>
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
             <option value="tiktok">TikTok</option>
-            <option value="word_of_mouth">บอกต่อปากต่อปาก</option>
-            <option value="other">อื่นๆ</option>
+            <option value="word_of_mouth" data-i18n="agent_wom">บอกต่อปากต่อปาก</option>
+            <option value="other" data-i18n="agent_other">อื่นๆ</option>
           </select>
         </div>
 
         <div class="agent-field-row">
           <div class="agent-field">
-            <label>ธนาคาร</label>
+            <label data-i18n="agent_bank_label">ธนาคาร</label>
             <select id="ajBank">
-              <option value="">เลือกธนาคาร</option>
-              <option value="กสิกรไทย">กสิกรไทย</option>
-              <option value="ไทยพาณิชย์">ไทยพาณิชย์</option>
-              <option value="กรุงเทพ">กรุงเทพ</option>
-              <option value="กรุงไทย">กรุงไทย</option>
-              <option value="ทหารไทยธนชาต">ทหารไทยธนชาต</option>
-              <option value="ออมสิน">ออมสิน</option>
-              <option value="อื่นๆ">อื่นๆ</option>
+              <option value="" data-i18n="agent_bank_ph">เลือกธนาคาร</option>
+              <option value="กสิกรไทย">กสิกรไทย (KBank)</option>
+              <option value="ไทยพาณิชย์">ไทยพาณิชย์ (SCB)</option>
+              <option value="กรุงเทพ">กรุงเทพ (BBL)</option>
+              <option value="กรุงไทย">กรุงไทย (KTB)</option>
+              <option value="ทหารไทยธนชาต">ทหารไทยธนชาต (TTB)</option>
+              <option value="ออมสิน">ออมสิน (GSB)</option>
+              <option value="อื่นๆ" data-i18n="agent_other">อื่นๆ</option>
             </select>
           </div>
           <div class="agent-field">
-            <label>เลขบัญชี</label>
+            <label data-i18n="agent_acc_label">เลขบัญชี</label>
             <input type="text" id="ajBankAcc" placeholder="xxx-x-xxxxx-x">
           </div>
         </div>
 
         <div class="agent-field">
-          <label>แนะนำตัวสั้นๆ (ไม่บังคับ)</label>
-          <textarea id="ajNote" placeholder="เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน..."></textarea>
+          <label data-i18n="agent_note_label">แนะนำตัวสั้นๆ (ไม่บังคับ)</label>
+          <textarea id="ajNote" data-i18n-ph="agent_note_ph" placeholder="เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน..."></textarea>
         </div>
 
         <div id="ajError" style="color:var(--error);font-size:13px;margin-bottom:10px;display:none;"></div>
 
         <button class="agent-submit-btn" id="ajSubmitBtn" onclick="submitAgentJoin()">
-          สมัครเป็น Agent 🌸
+          <span data-i18n="agent_submit_btn">สมัครเป็น Agent 🌸</span>
         </button>
       </div>
 
@@ -4665,6 +4666,38 @@ var I18N = {
     adm_tab_autoreminder: 'Auto Reminders', adm_tab_settings: 'Settings',
     adm_filter_all: 'All', adm_filter_pending: 'Pending', adm_filter_confirmed: 'Confirmed', adm_filter_cancelled: 'Cancelled',
     adm_logout: 'Logout', adm_back: 'Back to Site',
+    // AGENT SECTION
+    agent_badge: '🌸 Join Us',
+    agent_title: 'Become an Agent<br><em>Earn Commissions</em>',
+    agent_desc: 'Refer clients to Brow Studio.<br>Earn commission every time a client books via your link.<br>No investment required — start today!',
+    agent_perk1_title: 'Up to 10% Commission',
+    agent_perk1_sub: 'On every booking made through your link',
+    agent_perk2_title: 'Personal Link Ready Instantly',
+    agent_perk2_sub: 'Share via Line, Facebook, Instagram',
+    agent_perk3_title: 'Real-time Earnings Dashboard',
+    agent_perk3_sub: 'Transparent system, check anytime',
+    agent_perk4_title: 'Monthly Bank Transfer',
+    agent_perk4_sub: 'Paid to your registered bank account',
+    agent_form_title: 'Register as Agent',
+    agent_form_sub: 'Fill in below — our team will contact you within 24 hours.',
+    agent_social_label: 'Social Channel to Promote',
+    agent_social_ph: 'Select main channel',
+    agent_wom: 'Word of Mouth', agent_other: 'Other',
+    agent_bank_label: 'Bank', agent_bank_ph: 'Select bank',
+    agent_acc_label: 'Account Number',
+    agent_note_label: 'Brief Introduction (optional)',
+    agent_note_ph: 'e.g. Beauty page with 5K followers...',
+    agent_submit_btn: 'Register as Agent 🌸',
+    member_title: 'Member<br>Points',
+    member_desc: 'Earn points every visit. Redeem for discounts and exclusive perks.',
+    adm_seed_btn: '🌱 Load Sample Data',
+    member_silver_pts: '0–999 pts · 3% Discount',
+    member_gold_pts: '1000–2999 pts · 7% Discount',
+    member_diamond_pts: '3000+ pts · 12% Discount',
+    member_pts_label: 'Points Accumulated',
+    member_search_label: 'Search by Phone Number',
+    member_search_btn: 'Search',
+    member_history_label: 'Points History',
   },
   th: {
     // NAV
@@ -4731,6 +4764,38 @@ var I18N = {
     adm_tab_autoreminder: 'แจ้งเตือนอัตโนมัติ', adm_tab_settings: 'ตั้งค่า',
     adm_filter_all: 'ทั้งหมด', adm_filter_pending: 'รอยืนยัน', adm_filter_confirmed: 'ยืนยันแล้ว', adm_filter_cancelled: 'ยกเลิก',
     adm_logout: 'ออกจากระบบ', adm_back: 'กลับหน้าหลัก',
+    // AGENT SECTION
+    agent_badge: '🌸 ร่วมธุรกิจ',
+    agent_title: 'เป็น Agent<br><em>รับค่าคอมทันที</em>',
+    agent_desc: 'แนะนำลูกค้ามาใช้บริการ Brow Studio<br>รับค่าคอมมิชชั่นทุกครั้งที่ลูกค้าจองคิวผ่านลิงก์ของคุณ<br>ไม่ต้องลงทุน ไม่ต้องมีประสบการณ์ — เริ่มได้เลยวันนี้!',
+    agent_perk1_title: 'ค่าคอมมิชชั่นสูงสุด 10%',
+    agent_perk1_sub: 'ต่อทุกการจองที่มาจากลิงก์ของคุณ',
+    agent_perk2_title: 'ลิงก์ส่วนตัว พร้อมใช้งานทันที',
+    agent_perk2_sub: 'แชร์ผ่าน Line, Facebook, IG ได้เลย',
+    agent_perk3_title: 'ติดตามยอดและค่าคอมได้แบบ Real-time',
+    agent_perk3_sub: 'ระบบ Dashboard โปร่งใส ตรวจสอบได้ทุกเวลา',
+    agent_perk4_title: 'โอนเงินทุกสิ้นเดือน',
+    agent_perk4_sub: 'ผ่านบัญชีธนาคารที่ลงทะเบียนไว้',
+    agent_form_title: 'สมัครเป็น Agent',
+    agent_form_sub: 'กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.',
+    agent_social_label: 'ช่องทาง Social ที่จะโปรโมต',
+    agent_social_ph: 'เลือกช่องทางหลัก',
+    agent_wom: 'บอกต่อปากต่อปาก', agent_other: 'อื่นๆ',
+    agent_bank_label: 'ธนาคาร', agent_bank_ph: 'เลือกธนาคาร',
+    agent_acc_label: 'เลขบัญชี',
+    agent_note_label: 'แนะนำตัวสั้นๆ (ไม่บังคับ)',
+    agent_note_ph: 'เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน...',
+    agent_submit_btn: 'สมัครเป็น Agent 🌸',
+    member_title: 'คะแนนสะสม<br>สมาชิก',
+    member_desc: 'สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ',
+    adm_seed_btn: '🌱 โหลดข้อมูลตัวอย่าง',
+    member_silver_pts: '0–999 คะแนน · ส่วนลด 3%',
+    member_gold_pts: '1000–2999 คะแนน · ส่วนลด 7%',
+    member_diamond_pts: '3000+ คะแนน · ส่วนลด 12%',
+    member_pts_label: 'คะแนนสะสม',
+    member_search_label: 'ค้นหาด้วยเบอร์โทร',
+    member_search_btn: 'ค้นหา',
+    member_history_label: 'ประวัติคะแนน',
   },
   zh: {
     // NAV
@@ -4797,6 +4862,38 @@ var I18N = {
     adm_tab_autoreminder: '自动提醒', adm_tab_settings: '系统设置',
     adm_filter_all: '全部', adm_filter_pending: '待确认', adm_filter_confirmed: '已确认', adm_filter_cancelled: '已取消',
     adm_logout: '退出登录', adm_back: '返回首页',
+    // AGENT SECTION
+    agent_badge: '🌸 加盟合作',
+    agent_title: '成为代理<br><em>立即赚取佣金</em>',
+    agent_desc: '向客户推荐 Brow Studio 服务。<br>每次客户通过您的链接预约，您就能获得佣金。<br>无需投资，无需经验 — 立即开始！',
+    agent_perk1_title: '最高 10% 佣金',
+    agent_perk1_sub: '每笔通过您链接的预约均可获得',
+    agent_perk2_title: '专属链接即刻可用',
+    agent_perk2_sub: '可通过 Line、Facebook、Instagram 分享',
+    agent_perk3_title: '实时收益仪表板',
+    agent_perk3_sub: '透明系统，随时查看',
+    agent_perk4_title: '每月银行转账',
+    agent_perk4_sub: '打款至您注册的银行账户',
+    agent_form_title: '注册成为代理',
+    agent_form_sub: '请填写以下信息，我们将在24小时内与您联系。',
+    agent_social_label: '推广社交渠道',
+    agent_social_ph: '选择主要渠道',
+    agent_wom: '口碑推荐', agent_other: '其他',
+    agent_bank_label: '银行', agent_bank_ph: '选择银行',
+    agent_acc_label: '账户号码',
+    agent_note_label: '简短介绍（选填）',
+    agent_note_ph: '例：拥有5K粉丝美妆主页，希望推广店铺...',
+    agent_submit_btn: '注册成为代理 🌸',
+    member_title: '会员<br>积分',
+    member_desc: '每次消费均可积分，兑换折扣及专属权益。',
+    adm_seed_btn: '🌱 加载示例数据',
+    member_silver_pts: '0–999 积分 · 折扣 3%',
+    member_gold_pts: '1000–2999 积分 · 折扣 7%',
+    member_diamond_pts: '3000+ 积分 · 折扣 12%',
+    member_pts_label: '累计积分',
+    member_search_label: '手机号码查询',
+    member_search_btn: '查询',
+    member_history_label: '积分记录',
   }
 };
 
@@ -6026,6 +6123,64 @@ async function adminRefreshAll() {
     showToast('❌ โหลดข้อมูลไม่สำเร็จ', 'error');
   }
   if (btn) { btn.disabled = false; btn.textContent = '🔄 รีเฟรช'; }
+}
+
+// ===== SEED DEMO DATA =====
+// โหลดข้อมูลตัวอย่างเข้า cache เพื่อดูหน้า Admin โดยไม่ต้องมีข้อมูลจริงใน Supabase
+function adminSeedDemoData() {
+  var btn = document.getElementById('adminSeedBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ กำลังโหลด...'; }
+  try {
+    // Force-load DEFAULT data into cache (override whatever was loaded from DB)
+    var todayStr = new Date().toISOString().split('T')[0];
+    var yesterday = (function(){ var d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().split('T')[0]; })();
+    var tomorrow  = (function(){ var d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; })();
+    function fmtDate(ds){ var d=new Date(ds); return d.toLocaleDateString('th-TH',{weekday:'short',year:'numeric',month:'short',day:'numeric'}); }
+
+    _cache.bookings = [
+      { ref:'BK-DEMO-001', id:'BK-DEMO-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'10:00', name:'คุณสมหญิง ใจดี', phone:'0891234567', line:'@somying', note:'แพ้ยางพาราค่ะ', status:'confirmed', slipData:null, agent_ref:null },
+      { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01' },
+      { ref:'BK-DEMO-003', id:'BK-DEMO-003', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'เคยทำมาแล้วค่ะ', status:'pending', slipData:'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAIBTAA7', agent_ref:null },
+      { ref:'BK-DEMO-004', id:'BK-DEMO-004', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:yesterday, dateDisplay:fmtDate(yesterday), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
+      { ref:'BK-DEMO-005', id:'BK-DEMO-005', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:yesterday, dateDisplay:fmtDate(yesterday), time:'15:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'cancelled', slipData:null, agent_ref:null },
+      { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:tomorrow, dateDisplay:fmtDate(tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01' },
+      { ref:'BK-DEMO-007', id:'BK-DEMO-007', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:tomorrow, dateDisplay:fmtDate(tomorrow), time:'13:30', name:'คุณศิริพร สายฝน', phone:'0867890123', line:'@siriporn', note:'ขอดูแบบก่อนค่ะ', status:'pending', slipData:null, agent_ref:null }
+    ];
+    _cache.agents = [
+      { id:'AGT-DEMO-01', name:'น้องบิ๊ก อินฟลูเอนเซอร์', phone:'0891111111', bank_account:'1234567890', bank_name:'กสิกรไทย', commission_pct:10, channel:'instagram', note:'มีผู้ติดตาม Instagram 12K', created_at:'2025-01-01T00:00:00Z' },
+      { id:'AGT-DEMO-02', name:'พี่นก บิวตี้บล็อกเกอร์', phone:'0892222222', bank_account:'0987654321', bank_name:'ไทยพาณิชย์', commission_pct:8, channel:'facebook', note:'เพจความสวยผู้ติดตาม 30K', created_at:'2025-01-05T00:00:00Z' },
+      { id:'AGT-DEMO-03', name:'คุณปาล์ม เพื่อนบอกต่อ', phone:'0893333333', bank_account:'1122334455', bank_name:'กรุงเทพ', commission_pct:5, channel:'word_of_mouth', note:'ลูกค้าประจำแนะนำเพื่อน', created_at:'2025-01-10T00:00:00Z' }
+    ];
+    _cache.commissions = [
+      { id:'COM-DEMO-001', agent_id:'AGT-DEMO-01', booking_ref:'BK-DEMO-002', amount:120, status:'pending', created_at:new Date().toISOString() },
+      { id:'COM-DEMO-002', agent_id:'AGT-DEMO-01', booking_ref:'BK-DEMO-006', amount:120, status:'pending', created_at:new Date().toISOString() },
+      { id:'COM-DEMO-003', agent_id:'AGT-DEMO-02', booking_ref:'BK-DEMO-PREV1', amount:224, status:'paid', paid_at:'2025-01-15T10:30:00Z', created_at:'2025-01-14T10:00:00Z' },
+      { id:'COM-DEMO-004', agent_id:'AGT-DEMO-02', booking_ref:'BK-DEMO-PREV2', amount:200, status:'paid', paid_at:'2025-01-20T09:00:00Z', created_at:'2025-01-18T10:00:00Z' }
+    ];
+    _cache.reviews = DEFAULT_REVIEWS.slice();
+    _cache.branches = DEFAULT_BRANCHES.slice();
+    _cache.services = DEFAULT_SERVICES.slice();
+    _cache.services._all = DEFAULT_SERVICES.slice();
+    _cache.packages = DEFAULT_PACKAGES.slice();
+    _cache.members = DEFAULT_MEMBERS.slice();
+
+    // Re-render current tab
+    if (currentAdminTab === 'bookings') renderAdminDashboard();
+    else if (currentAdminTab === 'slips') renderAdminSlips();
+    else if (currentAdminTab === 'revenue') renderRevenue();
+    else if (currentAdminTab === 'agents') { renderAgentList(); renderAgentCom(); }
+    else if (currentAdminTab === 'crm') renderCRM();
+    else if (currentAdminTab === 'reviews') renderAdminReviews();
+    else if (currentAdminTab === 'services') renderSvcAdminList();
+    else if (currentAdminTab === 'packages') { if(typeof renderPackagesAdmin==='function') renderPackagesAdmin(); }
+    else renderAdminDashboard();
+
+    showToast('✅ โหลดข้อมูลตัวอย่างแล้ว — ' + _cache.bookings.length + ' การจอง, ' + _cache.agents.length + ' Agent', 'success');
+  } catch(e) {
+    console.error('Seed error', e);
+    showToast('❌ โหลดข้อมูลตัวอย่างไม่สำเร็จ', 'error');
+  }
+  if (btn) { btn.disabled = false; btn.textContent = t('adm_seed_btn') || '🌱 โหลดข้อมูลตัวอย่าง'; }
 }
 // ===== ADMIN SESSION =====
 var _pinAttempts = 0;
@@ -7273,7 +7428,7 @@ async function submitAgentJoin() {
     document.getElementById('agentJoinSuccess').style.display = 'block';
   } catch(e) {
     btn.disabled = false;
-    btn.textContent = 'สมัครเป็น Agent 🌸';
+    btn.innerHTML = '<span data-i18n="agent_submit_btn">' + (t('agent_submit_btn') || 'สมัครเป็น Agent 🌸') + '</span>';
     errEl.textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้งค่ะ';
     errEl.style.display = 'block';
     console.error('agent join error', e);
