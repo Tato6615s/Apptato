@@ -6455,11 +6455,18 @@ function renderBookingTable() {
     var branchBadge = b.branchName ? ' <span style="font-size:10px;background:var(--rose-pale);color:var(--rose-dark);border:1px solid var(--rose-light);border-radius:50px;padding:1px 7px;font-weight:700;">'+b.branchName+'</span>' : '';
     var agentBadge = b.agent_ref ? ' <span class="agent-ref-badge">'+b.agent_ref+'</span>' : '';
     var actions = '';
+    var editBtn = '<button class="action-btn" onclick="openEditBookingModal(\''+b.ref+'\')" style="background:var(--accent-pale);color:var(--accent-dark);border:1px solid var(--border);">✏️ แก้ไข</button>';
+    var delBtn  = '<button class="action-btn" onclick="adminDeleteBooking(\''+b.ref+'\')" style="background:#fff0f0;color:var(--error);border:1px solid rgba(184,48,48,0.2);">🗑</button>';
     if (b.status === 'pending') {
       actions = '<button class="action-btn confirm-btn" onclick="adminAction(\''+b.ref+'\',\'confirmed\')">&#10003; '+t('adm_btn_confirm')+'</button>' +
-                '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>';
+                '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>' +
+                editBtn + delBtn;
     } else if (b.status === 'confirmed') {
-      actions = '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>';
+      actions = '<button class="action-btn cancel-btn" onclick="adminAction(\''+b.ref+'\',\'cancelled\')">&#10005; '+t('adm_btn_cancel')+'</button>' +
+                '<button class="action-btn" onclick="adminAction(\''+b.ref+'\',\'pending\')" style="background:#fff9e0;color:#a07800;border:1px solid #f0d080;">↩ รอใหม่</button>' +
+                editBtn + delBtn;
+    } else if (b.status === 'cancelled') {
+      actions = '<button class="action-btn confirm-btn" onclick="adminAction(\''+b.ref+'\',\'pending\')">↩ คืนสถานะ</button>' + editBtn + delBtn;
     }
     var timeSuffix = currentLang === 'th' ? ' น.' : '';
     return '<tr><td><strong>'+b.ref+'</strong>'+slipBadge+branchBadge+agentBadge+'<br><span style="font-size:11px;color:var(--text-muted)">'+b.svc+'</span></td>' +
@@ -6496,7 +6503,9 @@ function renderAdminSlips() {
     var actions = slipStatus === 'pending'
       ? '<button class="slip-approve" onclick="approveSlip(\''+b.ref+'\')">✓ อนุมัติ</button>' +
         '<button class="slip-reject" onclick="rejectSlip(\''+b.ref+'\')">✕ ปฏิเสธ</button>'
-      : '<span class="slip-status '+statusCls[slipStatus]+'" style="display:inline-block;">'+statusMap[slipStatus]+'</span>';
+      : '<span class="slip-status '+statusCls[slipStatus]+'" style="display:inline-block;">'+statusMap[slipStatus]+'</span>' +
+        '<button onclick="resetSlipStatus(\''+b.ref+'\')" style="margin-left:6px;background:#fff9e0;border:1px solid #f0d080;color:#a07800;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">↩ รีเซต</button>' +
+        '<button onclick="adminDeleteSlip(\''+b.ref+'\')" style="margin-left:4px;background:#fff0f0;border:1px solid rgba(184,48,48,0.2);color:var(--error);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">🗑 ลบสลิป</button>';
     return '<div class="slip-admin-card">' +
       '<div class="slip-thumb" onclick="openLightbox(\''+b.slipData+'\')" title="คลิกเพื่อดูรูปใหญ่">' +
         '<img src="'+b.slipData+'" alt="slip">' +
@@ -7417,7 +7426,10 @@ function renderAdminReviews() {
       '<div class="stars">'+stars+'</div>' +
       '<div class="review-text" style="font-size:14px;color:var(--text);margin:6px 0;">'+r.text+'</div>' +
       '<div class="reviewer" style="font-size:12px;color:var(--text-muted);">— '+r.name+'</div>' +
-      '<button class="admin-review-delete" onclick="adminDeleteReview(\''+r.id+'\')">🗑 ลบ</button>' +
+      '<div style="display:flex;gap:6px;margin-top:8px;">' +
+        '<button class="admin-review-delete" style="background:none;border:1px solid var(--border);color:var(--text-muted);border-radius:8px;padding:4px 12px;font-size:12px;cursor:pointer;" onclick="openEditReviewModal(\''+r.id+'\')" >✏️ แก้ไข</button>' +
+        '<button class="admin-review-delete" onclick="adminDeleteReview(\''+r.id+'\')" >🗑 ลบ</button>' +
+      '</div>' +
     '</div>';
   }).join('');
 }
@@ -7451,9 +7463,14 @@ function renderAdminPortfolio() {
   var grid = document.getElementById('adminPortfolioGrid');
   if (items.length === 0) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);font-size:13px;padding:1rem;">ยังไม่มีรูปผลงาน</div>'; return; }
   grid.innerHTML = items.map(function(item) {
-    return '<div class="port-admin-item">' +
+    var lbl = item.label ? '<div style="font-size:10px;text-align:center;color:var(--text-muted);padding:2px 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(item.label)+'</div>' : '';
+    return '<div class="port-admin-item" style="position:relative;">' +
       '<img src="'+item.src+'" alt="portfolio" onclick="openLightbox(\''+item.src+'\')" style="cursor:pointer;">' +
-      '<button class="port-admin-del" onclick="deletePortfolioItem(\''+item.id+'\')">✕</button>' +
+      lbl +
+      '<div style="position:absolute;bottom:2px;left:2px;right:2px;display:flex;gap:2px;">' +
+        '<button onclick="openEditPortfolioModal(\''+item.id+'\')" style="flex:1;background:rgba(255,255,255,0.9);border:none;border-radius:4px;font-size:10px;cursor:pointer;padding:2px;">✏️</button>' +
+        '<button class="port-admin-del" style="flex:0;" onclick="deletePortfolioItem(\''+item.id+'\')" >✕</button>' +
+      '</div>' +
     '</div>';
   }).join('');
 }
@@ -7902,7 +7919,10 @@ function renderCRM() {
     return '<div class="crm-customer-card">' +
       '<div class="crm-customer-header">' +
         '<div><div class="crm-customer-name">'+escHtml(c.name)+'</div><div class="crm-customer-phone">'+escHtml(c.phone)+'</div></div>' +
-        '<button class="crm-view-btn" onclick="crmViewHistory(\''+c.phone.replace(/[-\s]/g,'')+'\')">ดูประวัติ</button>' +
+        '<div style="display:flex;gap:6px;">' +
+          '<button class="crm-view-btn" onclick="crmEditCustomer(\''+c.phone.replace(/[-\s]/g,'')+'\')">✏️ แก้ไข</button>' +
+          '<button class="crm-view-btn" onclick="crmViewHistory(\''+c.phone.replace(/[-\s]/g,'')+'\')">ดูประวัติ</button>' +
+        '</div>' +
       '</div>' +
       '<div class="crm-customer-stats">' +
         '<div class="crm-stat-item"><span class="crm-stat-val">'+c.bookings.length+'</span>ครั้งทั้งหมด</div>' +
@@ -8474,7 +8494,10 @@ function renderBAGrid() {
         '<div class="ba-svc">' + escHtml(item.svc || item.service || '') + '</div>' +
         (item.client ? '<div class="ba-date">👤 ' + escHtml(item.client) + '</div>' : '') +
         '<div class="ba-date">' + (item.created_at||'').substring(0,10) + '</div>' +
-        '<button onclick="deleteBA(\'' + item.id + '\')" style="margin-top:6px;background:none;border:none;color:var(--error);font-size:12px;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">🗑 ลบ</button>' +
+        '<div style="display:flex;gap:6px;margin-top:6px;">' +
+          '<button onclick="openEditBAModal(\'' + item.id + '\')" style="background:var(--accent-pale);border:1px solid var(--border);color:var(--accent-dark);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">✏️ แก้ไข</button>' +
+          '<button onclick="deleteBA(\'' + item.id + '\')" style="background:none;border:1px solid rgba(184,48,48,0.2);color:var(--error);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">🗑 ลบ</button>' +
+        '</div>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -8584,7 +8607,9 @@ function renderFollowUp() {
         '<span class="followup-days">' + diffDays + ' วันแล้ว</span>' +
         (isSent
           ? '<span class="followup-sent">✅ ส่งแล้ว</span>'
-          : '<button onclick="sendFollowUp(\'' + escHtml(b.ref||b.id) + '\',\'' + escHtml(b.name||'') + '\',\'' + escHtml(b.phone||'') + '\',\'' + escHtml(b.svc||'') + '\')" style="background:var(--rose);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Nunito\',sans-serif;">📨 ส่ง</button>') +
+          : '<button onclick="sendFollowUp(\'' + escHtml(b.ref||b.id) + '\',\'' + escHtml(b.name||'') + '\',\'' + escHtml(b.phone||'') + '\',\'' + escHtml(b.svc||'') + '\')" style="background:var(--rose);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">📨 ส่ง</button>') +
+        (isSent ? '<button onclick="resetFollowUp(\'' + escHtml(b.ref||b.id) + '\')" style="background:#fff9e0;border:1px solid #f0d080;color:#a07800;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">↩ รีเซต</button>' : '') +
+        '<button onclick="skipFollowUp(\'' + escHtml(b.ref||b.id) + '\')" style="background:#fff0f0;border:1px solid rgba(184,48,48,0.2);color:var(--error);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">🚫 ข้าม</button>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -8840,7 +8865,9 @@ function renderPointsAdmin() {
         '<div class="pt-member-pts">' + pts + ' แต้ม</div>' +
         '<div style="display:flex;gap:4px;margin-top:4px;">' +
           '<button class="pt-adjust-btn" onclick="adjustPoints(\'' + escHtml(c.phone) + '\',10)">+10</button>' +
+          '<button class="pt-adjust-btn" onclick="adjustPoints(\'' + escHtml(c.phone) + '\',50)">+50</button>' +
           '<button class="pt-adjust-btn" onclick="adjustPoints(\'' + escHtml(c.phone) + '\',-10)" style="color:var(--error);">-10</button>' +
+          '<button class="pt-adjust-btn" onclick="openSetPointsModal(\'' + escHtml(c.phone) + '\',\'' + escHtml(c.name) + '\')" style="background:var(--accent-pale);color:var(--accent-dark);">✏️ ตั้งค่า</button>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -9113,6 +9140,7 @@ function renderWaitlistAdmin() {
         (isNotified
           ? '<span class="wl-notified-badge">✅ แจ้งแล้ว</span>'
           : '<button class="wl-notify-btn" onclick="notifyWaitlistItem(\'' + escHtml(w.id||w.phone) + '\',\'' + escHtml(w.name||'') + '\',\'' + escHtml(w.phone||'') + '\')">📨 แจ้ง</button>') +
+        '<button class="wl-notify-btn" style="background:var(--accent-pale);color:var(--accent-dark);border-color:var(--border);" onclick="openEditWaitlistModal(' + i + ')">✏️</button>' +
         '<button class="wl-remove-btn" onclick="removeWaitlistItem(' + i + ')">✕</button>' +
       '</div>' +
     '</div>';
@@ -10543,6 +10571,397 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 
 console.log('[LE] Live Content Editor + Broadcast engine loaded ✅');
+
+// ============================================================
+// ===== ADMIN FULL EDIT CAPABILITIES (อัพเดทใหญ่) =====
+// ============================================================
+
+// ── 1. EDIT BOOKING MODAL ────────────────────────────────────
+function openEditBookingModal(ref) {
+  var b = getBookings().find(function(x){ return x.ref === ref; });
+  if (!b) return;
+  var svcs = getServices().map(function(s){ return '<option value="'+escHtml(s.name)+'"'+(s.name===b.svc?' selected':'')+'>'+escHtml(s.name)+'</option>'; }).join('');
+  var branches = getBranches().map(function(br){ return '<option value="'+escHtml(br.id)+'"'+(br.id===b.branchId?' selected':'')+'>'+escHtml(br.name)+'</option>'; }).join('');
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editBookingOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:480px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไขการจอง</h2><button class="modal-close" onclick="document.getElementById(\'editBookingOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div><label class="form-label">ชื่อลูกค้า</label><input id="ebName" class="form-input" value="'+escHtml(b.name||'')+'"></div>' +
+          '<div><label class="form-label">เบอร์โทร</label><input id="ebPhone" class="form-input" value="'+escHtml(b.phone||'')+'"></div>' +
+        '</div>' +
+        '<div><label class="form-label">บริการ</label><select id="ebSvc" class="form-input">'+svcs+'</select></div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div><label class="form-label">วันที่</label><input type="date" id="ebDate" class="form-input" value="'+escHtml(b.date||'')+'"></div>' +
+          '<div><label class="form-label">เวลา</label><input type="time" id="ebTime" class="form-input" value="'+escHtml(b.time||'')+'"></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div><label class="form-label">ราคา (฿)</label><input type="number" id="ebPrice" class="form-input" value="'+(b.price||0)+'"></div>' +
+          '<div><label class="form-label">สาขา</label><select id="ebBranch" class="form-input">'+branches+'</select></div>' +
+        '</div>' +
+        '<div><label class="form-label">หมายเหตุ</label><textarea id="ebNote" class="form-input" rows="2" style="resize:none;">'+escHtml(b.note||'')+'</textarea></div>' +
+        '<div><label class="form-label">สถานะ</label>' +
+          '<select id="ebStatus" class="form-input">' +
+            '<option value="pending"'+(b.status==='pending'?' selected':'')+'>⏳ รอยืนยัน</option>' +
+            '<option value="confirmed"'+(b.status==='confirmed'?' selected':'')+'>✅ ยืนยันแล้ว</option>' +
+            '<option value="cancelled"'+(b.status==='cancelled'?' selected':'')+'>❌ ยกเลิก</option>' +
+          '</select>' +
+        '</div>' +
+        '<button onclick="saveEditBooking(\''+escHtml(ref)+'\')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึกการเปลี่ยนแปลง</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+async function saveEditBooking(ref) {
+  var bookings = getBookings();
+  var idx = bookings.findIndex(function(x){ return x.ref === ref; });
+  if (idx < 0) return;
+  var branchEl = document.getElementById('ebBranch');
+  var branchId = branchEl ? branchEl.value : bookings[idx].branchId;
+  var branchName = branchEl ? branchEl.options[branchEl.selectedIndex].text : bookings[idx].branchName;
+  var dateVal = document.getElementById('ebDate').value;
+  var updated = Object.assign({}, bookings[idx], {
+    name:       document.getElementById('ebName').value.trim() || bookings[idx].name,
+    phone:      document.getElementById('ebPhone').value.trim() || bookings[idx].phone,
+    svc:        document.getElementById('ebSvc').value || bookings[idx].svc,
+    date:       dateVal || bookings[idx].date,
+    dateDisplay: dateVal ? (function(d){ return new Date(d).toLocaleDateString('th-TH',{weekday:'short',year:'numeric',month:'short',day:'numeric'}); })(dateVal) : bookings[idx].dateDisplay,
+    time:       document.getElementById('ebTime').value || bookings[idx].time,
+    price:      parseInt(document.getElementById('ebPrice').value) || bookings[idx].price,
+    note:       document.getElementById('ebNote').value,
+    status:     document.getElementById('ebStatus').value || bookings[idx].status,
+    branchId:   branchId,
+    branchName: branchName
+  });
+  _cache.bookings[idx] = updated;
+  try { await sbUpsert('bs_bookings', Object.assign({ id: updated.id || updated.ref, created_at: updated.created_at || new Date().toISOString() }, updated)); } catch(e){}
+  document.getElementById('editBookingOverlay').remove();
+  renderAdminDashboard();
+  showToast('✅ แก้ไขการจองแล้วค่ะ', 'success');
+}
+async function adminDeleteBooking(ref) {
+  if (!confirm('ลบการจอง ' + ref + ' ออกจากระบบ?\nการกระทำนี้ไม่สามารถย้อนกลับได้')) return;
+  _cache.bookings = getBookings().filter(function(x){ return x.ref !== ref; });
+  try { await sbDelete('bs_bookings', ref); } catch(e){}
+  renderAdminDashboard();
+  showToast('🗑 ลบการจองแล้วค่ะ', '');
+}
+
+// ── 2. SLIP RESET / DELETE ───────────────────────────────────
+async function resetSlipStatus(ref) {
+  var bookings = getBookings();
+  var b = bookings.find(function(x){ return x.ref === ref; });
+  if (!b) return;
+  b.slipStatus = 'pending';
+  await updateBookingSlip(ref, b.slipData, 'pending');
+  renderAdminSlips();
+  showToast('↩ รีเซตสถานะสลิปเป็น รอตรวจสอบ แล้วค่ะ', 'success');
+}
+async function adminDeleteSlip(ref) {
+  if (!confirm('ลบสลิปนี้? (สถานะการจองจะคงอยู่)')) return;
+  var bookings = getBookings();
+  var b = bookings.find(function(x){ return x.ref === ref; });
+  if (!b) return;
+  b.slipData = null;
+  b.slipStatus = null;
+  try { await sbUpsert('bs_bookings', Object.assign({ id: b.id||b.ref, created_at: b.created_at||new Date().toISOString() }, b, { slip_data: null, slip_status: null })); } catch(e){}
+  renderAdminSlips();
+  showToast('🗑 ลบสลิปแล้วค่ะ', '');
+}
+
+// ── 3. EDIT REVIEW ───────────────────────────────────────────
+var _editReviewId = null;
+var _editReviewStars = 5;
+function openEditReviewModal(id) {
+  var reviews = getReviews();
+  var r = reviews.find(function(x){ return x.id === id; });
+  if (!r) return;
+  _editReviewId = id;
+  _editReviewStars = r.stars || 5;
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editReviewOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:400px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไขรีวิว</h2><button class="modal-close" onclick="document.getElementById(\'editReviewOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<div><label class="form-label">ชื่อผู้รีวิว</label><input id="erName" class="form-input" value="'+escHtml(r.name||'')+'"></div>' +
+        '<div><label class="form-label">ดาว</label>' +
+          '<div id="erStarRow" style="display:flex;gap:4px;margin-top:4px;">' +
+            [1,2,3,4,5].map(function(n){ return '<button onclick="setEditReviewStars('+n+')" id="erStar'+n+'" style="font-size:22px;background:none;border:none;cursor:pointer;color:'+(n<=_editReviewStars?'#f0b830':'#ccc')+'">★</button>'; }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div><label class="form-label">ข้อความรีวิว</label><textarea id="erText" class="form-input" rows="3" style="resize:none;">'+escHtml(r.text||'')+'</textarea></div>' +
+        '<button onclick="saveEditReview()" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึก</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+function setEditReviewStars(n) {
+  _editReviewStars = n;
+  for(var i=1;i<=5;i++) {
+    var btn = document.getElementById('erStar'+i);
+    if (btn) btn.style.color = (i<=n ? '#f0b830' : '#ccc');
+  }
+}
+async function saveEditReview() {
+  var reviews = getReviews();
+  var idx = reviews.findIndex(function(x){ return x.id === _editReviewId; });
+  if (idx < 0) return;
+  reviews[idx].name = document.getElementById('erName').value.trim() || reviews[idx].name;
+  reviews[idx].stars = _editReviewStars;
+  reviews[idx].text = document.getElementById('erText').value.trim() || reviews[idx].text;
+  _cache.reviews = reviews;
+  try { await sbUpsert('bs_reviews', Object.assign({ id: reviews[idx].id, created_at: reviews[idx].created_at||new Date().toISOString() }, reviews[idx])); } catch(e){}
+  document.getElementById('editReviewOverlay').remove();
+  renderAdminReviews(); renderReviews();
+  showToast('✅ แก้ไขรีวิวแล้วค่ะ', 'success');
+}
+
+// ── 4. CRM EDIT CUSTOMER ─────────────────────────────────────
+function crmEditCustomer(phone) {
+  var bookings = getBookings().filter(function(b){ return b.phone && b.phone.replace(/[-\s]/g,'') === phone; });
+  if (!bookings.length) return;
+  var firstName = bookings[0].name || '';
+  var firstPhone = bookings[0].phone || '';
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editCRMOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:400px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไขข้อมูลลูกค้า</h2><button class="modal-close" onclick="document.getElementById(\'editCRMOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<p style="font-size:12px;color:var(--text-muted);">แก้ไขชื่อ/เบอร์จะอัพเดทการจองทั้งหมดของลูกค้าคนนี้</p>' +
+        '<div><label class="form-label">ชื่อใหม่</label><input id="ecName" class="form-input" value="'+escHtml(firstName)+'"></div>' +
+        '<div><label class="form-label">เบอร์โทรใหม่</label><input id="ecPhone" class="form-input" value="'+escHtml(firstPhone)+'"></div>' +
+        '<div><label class="form-label">Line ID</label><input id="ecLine" class="form-input" value="'+escHtml(bookings[0].line||'')+'"></div>' +
+        '<div><label class="form-label">หมายเหตุลูกค้า</label><textarea id="ecNote" class="form-input" rows="2" style="resize:none;">'+escHtml(bookings[0].note||'')+'</textarea></div>' +
+        '<button onclick="saveCRMEdit(\''+escHtml(phone)+'\')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึก</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+async function saveCRMEdit(oldPhone) {
+  var newName  = document.getElementById('ecName').value.trim();
+  var newPhone = document.getElementById('ecPhone').value.trim();
+  var newLine  = document.getElementById('ecLine').value.trim();
+  var newNote  = document.getElementById('ecNote').value.trim();
+  if (!newName || !newPhone) { showToast('กรุณากรอกชื่อและเบอร์', 'error'); return; }
+  var bookings = getBookings();
+  bookings.forEach(function(b) {
+    if (b.phone && b.phone.replace(/[-\s]/g,'') === oldPhone) {
+      b.name = newName;
+      b.phone = newPhone;
+      if (newLine) b.line = newLine;
+      if (newNote) b.note = newNote;
+    }
+  });
+  _cache.bookings = bookings;
+  document.getElementById('editCRMOverlay').remove();
+  renderCRM();
+  showToast('✅ แก้ไขข้อมูลลูกค้าแล้วค่ะ', 'success');
+}
+
+// ── 5. SET POINTS MANUAL ─────────────────────────────────────
+function openSetPointsModal(phone, name) {
+  var pts = calcMemberPoints(phone);
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'setPointsOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:340px;">' +
+      '<div class="modal-header"><h2>✏️ ตั้งค่าแต้ม</h2><button class="modal-close" onclick="document.getElementById(\'setPointsOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<p style="font-size:13px;color:var(--text);">'+escHtml(name)+'<br><small style="color:var(--text-muted);">'+escHtml(phone)+' — แต้มปัจจุบัน: <strong>'+pts+'</strong></small></p>' +
+        '<div><label class="form-label">ตั้งค่าแต้มใหม่</label><input type="number" id="spValue" class="form-input" value="'+pts+'" min="0"></div>' +
+        '<div><label class="form-label">หมายเหตุ (เหตุผล)</label><input id="spNote" class="form-input" placeholder="เช่น โบนัสพิเศษ, แก้ไขข้อผิดพลาด"></div>' +
+        '<button onclick="saveSetPoints(\''+escHtml(phone)+'\')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึกแต้ม</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+function saveSetPoints(phone) {
+  var newPts = parseInt(document.getElementById('spValue').value);
+  if (isNaN(newPts) || newPts < 0) { showToast('กรุณากรอกแต้มที่ถูกต้อง', 'error'); return; }
+  var currentPts = calcMemberPoints(phone);
+  var delta = newPts - currentPts;
+  var adj = {};
+  try { adj = JSON.parse(localStorage.getItem('bs_pts_adj') || '{}'); } catch(e){}
+  adj[phone] = (adj[phone] || 0) + delta;
+  try { localStorage.setItem('bs_pts_adj', JSON.stringify(adj)); } catch(e){}
+  document.getElementById('setPointsOverlay').remove();
+  renderPointsAdmin();
+  showToast('✅ ตั้งค่าแต้มเป็น ' + newPts + ' แล้วค่ะ', 'success');
+}
+
+// ── 6. EDIT WAITLIST ─────────────────────────────────────────
+function openEditWaitlistModal(index) {
+  var wl = getWaitlistAll();
+  var w = wl[index];
+  if (!w) return;
+  var svcs = getServices().map(function(s){ return '<option value="'+escHtml(s.name)+'"'+(s.name===(w.svc||'')?' selected':'')+'>'+escHtml(s.name)+'</option>'; }).join('');
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editWLOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:400px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไข Waitlist</h2><button class="modal-close" onclick="document.getElementById(\'editWLOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div><label class="form-label">ชื่อ</label><input id="ewlName" class="form-input" value="'+escHtml(w.name||'')+'"></div>' +
+          '<div><label class="form-label">เบอร์โทร</label><input id="ewlPhone" class="form-input" value="'+escHtml(w.phone||'')+'"></div>' +
+        '</div>' +
+        '<div><label class="form-label">บริการที่สนใจ</label><select id="ewlSvc" class="form-input">'+svcs+'</select></div>' +
+        '<div><label class="form-label">วันที่ต้องการ</label><input type="date" id="ewlDate" class="form-input" value="'+escHtml(w.preferred_date||w.date||'')+'"></div>' +
+        '<button onclick="saveEditWaitlist('+index+')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึก</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+function saveEditWaitlist(index) {
+  var wl = getWaitlistAll();
+  if (!wl[index]) return;
+  wl[index].name = document.getElementById('ewlName').value.trim() || wl[index].name;
+  wl[index].phone = document.getElementById('ewlPhone').value.trim() || wl[index].phone;
+  wl[index].svc = document.getElementById('ewlSvc').value || wl[index].svc;
+  var dateVal = document.getElementById('ewlDate').value;
+  if (dateVal) { wl[index].preferred_date = dateVal; wl[index].date = dateVal; }
+  saveWaitlistAll(wl);
+  document.getElementById('editWLOverlay').remove();
+  renderWaitlistAdmin();
+  showToast('✅ แก้ไข Waitlist แล้วค่ะ', 'success');
+}
+
+// ── 7. FOLLOW-UP RESET / SKIP ────────────────────────────────
+function resetFollowUp(ref) {
+  var sent = {};
+  try { sent = JSON.parse(localStorage.getItem('bs_followup_sent') || '{}'); } catch(e){}
+  delete sent[ref];
+  try { localStorage.setItem('bs_followup_sent', JSON.stringify(sent)); } catch(e){}
+  renderFollowUp();
+  showToast('↩ รีเซต Follow-up แล้วค่ะ', 'success');
+}
+function skipFollowUp(ref) {
+  var sent = {};
+  try { sent = JSON.parse(localStorage.getItem('bs_followup_sent') || '{}'); } catch(e){}
+  sent[ref] = 'skipped';
+  try { localStorage.setItem('bs_followup_sent', JSON.stringify(sent)); } catch(e){}
+  renderFollowUp();
+  showToast('🚫 ข้ามรายการนี้แล้วค่ะ', '');
+}
+
+// ── 8. EDIT BEFORE/AFTER ─────────────────────────────────────
+function openEditBAModal(id) {
+  var item = baItems.find(function(x){ return x.id === id; });
+  if (!item) return;
+  var svcs = getServices().map(function(s){ return '<option value="'+escHtml(s.name)+'"'+((s.name===(item.svc||item.service||''))?' selected':'')+'>'+escHtml(s.name)+'</option>'; }).join('');
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editBAOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:400px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไข Before/After</h2><button class="modal-close" onclick="document.getElementById(\'editBAOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<div><label class="form-label">บริการ</label><select id="ebaService" class="form-input">'+svcs+'</select></div>' +
+        '<div><label class="form-label">ชื่อลูกค้า (ไม่บังคับ)</label><input id="ebaClient" class="form-input" value="'+escHtml(item.client||'')+'"></div>' +
+        '<div><label class="form-label">วันที่</label><input type="date" id="ebaDate" class="form-input" value="'+escHtml((item.created_at||'').substring(0,10))+'"></div>' +
+        '<button onclick="saveEditBA(\''+escHtml(id)+'\')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึก</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+async function saveEditBA(id) {
+  var idx = baItems.findIndex(function(x){ return x.id === id; });
+  if (idx < 0) return;
+  var svc = document.getElementById('ebaService').value;
+  baItems[idx].svc = svc;
+  baItems[idx].service = svc;
+  baItems[idx].client = document.getElementById('ebaClient').value.trim();
+  var dateVal = document.getElementById('ebaDate').value;
+  if (dateVal) baItems[idx].created_at = dateVal + 'T00:00:00Z';
+  try { await sbUpsert('bs_before_after', Object.assign({ id: baItems[idx].id, created_at: baItems[idx].created_at }, baItems[idx])); } catch(e){}
+  document.getElementById('editBAOverlay').remove();
+  renderBAGrid();
+  showToast('✅ แก้ไข Before/After แล้วค่ะ', 'success');
+}
+
+// ── 9. EDIT PORTFOLIO LABEL ──────────────────────────────────
+function openEditPortfolioModal(id) {
+  var items = getPortfolio();
+  var item = items.find(function(x){ return x.id === id; });
+  if (!item) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'admin-overlay show';
+  overlay.id = 'editPortOverlay';
+  overlay.style.zIndex = '800';
+  overlay.innerHTML =
+    '<div class="admin-modal" style="max-width:360px;">' +
+      '<div class="modal-header"><h2>✏️ แก้ไข Portfolio</h2><button class="modal-close" onclick="document.getElementById(\'editPortOverlay\').remove()">✕</button></div>' +
+      '<div class="modal-body" style="display:flex;flex-direction:column;gap:12px;">' +
+        '<img src="'+item.src+'" style="width:100%;max-height:180px;object-fit:cover;border-radius:10px;">' +
+        '<div><label class="form-label">ชื่อ / คำอธิบายรูป</label><input id="epLabel" class="form-input" value="'+escHtml(item.label||'')+'"></div>' +
+        '<button onclick="saveEditPortfolio(\''+escHtml(id)+'\')" style="background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">💾 บันทึก</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+}
+async function saveEditPortfolio(id) {
+  var items = getPortfolio();
+  var idx = items.findIndex(function(x){ return x.id === id; });
+  if (idx < 0) return;
+  items[idx].label = document.getElementById('epLabel').value.trim();
+  _cache.portfolio = items;
+  try { await sbUpsert('bs_portfolio', Object.assign({ id: items[idx].id, created_at: items[idx].created_at||new Date().toISOString() }, items[idx])); } catch(e){}
+  document.getElementById('editPortOverlay').remove();
+  renderAdminPortfolio(); renderPortfolio();
+  showToast('✅ แก้ไข Portfolio แล้วค่ะ', 'success');
+}
+
+// ── 10. AUTO-SEED ON FIRST LOAD ──────────────────────────────
+(function() {
+  try {
+    var seeded = localStorage.getItem('bs_admin_seeded_v2');
+    if (!seeded) {
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var isAdminOpen = document.getElementById('adminOverlay') &&
+            document.getElementById('adminOverlay').classList.contains('show');
+          if (!isAdminOpen) {
+            // Pre-seed cache so first open of admin shows data
+            if (typeof adminSeedDemoData === 'function') {
+              // Only seed if no real data
+              var hasRealData = _cache.bookings && _cache.bookings.length > 0 &&
+                _cache.bookings[0].ref.indexOf('DEMO') === -1;
+              if (!hasRealData) {
+                adminSeedDemoData();
+                try { localStorage.setItem('bs_admin_seeded_v2', '1'); } catch(e){}
+              }
+            }
+          }
+        }, 2500);
+      });
+    }
+  } catch(e) {}
+})();
+
+console.log('[Admin Full Edit] All edit capabilities loaded ✅');
+
 </script>
 </body>
 </html>
