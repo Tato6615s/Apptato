@@ -5009,16 +5009,16 @@ async function sbUpdateWhere(table, matchCol, matchVal, updates) {
 // ===== STORAGE HELPERS (Supabase-backed) =====
 
 // --- BOOKINGS ---
-function getBookings() { return _cache.bookings || []; }
+function getBookings() { return (_cache.bookings !== null && _cache.bookings !== undefined) ? _cache.bookings : DEFAULT_BOOKINGS; }
 async function loadBookings() {
   var rows = await sbGet('bs_bookings');
-  _cache.bookings = rows.map(function(r){
+  _cache.bookings = rows.length > 0 ? rows.map(function(r){
     var d = Object.assign({}, r);
     if (!d.ref) d.ref = d.id;
     if (!d.branchId) d.branchId = d.branchid;
     if (!d.branchName) d.branchName = d.branchname;
     return d;
-  });
+  }) : DEFAULT_BOOKINGS;
   return _cache.bookings;
 }
 async function addBooking(b) {
@@ -5104,6 +5104,86 @@ var DEFAULT_REVIEWS = [
   { id: 'r3', name: 'คุณนิ้ง, ลำพูน', stars: 5, text: 'ประทับใจมากค่ะ ร้านสะอาด ช่างมืออาชีพ และผลลัพธ์เกินคาดเลย แนะนำทุกคนเลย', date: '2025-01-05' }
 ];
 function getReviews() { return _cache.reviews !== null ? _cache.reviews : DEFAULT_REVIEWS; }
+
+// ===== DEFAULT BOOKINGS (ตัวอย่างข้อมูลการจอง) =====
+var _todayStr = new Date().toISOString().split('T')[0];
+var _yesterday = (function(){ var d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().split('T')[0]; })();
+var _tomorrow  = (function(){ var d=new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; })();
+function _fmt(dateStr){
+  var d=new Date(dateStr);
+  return d.toLocaleDateString('th-TH',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+}
+var DEFAULT_BOOKINGS = [
+  { ref:'BK-DEMO-001', id:'BK-DEMO-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'10:00', name:'คุณสมหญิง ใจดี', phone:'0891234567', line:'@somying', note:'แพ้ยางพาราค่ะ', status:'confirmed', slipData:null, agent_ref:null },
+  { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01' },
+  { ref:'BK-DEMO-003', id:'BK-DEMO-003', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'เคยทำมาแล้วค่ะ', status:'pending', slipData:'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAIBTAA7', agent_ref:null },
+  { ref:'BK-DEMO-004', id:'BK-DEMO-004', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
+  { ref:'BK-DEMO-005', id:'BK-DEMO-005', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'cancelled', slipData:null, agent_ref:null },
+  { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_tomorrow, dateDisplay:_fmt(_tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01' },
+  { ref:'BK-DEMO-007', id:'BK-DEMO-007', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_tomorrow, dateDisplay:_fmt(_tomorrow), time:'13:30', name:'คุณศิริพร สายฝน', phone:'0867890123', line:'@siriporn', note:'ขอดูแบบก่อนค่ะ', status:'pending', slipData:null, agent_ref:null }
+];
+
+// ===== DEFAULT AGENTS (ตัวอย่าง Agent/พาร์ทเนอร์) =====
+var DEFAULT_AGENTS = [
+  { id:'AGT-DEMO-01', name:'น้องบิ๊ก อินฟลูเอนเซอร์', phone:'0891111111', bank_account:'1234567890', bank_name:'กสิกรไทย', commission_pct:10, channel:'instagram', note:'มีผู้ติดตาม Instagram 12K', created_at:'2025-01-01T00:00:00Z' },
+  { id:'AGT-DEMO-02', name:'พี่นก บิวตี้บล็อกเกอร์', phone:'0892222222', bank_account:'0987654321', bank_name:'ไทยพาณิชย์', commission_pct:8, channel:'facebook', note:'เพจความสวยผู้ติดตาม 30K', created_at:'2025-01-05T00:00:00Z' },
+  { id:'AGT-DEMO-03', name:'คุณปาล์ม เพื่อนบอกต่อ', phone:'0893333333', bank_account:'1122334455', bank_name:'กรุงเทพ', commission_pct:5, channel:'word_of_mouth', note:'ลูกค้าประจำแนะนำเพื่อน', created_at:'2025-01-10T00:00:00Z' }
+];
+
+// ===== DEFAULT COMMISSIONS (ตัวอย่างค่าคอมมิชชั่น) =====
+var DEFAULT_COMMISSIONS = [
+  { id:'COM-DEMO-001', agent_id:'AGT-DEMO-01', booking_ref:'BK-DEMO-002', amount:120, status:'pending', created_at:new Date().toISOString() },
+  { id:'COM-DEMO-002', agent_id:'AGT-DEMO-01', booking_ref:'BK-DEMO-006', amount:120, status:'pending', created_at:new Date().toISOString() },
+  { id:'COM-DEMO-003', agent_id:'AGT-DEMO-02', booking_ref:'BK-DEMO-PREV1', amount:224, status:'paid', paid_at:'2025-01-15T10:30:00Z', created_at:'2025-01-14T10:00:00Z' },
+  { id:'COM-DEMO-004', agent_id:'AGT-DEMO-02', booking_ref:'BK-DEMO-PREV2', amount:200, status:'paid', paid_at:'2025-01-20T09:00:00Z', created_at:'2025-01-18T10:00:00Z' }
+];
+
+// ===== DEFAULT PACKAGES (ตัวอย่างแพ็กเกจ) =====
+var DEFAULT_PACKAGES = [
+  { id:'pkg1', name:'✦ Brow Duo Package', desc:'สักคิ้ว Powder Ombre + Touch-up ฟรี 1 ครั้ง ภายใน 45 วัน', price:2500, original_price:3300, active:true, sort_order:0 },
+  { id:'pkg2', name:'🌸 Lash + Brow Bundle', desc:'สักคิ้ว 6D + ต่อขนตา Classic — ทำครบในวันเดียว พักเดียว', price:3000, original_price:3800, active:true, sort_order:1 },
+  { id:'pkg3', name:'💎 VIP Annual Care', desc:'ต่อขนตา Volume 4 ครั้ง ต่อเนื่อง 4 เดือน ราคาพิเศษ', price:4000, original_price:4800, active:true, sort_order:2 }
+];
+
+// ===== DEFAULT COUPONS (ตัวอย่างคูปอง) =====
+var DEFAULT_COUPONS = [
+  { id:'coup1', code:'WELCOME10', discount_pct:10, discount_amt:0, min_price:0, expires_at:'2025-12-31', active:true, usage_count:12, created_at:'2025-01-01T00:00:00Z' },
+  { id:'coup2', code:'BROWLOVE', discount_pct:0, discount_amt:300, min_price:2000, expires_at:'2025-06-30', active:true, usage_count:5, created_at:'2025-01-05T00:00:00Z' },
+  { id:'coup3', code:'LASH200', discount_pct:0, discount_amt:200, min_price:800, expires_at:'2025-03-31', active:false, usage_count:20, created_at:'2025-01-08T00:00:00Z' }
+];
+
+// ===== DEFAULT MEMBERS (ตัวอย่างสมาชิก) =====
+var DEFAULT_MEMBERS = [
+  { id:'0891234567', phone:'0891234567', name:'คุณสมหญิง ใจดี', points:1850, tier:'Gold', history:JSON.stringify([{ref:'BK-DEMO-001',pts:250,date:_todayStr},{ref:'BK-PREV-1',pts:280,date:_yesterday},{ref:'BK-PREV-2',pts:250,date:'2025-01-15'},{ref:'BK-PREV-3',pts:280,date:'2025-01-10'},{ref:'BK-PREV-4',pts:250,date:'2025-01-05'},{ref:'BK-PREV-5',pts:250,date:'2024-12-20'},{ref:'BK-PREV-6',pts:290,date:'2024-12-10'}]), created_at:'2024-12-01T00:00:00Z' },
+  { id:'0812345678', phone:'0812345678', name:'คุณแพรวา มีสุข', points:380, tier:'Silver', history:JSON.stringify([{ref:'BK-DEMO-002',pts:120,date:_todayStr},{ref:'BK-PREV-7',pts:120,date:'2025-01-12'},{ref:'BK-PREV-8',pts:140,date:'2025-01-01'}]), created_at:'2025-01-01T00:00:00Z' },
+  { id:'0856789012', phone:'0856789012', name:'คุณจันทรา พรมดี', points:3420, tier:'Diamond', history:JSON.stringify([{ref:'BK-DEMO-006',pts:120,date:_tomorrow},{ref:'BK-PREV-9',pts:280,date:'2025-01-20'},{ref:'BK-PREV-10',pts:250,date:'2025-01-15'},{ref:'BK-PREV-11',pts:120,date:'2025-01-10'}]), created_at:'2024-06-01T00:00:00Z' },
+  { id:'0834567890', phone:'0834567890', name:'คุณวิไล รักสวย', points:650, tier:'Silver', history:JSON.stringify([{ref:'BK-DEMO-004',pts:80,date:_yesterday},{ref:'BK-PREV-12',pts:280,date:'2025-01-05'},{ref:'BK-PREV-13',pts:290,date:'2024-12-28'}]), created_at:'2024-12-15T00:00:00Z' }
+];
+
+// ===== DEFAULT BEFORE/AFTER =====
+var DEFAULT_BA = [
+  { id:'ba-demo-1', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before:'', after:'', created_at:'2025-01-10T10:00:00Z' },
+  { id:'ba-demo-2', service:'ต่อขนตา Volume', client:'ลูกค้า B', before:'', after:'', created_at:'2025-01-12T10:00:00Z' },
+  { id:'ba-demo-3', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before:'', after:'', created_at:'2025-01-14T10:00:00Z' }
+];
+
+// ===== DEFAULT WAITLIST =====
+var DEFAULT_WAITLIST = [
+  { id:'wl1', name:'คุณอรอุมา สุขสันต์', phone:'0898887766', svc:'สักคิ้ว Powder Ombre', preferred_date:'2025-02-10', created_at:new Date().toISOString() },
+  { id:'wl2', name:'คุณกัญญา ดาวเด่น', phone:'0876543210', svc:'ต่อขนตา Volume', preferred_date:'2025-02-12', created_at:new Date().toISOString() }
+];
+
+// ===== DEFAULT CUST REFERRAL =====
+var DEFAULT_CUST_REFERRAL = [
+  { id:'cr1', referrer_name:'คุณสมหญิง ใจดี', referrer_phone:'0891234567', referred_name:'คุณวิไล รักสวย', referred_phone:'0834567890', booking_ref:'BK-DEMO-004', reward_pts:200, status:'rewarded', created_at:'2025-01-05T10:00:00Z' },
+  { id:'cr2', referrer_name:'คุณจันทรา พรมดี', referrer_phone:'0856789012', referred_name:'คุณแพรวา มีสุข', referred_phone:'0812345678', booking_ref:'BK-DEMO-002', reward_pts:200, status:'pending', created_at:new Date().toISOString() }
+];
+
+// ===== DEFAULT FOLLOW-UP =====
+var DEFAULT_FOLLOWUP_BOOKINGS = [
+  { ref:'BK-FU-001', name:'คุณวิไล รักสวย', phone:'0834567890', svc:'ต่อขนตา Classic', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'11:00', status:'confirmed', followup_sent:false },
+  { ref:'BK-FU-002', name:'คุณมาลี สุขใจ', phone:'0845678901', svc:'สักคิ้ว 6D Microblading', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', status:'confirmed', followup_sent:true }
+];
 async function loadReviews() {
   var rows = await sbGet('bs_reviews');
   _cache.reviews = rows.length > 0 ? rows : DEFAULT_REVIEWS;
@@ -5177,11 +5257,11 @@ async function deleteService(id) {
 }
 
 // --- AGENTS ---
-function getAgents() { return _cache.agents || []; }
+function getAgents() { return (_cache.agents !== null && _cache.agents !== undefined) ? _cache.agents : DEFAULT_AGENTS; }
 async function loadAgents() {
   var rows = await sbGet('bs_agents');
-  _cache.agents = rows;
-  return rows;
+  _cache.agents = rows.length > 0 ? rows : DEFAULT_AGENTS;
+  return _cache.agents;
 }
 async function saveAgentToDb(agent) {
   var row = Object.assign({ created_at: new Date().toISOString() }, agent);
@@ -5194,11 +5274,11 @@ async function deleteAgentFromDb(id) {
 }
 
 // --- COMMISSIONS ---
-function getCommissions() { return _cache.commissions || []; }
+function getCommissions() { return (_cache.commissions !== null && _cache.commissions !== undefined) ? _cache.commissions : DEFAULT_COMMISSIONS; }
 async function loadCommissions() {
   var rows = await sbGet('bs_commissions');
-  _cache.commissions = rows;
-  return rows;
+  _cache.commissions = rows.length > 0 ? rows : DEFAULT_COMMISSIONS;
+  return _cache.commissions;
 }
 async function addCommission(com) {
   var row = Object.assign({ created_at: new Date().toISOString() }, com);
@@ -7223,11 +7303,11 @@ window.addEventListener('scroll', function() {
 });
 
 // ===== SUPABASE: PACKAGES =====
-function getPackages() { return _cache.packages || []; }
+function getPackages() { return (_cache.packages !== null && _cache.packages !== undefined) ? _cache.packages : DEFAULT_PACKAGES; }
 async function loadPackages() {
   var rows = await sbGet('bs_packages');
-  _cache.packages = rows;
-  return rows;
+  _cache.packages = rows.length > 0 ? rows : DEFAULT_PACKAGES;
+  return _cache.packages;
 }
 async function savePackage(pkg) {
   var row = Object.assign({ created_at: new Date().toISOString() }, pkg);
@@ -7240,11 +7320,11 @@ async function deletePackage(id) {
 }
 
 // ===== SUPABASE: COUPONS =====
-function getCoupons() { return _cache.coupons || []; }
+function getCoupons() { return (_cache.coupons !== null && _cache.coupons !== undefined) ? _cache.coupons : DEFAULT_COUPONS; }
 async function loadCoupons() {
   var rows = await sbGet('bs_coupons');
-  _cache.coupons = rows;
-  return rows;
+  _cache.coupons = rows.length > 0 ? rows : DEFAULT_COUPONS;
+  return _cache.coupons;
 }
 async function saveCoupon(c) {
   var row = Object.assign({ created_at: new Date().toISOString() }, c);
@@ -7257,11 +7337,11 @@ async function deleteCoupon(id) {
 }
 
 // ===== SUPABASE: MEMBERS =====
-function getMembers() { return _cache.members || []; }
+function getMembers() { return (_cache.members !== null && _cache.members !== undefined) ? _cache.members : DEFAULT_MEMBERS; }
 async function loadMembers() {
   var rows = await sbGet('bs_members');
-  _cache.members = rows;
-  return rows;
+  _cache.members = rows.length > 0 ? rows : DEFAULT_MEMBERS;
+  return _cache.members;
 }
 async function upsertMember(phone, name, addPoints, bookingRef) {
   var members = getMembers();
@@ -8033,9 +8113,10 @@ function renderStaffDashboard() {
 // ============================================================
 // ===== 4. BEFORE/AFTER รูปภาพ =====
 // ============================================================
-var baItems = [];
+var baItems = DEFAULT_BA.slice();
 async function loadBA() {
-  baItems = await sbGet('bs_before_after');
+  var rows = await sbGet('bs_before_after');
+  baItems = rows.length > 0 ? rows : DEFAULT_BA.slice();
 }
 async function saveBAItem() {
   var svc = (document.getElementById('baService').value||'').trim();
@@ -8092,17 +8173,23 @@ function renderBAGrid() {
     grid.innerHTML = '<p style="font-size:13px;color:var(--text-muted);">ยังไม่มีรูป Before/After กดปุ่ม + เพื่อเพิ่มค่ะ</p>';
     return;
   }
+  var PLACEHOLDER_BEFORE = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f5ebe8" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="32" fill="#c08090">📷</text><text x="50%" y="62%" text-anchor="middle" font-size="13" fill="#a06070" font-family="sans-serif">BEFORE</text></svg>');
+  var PLACEHOLDER_AFTER = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f0e8f0" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="32" fill="#8b3a6a">✨</text><text x="50%" y="62%" text-anchor="middle" font-size="13" fill="#6b2a50" font-family="sans-serif">AFTER</text></svg>');
   grid.innerHTML = baItems.map(function(item) {
+    var beforeSrc = item.before_url || item.before || PLACEHOLDER_BEFORE;
+    var afterSrc  = item.after_url  || item.after  || PLACEHOLDER_AFTER;
+    if (!beforeSrc || beforeSrc.length < 10) beforeSrc = PLACEHOLDER_BEFORE;
+    if (!afterSrc  || afterSrc.length  < 10) afterSrc  = PLACEHOLDER_AFTER;
     return '<div class="ba-card">' +
       '<div class="ba-images">' +
-        '<div class="ba-img-wrap"><img src="' + item.before_url + '" alt="before"><span class="ba-label">BEFORE</span></div>' +
-        '<div class="ba-img-wrap"><img src="' + item.after_url + '" alt="after"><span class="ba-label">AFTER</span></div>' +
+        '<div class="ba-img-wrap"><img src="' + beforeSrc + '" alt="before"><span class="ba-label">BEFORE</span></div>' +
+        '<div class="ba-img-wrap"><img src="' + afterSrc  + '" alt="after"><span class="ba-label">AFTER</span></div>' +
       '</div>' +
       '<div class="ba-info">' +
-        '<div class="ba-svc">' + escHtml(item.svc) + '</div>' +
+        '<div class="ba-svc">' + escHtml(item.svc || item.service || '') + '</div>' +
         (item.client ? '<div class="ba-date">👤 ' + escHtml(item.client) + '</div>' : '') +
         '<div class="ba-date">' + (item.created_at||'').substring(0,10) + '</div>' +
-        '<button onclick="deleteBA(\'' + item.id + '\')" style="margin-top:6px;background:none;border:none;color:var(--error);font-size:12px;cursor:pointer;font-family:\'Nunito\',sans-serif;">🗑 ลบ</button>' +
+        '<button onclick="deleteBA(\'' + item.id + '\')" style="margin-top:6px;background:none;border:none;color:var(--error);font-size:12px;cursor:pointer;font-family:\'IBM Plex Sans Thai\',sans-serif;">🗑 ลบ</button>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -8615,7 +8702,15 @@ function loadCustRefAdmin() {
 }
 function getCustRefs() {
   var refs = [];
-  try { refs = JSON.parse(localStorage.getItem('bs_cust_refs') || '[]'); } catch(e){}
+  try { refs = JSON.parse(localStorage.getItem('bs_cust_refs') || 'null'); } catch(e){}
+  if (!refs) {
+    refs = [
+      { phone:'0891234567', name:'คุณสมหญิง ใจดี', friendsCount:3, createdAt:'2025-01-05T10:00:00Z' },
+      { phone:'0856789012', name:'คุณจันทรา พรมดี', friendsCount:5, createdAt:'2024-12-15T10:00:00Z' },
+      { phone:'0812345678', name:'คุณแพรวา มีสุข', friendsCount:1, createdAt:'2025-01-12T10:00:00Z' }
+    ];
+    try { localStorage.setItem('bs_cust_refs', JSON.stringify(refs)); } catch(e){}
+  }
   return refs;
 }
 function renderCustRefList() {
@@ -8679,8 +8774,16 @@ function processCustRefOnBooking(newBookingPhone) {
 // ===== 13. WAITLIST ADMIN =====
 // ============================================================
 function getWaitlistAll() {
-  var wl = [];
-  try { wl = JSON.parse(localStorage.getItem('bs_waitlist') || '[]'); } catch(e){}
+  var wl = null;
+  try { wl = JSON.parse(localStorage.getItem('bs_waitlist') || 'null'); } catch(e){}
+  if (!wl) {
+    wl = [
+      { id:'wl-d1', name:'คุณอรอุมา สุขสันต์', phone:'0898887766', svc:'สักคิ้ว Powder Ombre', date:'2025-02-10', note:'', created_at:new Date().toISOString() },
+      { id:'wl-d2', name:'คุณกัญญา ดาวเด่น', phone:'0876543210', svc:'ต่อขนตา Volume', date:'2025-02-12', note:'ขอช่วงบ่ายค่ะ', created_at:new Date().toISOString() },
+      { id:'wl-d3', name:'คุณปวีณา รุ่งเรือง', phone:'0887654321', svc:'ต่อขนตา Classic', date:'', note:'วันไหนก็ได้ค่ะ', created_at:new Date().toISOString() }
+    ];
+    try { localStorage.setItem('bs_waitlist', JSON.stringify(wl)); } catch(e){}
+  }
   return wl;
 }
 function saveWaitlistAll(wl) {
