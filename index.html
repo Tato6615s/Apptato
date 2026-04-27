@@ -5213,11 +5213,11 @@ function _fmt(dateStr){
 }
 var DEFAULT_BOOKINGS = [
   { ref:'BK-DEMO-001', id:'BK-DEMO-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'10:00', name:'คุณสมหญิง ใจดี', phone:'0891234567', line:'@somying', note:'แพ้ยางพาราค่ะ', status:'confirmed', slipData:null, agent_ref:null },
-  { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01' },
+  { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01', agentRef:'AGT-DEMO-01' },
   { ref:'BK-DEMO-003', id:'BK-DEMO-003', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_todayStr, dateDisplay:_fmt(_todayStr), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'เคยทำมาแล้วค่ะ', status:'pending', slipData:'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAIBTAA7', agent_ref:null },
   { ref:'BK-DEMO-004', id:'BK-DEMO-004', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
   { ref:'BK-DEMO-005', id:'BK-DEMO-005', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'cancelled', slipData:null, agent_ref:null },
-  { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_tomorrow, dateDisplay:_fmt(_tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01' },
+  { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:_tomorrow, dateDisplay:_fmt(_tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01', agentRef:'AGT-DEMO-01' },
   { ref:'BK-DEMO-007', id:'BK-DEMO-007', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_tomorrow, dateDisplay:_fmt(_tomorrow), time:'13:30', name:'คุณศิริพร สายฝน', phone:'0867890123', line:'@siriporn', note:'ขอดูแบบก่อนค่ะ', status:'pending', slipData:null, agent_ref:null }
 ];
 
@@ -6131,13 +6131,16 @@ function confirmResetDemoData() {
   // แสดง confirm dialog ก่อน
   var confirmed = window.confirm(
     '🗂 รีเซตข้อมูลตัวอย่าง?\n\n' +
-    'ระบบจะโหลดข้อมูล Demo ทั้งหมดเข้า Admin:\n' +
-    '• 7 การจอง (วันนี้/เมื่อวาน/พรุ่งนี้)\n' +
+    'ระบบจะโหลดข้อมูล Demo ครบทุกเมนูเข้า Admin:\n' +
+    '• 10+ การจอง (วันนี้/เมื่อวาน/พรุ่งนี้/ย้อนหลัง)\n' +
     '• 4 สมาชิก (Silver/Gold/Diamond)\n' +
-    '• 3 Agent + 4 Commission\n' +
+    '• 3 Agent + 4 Commission (Staff/Referral)\n' +
     '• 3 รีวิว, 3 แพ็กเกจ, 3 คูปอง\n' +
-    '• Waitlist 2 คน, Referral 2 รายการ\n\n' +
-    'ข้อมูลนี้จะแสดงเฉพาะใน session นี้ เท่านั้น (ไม่เขียนทับ Supabase)\n\n' +
+    '• Waitlist 2 คน, Referral ลูกค้า 2 รายการ\n' +
+    '• Before/After 3 รูป, Portfolio 6 รูป\n' +
+    '• Follow-up 3 รายการ, วันหยุด 2 วัน\n' +
+    '• Auto Reminder + Telegram ตั้งค่าตัวอย่าง\n\n' +
+    'ข้อมูลนี้จะแสดงเฉพาะใน session นี้เท่านั้น (ไม่เขียนทับ Supabase)\n\n' +
     'ยืนยันหรือไม่?'
   );
   if (confirmed) {
@@ -6159,11 +6162,11 @@ function adminSeedDemoData() {
 
     _cache.bookings = [
       { ref:'BK-DEMO-001', id:'BK-DEMO-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'10:00', name:'คุณสมหญิง ใจดี', phone:'0891234567', line:'@somying', note:'แพ้ยางพาราค่ะ', status:'confirmed', slipData:null, agent_ref:null },
-      { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01' },
+      { ref:'BK-DEMO-002', id:'BK-DEMO-002', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'13:00', name:'คุณแพรวา มีสุข', phone:'0812345678', line:'@praewa', note:'', status:'pending', slipData:null, agent_ref:'AGT-DEMO-01', agentRef:'AGT-DEMO-01' },
       { ref:'BK-DEMO-003', id:'BK-DEMO-003', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:todayStr, dateDisplay:fmtDate(todayStr), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'เคยทำมาแล้วค่ะ', status:'pending', slipData:'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAIBTAA7', agent_ref:null },
       { ref:'BK-DEMO-004', id:'BK-DEMO-004', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:yesterday, dateDisplay:fmtDate(yesterday), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
       { ref:'BK-DEMO-005', id:'BK-DEMO-005', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:yesterday, dateDisplay:fmtDate(yesterday), time:'15:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'cancelled', slipData:null, agent_ref:null },
-      { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:tomorrow, dateDisplay:fmtDate(tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01' },
+      { ref:'BK-DEMO-006', id:'BK-DEMO-006', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Volume', price:1200, dur:'90 นาที', date:tomorrow, dateDisplay:fmtDate(tomorrow), time:'10:30', name:'คุณจันทรา พรมดี', phone:'0856789012', line:'@janthara', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-01', agentRef:'AGT-DEMO-01' },
       { ref:'BK-DEMO-007', id:'BK-DEMO-007', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:tomorrow, dateDisplay:fmtDate(tomorrow), time:'13:30', name:'คุณศิริพร สายฝน', phone:'0867890123', line:'@siriporn', note:'ขอดูแบบก่อนค่ะ', status:'pending', slipData:null, agent_ref:null }
     ];
     _cache.agents = [
@@ -6214,7 +6217,7 @@ function adminSeedDemoData() {
     _cache.bookings = _cache.bookings.concat([
       { ref:'BK-FU-OLD-001', id:'BK-FU-OLD-001', branchId:'br1', branchName:'สาขานิมมาน', svc:'ต่อขนตา Classic', price:800, dur:'60 นาที', date:_7dAgo, dateDisplay:fmtDate(_7dAgo), time:'11:00', name:'คุณวิไล รักสวย', phone:'0834567890', line:'@wilai', note:'', status:'confirmed', slipData:null, agent_ref:null },
       { ref:'BK-FU-OLD-002', id:'BK-FU-OLD-002', branchId:'br2', branchName:'สาขาเมือง', svc:'สักคิ้ว 6D Microblading', price:2500, dur:'120 นาที', date:_10dAgo, dateDisplay:fmtDate(_10dAgo), time:'14:00', name:'คุณนภา สดใส', phone:'0823456789', line:'', note:'', status:'confirmed', slipData:null, agent_ref:null },
-      { ref:'BK-FU-OLD-003', id:'BK-FU-OLD-003', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_14dAgo, dateDisplay:fmtDate(_14dAgo), time:'10:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-03' }
+      { ref:'BK-FU-OLD-003', id:'BK-FU-OLD-003', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_14dAgo, dateDisplay:fmtDate(_14dAgo), time:'10:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-03', agentRef:'AGT-DEMO-03' }
     ]);
 
     // ── Before/After Demo — ใช้ SVG placeholder สีสวยแทน src:''. ──
@@ -6243,6 +6246,30 @@ function adminSeedDemoData() {
 
     // Re-render current tab + also update front-end
     renderPortfolio();
+
+    // ── Seed: Autoreminder localStorage ──
+    try {
+      var _arSeed = { enabled24h: true, enabled1h: true,
+        msg24h: '🌸 สวัสดีค่ะ คุณ{ชื่อ}\nพรุ่งนี้มีนัด {บริการ} เวลา {เวลา} นะคะ\n📍 สาขา: {สาขา}\nหากต้องการเปลี่ยนแปลงกรุณาแจ้งล่วงหน้าค่ะ 🙏',
+        msg1h:  '⚡ เตือนค่ะ! คุณ{ชื่อ} มีนัด {บริการ} อีก 1 ชั่วโมงนะคะ ⏰\nเวลา {เวลา} ที่ {สาขา}' };
+      localStorage.setItem('bs_autoreminder', JSON.stringify(_arSeed));
+    } catch(e) {}
+
+    // ── Seed: Telegram/Line localStorage ──
+    try {
+      localStorage.setItem('bs_tg_token', 'DEMO-TOKEN-7890abcd');
+      localStorage.setItem('bs_tg_chatid', '-100123456789');
+      localStorage.setItem('bs_tg_events', JSON.stringify({ new_booking:true, confirm:true, cancel:true, slip:true }));
+    } catch(e) {}
+
+    // ── Seed: agentRef in bookings for Staff tab ──
+    _cache.bookings = _cache.bookings.map(function(b, i) {
+      if (!b.agentRef && b.agent_ref) b.agentRef = b.agent_ref;
+      if (!b.agentRef && i % 3 === 0) b.agentRef = 'AGT-DEMO-01';
+      else if (!b.agentRef && i % 3 === 1) b.agentRef = 'AGT-DEMO-02';
+      return b;
+    });
+
     if (currentAdminTab === 'bookings') renderAdminDashboard();
     else if (currentAdminTab === 'slips') renderAdminSlips();
     else if (currentAdminTab === 'revenue') renderRevenue();
@@ -6261,9 +6288,17 @@ function adminSeedDemoData() {
     else if (currentAdminTab === 'portfolio') renderAdminPortfolio();
     else if (currentAdminTab === 'reminders') renderReminders();
     else if (currentAdminTab === 'weekly') renderWeeklyCalendar();
+    else if (currentAdminTab === 'referral') { if(typeof renderReferralList==='function') renderReferralList(); }
+    else if (currentAdminTab === 'branches') { if(typeof renderBranchAdmin==='function') renderBranchAdmin(); }
+    else if (currentAdminTab === 'line') { if(typeof renderLineTab==='function') renderLineTab(); }
+    else if (currentAdminTab === 'autoreminder') { if(typeof loadAutoReminderSettings==='function') loadAutoReminderSettings(); if(typeof runAutoReminderCheck==='function') setTimeout(runAutoReminderCheck, 300); }
+    else if (currentAdminTab === 'gcal') { if(typeof loadGCalSettings==='function') loadGCalSettings(); }
+    else if (currentAdminTab === 'exportexcel') { /* export tab uses bookings already seeded */ }
+    else if (currentAdminTab === 'settings') { if(typeof renderSettingsTab==='function') renderSettingsTab(); }
+    else if (currentAdminTab === 'livecontent') { if(typeof leRenderServicesInline==='function') { leRenderServicesInline(); leRenderPackagesInline(); leLoadHero(); } }
     else renderAdminDashboard();
 
-    showToast('✅ โหลดข้อมูลตัวอย่างครบทุกส่วนแล้วค่ะ 🌸 (' + _cache.bookings.length + ' การจอง · ' + _cache.agents.length + ' Agent · ' + (_cache.members||[]).length + ' สมาชิก · ' + (_cache.holidays||[]).length + ' วันหยุด · ' + (_cache.waitlist||[]).length + ' Waitlist)', 'success');
+    showToast('✅ โหลดข้อมูลตัวอย่างครบทุกเมนูแล้วค่ะ 🌸 (' + _cache.bookings.length + ' การจอง · ' + _cache.agents.length + ' Agent · ' + (_cache.members||[]).length + ' สมาชิก · ' + (_cache.holidays||[]).length + ' วันหยุด · ' + (_cache.waitlist||[]).length + ' Waitlist · Before/After · Portfolio · Follow-up · Auto Reminder ✓)', 'success');
   } catch(e) {
     console.error('Seed error', e);
     showToast('❌ โหลดข้อมูลตัวอย่างไม่สำเร็จ', 'error');
