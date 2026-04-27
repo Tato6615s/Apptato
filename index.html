@@ -5263,29 +5263,44 @@ var _BA_BSVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xm
 var _BA_ASVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f0e8f0" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#8b3a6a">✨</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#6b2a50" font-family="sans-serif">AFTER</text></svg>');
 var DEFAULT_BA = [
   { id:'ba-demo-1', svc:'สักคิ้ว Powder Ombre', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-10T10:00:00Z' },
-  { id:'ba-demo-2', svc:'ต่อขนตา Volume', service:'ต่อขนตา Volume', client:'ลูกค้า B', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-12T10:00:00Z' },
+  { id:'ba-demo-2', svc:'ต่อขนตา Volume',        service:'ต่อขนตา Volume',        client:'ลูกค้า B', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-12T10:00:00Z' },
   { id:'ba-demo-3', svc:'สักคิ้ว 6D Microblading', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before_url:_BA_BSVG, after_url:_BA_ASVG, before:_BA_BSVG, after:_BA_ASVG, created_at:'2025-01-14T10:00:00Z' }
 ];
 
+// ===== DEFAULT PORTFOLIO =====
+var _portColors = ['#F7E0E5','#E0EAF7','#E0F7E9'];
+var _portLabels = ['สักคิ้ว 6D Microblading','Powder Ombre','ต่อขนตา Volume'];
+var _portEmojis = ['✦','🌸','✨'];
+var DEFAULT_PORTFOLIO = _portLabels.map(function(label,i){
+  var svg = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect fill="'+_portColors[i]+'" width="300" height="300"/>'+
+    '<text x="50%" y="42%" text-anchor="middle" font-size="48" fill="#6b3050">'+_portEmojis[i]+'</text>'+
+    '<text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#6b3050" font-family="sans-serif">'+label+'</text></svg>'
+  );
+  return { id:'port-demo-'+(i+1), src:svg, label:label, created_at:'2025-01-'+(i+5<10?'0'+(i+5):i+5)+'T10:00:00Z' };
+});
+
 // ===== DEFAULT WAITLIST =====
 var DEFAULT_WAITLIST = [
-  { id:'wl1', name:'คุณอรอุมา สุขสันต์', phone:'0898887766', svc:'สักคิ้ว Powder Ombre', preferred_date:'2025-02-10', created_at:new Date().toISOString() },
-  { id:'wl2', name:'คุณกัญญา ดาวเด่น', phone:'0876543210', svc:'ต่อขนตา Volume', preferred_date:'2025-02-12', created_at:new Date().toISOString() },
+  { id:'wl1', name:'คุณอรอุมา สุขสันต์',   phone:'0898887766', svc:'สักคิ้ว Powder Ombre',     preferred_date:'2025-02-10', created_at:new Date().toISOString() },
+  { id:'wl2', name:'คุณกัญญา ดาวเด่น',     phone:'0876543210', svc:'ต่อขนตา Volume',            preferred_date:'2025-02-12', created_at:new Date().toISOString() },
   { id:'wl3', name:'คุณมนัสนันท์ ศรีสวัสดิ์', phone:'0861234509', svc:'สักคิ้ว 6D Microblading', preferred_date:'2025-02-15', created_at:new Date().toISOString() }
 ];
 
 // ===== DEFAULT CUST REFERRAL =====
 var DEFAULT_CUST_REFERRAL = [
-  { id:'cr1', referrer_name:'คุณสมหญิง ใจดี', referrer_phone:'0891234567', referred_name:'คุณวิไล รักสวย', referred_phone:'0834567890', booking_ref:'BK-DEMO-004', reward_pts:200, status:'rewarded', created_at:'2025-01-05T10:00:00Z' },
-  { id:'cr2', referrer_name:'คุณจันทรา พรมดี', referrer_phone:'0856789012', referred_name:'คุณแพรวา มีสุข', referred_phone:'0812345678', booking_ref:'BK-DEMO-002', reward_pts:200, status:'pending', created_at:new Date().toISOString() },
-  { id:'cr3', referrer_name:'คุณแพรวา มีสุข', referrer_phone:'0812345678', referred_name:'คุณนภา สดใส', referred_phone:'0823456789', booking_ref:'BK-DEMO-003', reward_pts:200, status:'pending', created_at:new Date().toISOString() }
+  { id:'cr1', referrer_name:'คุณสมหญิง ใจดี',   referrer_phone:'0891234567', referred_name:'คุณวิไล รักสวย',  referred_phone:'0834567890', booking_ref:'BK-DEMO-004', reward_pts:200, status:'rewarded', created_at:'2025-01-05T10:00:00Z' },
+  { id:'cr2', referrer_name:'คุณจันทรา พรมดี',  referrer_phone:'0856789012', referred_name:'คุณแพรวา มีสุข',  referred_phone:'0812345678', booking_ref:'BK-DEMO-002', reward_pts:200, status:'pending',  created_at:new Date().toISOString() },
+  { id:'cr3', referrer_name:'คุณแพรวา มีสุข',   referrer_phone:'0812345678', referred_name:'คุณนภา สดใส',     referred_phone:'0823456789', booking_ref:'BK-DEMO-003', reward_pts:200, status:'pending',  created_at:new Date().toISOString() }
 ];
 
 // ===== DEFAULT FOLLOW-UP =====
+var _7dAgoStr = (function(){ var d=new Date(); d.setDate(d.getDate()-8);  return d.toISOString().split('T')[0]; })();
+var _10dAgoStr= (function(){ var d=new Date(); d.setDate(d.getDate()-10); return d.toISOString().split('T')[0]; })();
 var DEFAULT_FOLLOWUP_BOOKINGS = [
-  { ref:'BK-FU-001', name:'คุณวิไล รักสวย', phone:'0834567890', svc:'ต่อขนตา Classic', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'11:00', status:'confirmed', followup_sent:false },
-  { ref:'BK-FU-002', name:'คุณมาลี สุขใจ', phone:'0845678901', svc:'สักคิ้ว 6D Microblading', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', status:'confirmed', followup_sent:true },
-  { ref:'BK-FU-003', name:'คุณนภา สดใส', phone:'0823456789', svc:'สักคิ้ว Powder Ombre', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'13:00', status:'confirmed', followup_sent:false }
+  { ref:'BK-FU-001', name:'คุณวิไล รักสวย',  phone:'0834567890', svc:'ต่อขนตา Classic',        date:_7dAgoStr,  dateDisplay:_fmt(_7dAgoStr),  time:'11:00', status:'confirmed', followup_sent:false },
+  { ref:'BK-FU-002', name:'คุณมาลี สุขใจ',   phone:'0845678901', svc:'สักคิ้ว 6D Microblading', date:_yesterday, dateDisplay:_fmt(_yesterday), time:'15:00', status:'confirmed', followup_sent:true  },
+  { ref:'BK-FU-003', name:'คุณนภา สดใส',     phone:'0823456789', svc:'สักคิ้ว Powder Ombre',   date:_10dAgoStr, dateDisplay:_fmt(_10dAgoStr), time:'13:00', status:'confirmed', followup_sent:false }
 ];
 async function loadReviews() {
   var rows = await sbGet('bs_reviews');
@@ -5303,10 +5318,10 @@ async function deleteReview(id) {
 }
 
 // --- PORTFOLIO ---
-function getPortfolio() { return _cache.portfolio || []; }
+function getPortfolio() { return (_cache.portfolio && _cache.portfolio.length > 0) ? _cache.portfolio : DEFAULT_PORTFOLIO; }
 async function loadPortfolio() {
   var rows = await sbGet('bs_portfolio');
-  _cache.portfolio = rows;
+  _cache.portfolio = rows.length > 0 ? rows : DEFAULT_PORTFOLIO.slice();
   return _cache.portfolio;
 }
 async function savePortfolio(list) {
@@ -6082,19 +6097,17 @@ async function openAdmin() {
   if (adminLoggedIn) {
     document.getElementById('adminLogin').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'flex';
-    // ✅ โหลดข้อมูลใหม่จาก Supabase ทุกครั้งที่เปิด Admin
     showToast('⏳ กำลังโหลดข้อมูลล่าสุด...', '');
     await Promise.all([
       loadBookings(), loadReviews(), loadPortfolio(), loadBranches(),
       loadHolidays(), loadClosedBranches(), loadTelegramSettings(),
-      loadServices(), loadAgents(), loadCommissions()
+      loadServices(), loadAgents(), loadCommissions(),
+      loadPackages(), loadCoupons(), loadMembers(), loadBA()
     ]);
-    // ── Auto-seed demo data ถ้า Supabase ยังว่างเปล่า ──
-    if (getBookings().length === 0) {
-      setTimeout(function() { adminSeedDemoData(); }, 300);
-    } else {
-      renderAdminDashboard();
-    }
+    // ── ล้าง localStorage เก่า ให้ใช้ DEFAULT ใหม่เสมอ ──
+    try { localStorage.removeItem('bs_waitlist'); } catch(e){}
+    try { localStorage.removeItem('bs_cust_refs'); } catch(e){}
+    renderAdminDashboard();
     showToast('✅ โหลดข้อมูลล่าสุดแล้ว', 'success');
   }
 }
@@ -6230,29 +6243,12 @@ function adminSeedDemoData() {
       { ref:'BK-FU-OLD-003', id:'BK-FU-OLD-003', branchId:'br1', branchName:'สาขานิมมาน', svc:'สักคิ้ว Powder Ombre', price:2800, dur:'120 นาที', date:_14dAgo, dateDisplay:fmtDate(_14dAgo), time:'10:00', name:'คุณมาลี สุขใจ', phone:'0845678901', line:'', note:'', status:'confirmed', slipData:null, agent_ref:'AGT-DEMO-03', agentRef:'AGT-DEMO-03' }
     ]);
 
-    // ── Before/After Demo — ใช้ SVG placeholder สีสวยแทน src:''. ──
-    var _BSVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f5ebe8" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#c08090">📷</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#a06070" font-family="sans-serif">BEFORE</text></svg>');
-    var _ASVG = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect fill="#f0e8f0" width="200" height="200"/><text x="50%" y="44%" text-anchor="middle" font-size="36" fill="#8b3a6a">✨</text><text x="50%" y="64%" text-anchor="middle" font-size="13" fill="#6b2a50" font-family="sans-serif">AFTER</text></svg>');
-    var _demoBA = [
-      { id:'ba-demo-1', svc:'สักคิ้ว Powder Ombre', service:'สักคิ้ว Powder Ombre', client:'ลูกค้า A', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-10T10:00:00Z' },
-      { id:'ba-demo-2', svc:'ต่อขนตา Volume', service:'ต่อขนตา Volume', client:'ลูกค้า B', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-12T10:00:00Z' },
-      { id:'ba-demo-3', svc:'สักคิ้ว 6D Microblading', service:'สักคิ้ว 6D Microblading', client:'ลูกค้า C', before_url:_BSVG, after_url:_ASVG, before:_BSVG, after:_ASVG, created_at:'2025-01-14T10:00:00Z' }
-    ];
-    _cache.baItems = _demoBA.slice();
-    if (typeof baItems !== 'undefined') baItems = _demoBA.slice();
+    // ── Before/After Demo ──
+    _cache.baItems = DEFAULT_BA.slice();
+    if (typeof baItems !== 'undefined') baItems = DEFAULT_BA.slice();
 
-    // ── Portfolio Demo — ใช้ SVG placeholder สีสวย ──
-    var _portColors = ['#F7E0E5','#E0EAF7','#E0F7E9','#F7F0E0','#EDE0F7','#F7E0EF'];
-    var _portLabels = ['สักคิ้ว 6D Microblading','Powder Ombre','ต่อขนตา Classic','ต่อขนตา Volume','สักคิ้ว Combo','Full Lash Set'];
-    var _portEmojis = ['✦','🌸','👁','✨','💫','🎨'];
-    _cache.portfolio = _portLabels.map(function(label, i){
-      var svg = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
-        '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><rect fill="'+_portColors[i]+'" width="300" height="300"/>' +
-        '<text x="50%" y="42%" text-anchor="middle" font-size="48" fill="#6b3050">'+_portEmojis[i]+'</text>' +
-        '<text x="50%" y="62%" text-anchor="middle" font-size="14" fill="#6b3050" font-family="sans-serif">'+label+'</text></svg>'
-      );
-      return { id:'port-demo-'+(i+1), src:svg, label:label, created_at:'2025-01-'+(i+5<10?'0'+(i+5):i+5)+'T10:00:00Z' };
-    });
+    // ── Portfolio Demo ──
+    _cache.portfolio = DEFAULT_PORTFOLIO.slice();
 
     // Re-render current tab + also update front-end
     renderPortfolio();
@@ -6370,18 +6366,15 @@ async function checkPin() {
     await Promise.all([
       loadBookings(), loadReviews(), loadPortfolio(), loadBranches(),
       loadHolidays(), loadClosedBranches(), loadTelegramSettings(),
-      loadServices(), loadAgents(), loadCommissions()
+      loadServices(), loadAgents(), loadCommissions(),
+      loadPackages(), loadCoupons(), loadMembers(), loadBA()
     ]);
+    // ── ล้าง localStorage เก่า ให้ใช้ DEFAULT ใหม่เสมอ ──
+    try { localStorage.removeItem('bs_waitlist'); } catch(e){}
+    try { localStorage.removeItem('bs_cust_refs'); } catch(e){}
     renderAdminDashboard();
     renderLineTab();
     showToast('✅ ข้อมูลอัปเดตล่าสุดแล้วค่ะ', 'success');
-
-    // ── Auto-seed demo data ถ้า Supabase ยังว่างเปล่า ──
-    if (getBookings().length === 0) {
-      setTimeout(function() {
-        adminSeedDemoData();
-      }, 400);
-    }
 
   } else {
     // ❌ ผิด
@@ -6410,28 +6403,31 @@ async function switchAdminTab(tab, btn) {
   if (panel) panel.classList.add('active');
   // ✅ โหลดข้อมูลใหม่จาก Supabase ทุกครั้งที่สลับ tab
   if (tab === 'bookings') { await loadBookings(); renderAdminDashboard(); }
-  else if (tab === 'slips') { await loadBookings(); renderAdminSlips(); }
-  else if (tab === 'reviews') { await loadReviews(); renderAdminReviews(); }
-  else if (tab === 'portfolio') { await loadPortfolio(); renderAdminPortfolio(); }
-  else if (tab === 'revenue') { await loadBookings(); renderRevenue(); }
+  else if (tab === 'slips')    { await loadBookings(); renderAdminSlips(); }
+  else if (tab === 'reviews')  { await loadReviews(); renderAdminReviews(); }
+  else if (tab === 'portfolio'){ await loadPortfolio(); renderAdminPortfolio(); }
+  else if (tab === 'revenue')  { await loadBookings(); renderRevenue(); }
   else if (tab === 'branches') { await loadBranches(); await loadClosedBranches(); renderBranchAdmin(); }
   else if (tab === 'holidays') { await loadHolidays(); renderHolidayTab(); }
-  else if (tab === 'line') { await loadTelegramSettings(); renderLineTab(); }
-  else if (tab === 'settings') renderSettingsTab();
+  else if (tab === 'line')     { await loadTelegramSettings(); renderLineTab(); }
+  else if (tab === 'settings') { renderSettingsTab(); }
   else if (tab === 'services') { await loadServices(); renderSvcAdminList(); }
-  else if (tab === 'agents') { await Promise.all([loadAgents(), loadCommissions(), loadBookings()]); renderAgentList(); renderAgentCom(); }
-  else if (tab === 'crm') { await loadBookings(); await loadMembers(); renderCRM(); }
-  else if (tab === 'reminders') { await loadBookings(); renderReminders(); }
+  else if (tab === 'agents')   { await Promise.all([loadAgents(), loadCommissions(), loadBookings()]); renderAgentList(); renderAgentCom(); }
+  else if (tab === 'crm')      { await Promise.all([loadBookings(), loadMembers()]); renderCRM(); }
+  else if (tab === 'reminders'){ await loadBookings(); renderReminders(); }
   else if (tab === 'packages') { await Promise.all([loadPackages(), loadCoupons()]); renderPackagesAdmin(); renderCouponsAdmin(); }
-  else if (tab === 'weekly') { await loadBookings(); renderWeeklyCalendar(); }
-  else if (tab === 'staff') { await Promise.all([loadAgents(), loadBookings()]); initStaffMonthFilter(); renderStaffDashboard(); }
+  else if (tab === 'weekly')   { await loadBookings(); renderWeeklyCalendar(); }
+  else if (tab === 'staff')    { await Promise.all([loadAgents(), loadBookings()]); initStaffMonthFilter(); renderStaffDashboard(); }
   else if (tab === 'beforeafter') { await loadBA(); renderBAGrid(); }
   else if (tab === 'referral') { await Promise.all([loadAgents(), loadBookings()]); renderReferralList(); }
   else if (tab === 'followup') { await loadBookings(); renderFollowUp(); }
-  else if (tab === 'points') { await Promise.all([loadBookings(), loadMembers()]); loadPointsSettings(); }
-  else if (tab === 'waitlistadmin') { loadWaitlistAdmin(); }
-  else if (tab === 'customerreferral') { loadCustRefAdmin(); }
-  else if (tab === 'gcal') { loadGCalSettings(); }
+  else if (tab === 'points')   { await Promise.all([loadBookings(), loadMembers()]); if(typeof loadPointsSettings==='function') loadPointsSettings(); }
+  else if (tab === 'waitlistadmin') { if(typeof loadWaitlistAdmin==='function') loadWaitlistAdmin(); }
+  else if (tab === 'customerreferral') { if(typeof loadCustRefAdmin==='function') loadCustRefAdmin(); }
+  else if (tab === 'gcal')     { if(typeof loadGCalSettings==='function') loadGCalSettings(); }
+  else if (tab === 'autoreminder') { if(typeof loadAutoReminderSettings==='function') loadAutoReminderSettings(); }
+  else if (tab === 'exportexcel') { await loadBookings(); }
+  else if (tab === 'livecontent') { if(typeof leRenderServicesInline==='function'){ leRenderServicesInline(); leRenderPackagesInline(); leLoadHero(); } }
 }
 
 function switchFilter(filter, btn) {
@@ -9211,8 +9207,8 @@ switchAdminTab = function(tab, btn) {
   };
   var el = document.getElementById('adminTopbarTitle');
   if (el && titles[tab]) el.textContent = titles[tab];
-  if (tab === 'autoreminder')    { loadAutoReminderSettings(); }
-  // points / waitlistadmin / customerreferral are now handled inside main switchAdminTab
+  // autoreminder ยังไม่อยู่ใน main switchAdminTab จึง handle ที่นี่
+  if (tab === 'autoreminder') { if(typeof loadAutoReminderSettings==='function') loadAutoReminderSettings(); }
 };
 
 // Init
