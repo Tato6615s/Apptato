@@ -608,10 +608,10 @@
   .star-select { display: flex; gap: 6px; margin-bottom: 1rem; }
   .star-btn {
     font-size: 22px; cursor: pointer;
-    color: #ddd; transition: color 0.15s;
+    color: var(--border); transition: color 0.15s;
     background: none; border: none; padding: 2px;
   }
-  .star-btn.active { color: var(--orange); }
+  .star-btn.active { color: var(--accent); }
   .review-form-row { display: flex; gap: 12px; margin-bottom: 1rem; flex-wrap: wrap; }
   .review-form-row .field { flex: 1; min-width: 160px; }
   .field { margin-bottom: 1rem; }
@@ -622,18 +622,18 @@
   }
   .field input, .field select, .field textarea {
     width: 100%;
-    border: 1px solid rgba(180,120,80,0.25);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 11px 14px; font-size: 14px;
     font-family: 'IBM Plex Sans Thai', sans-serif;
-    background: var(--cream); color: var(--text);
+    background: var(--surface); color: var(--text);
     transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
   }
   .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(212,160,172,0.08);
-    background: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(155,45,66,0.10);
+    background: var(--surface);
   }
   .field input.error { border-color: var(--error); }
   .field textarea { resize: none; height: 80px; }
@@ -1057,19 +1057,19 @@
   }
   .agent-field input, .agent-field select, .agent-field textarea {
     width: 100%;
-    border: 1px solid rgba(180,120,80,0.25);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 14px;
     font-size: 14px;
     font-family: 'IBM Plex Sans Thai', sans-serif;
     color: var(--text);
-    background: var(--cream);
+    background: var(--surface);
     outline: none;
     transition: border-color 0.2s;
   }
   .agent-field input:focus, .agent-field select:focus, .agent-field textarea:focus {
-    border-color: var(--orange);
-    background: #fff;
+    border-color: var(--accent);
+    background: var(--surface);
   }
   .agent-field textarea { height: 70px; resize: none; }
   .agent-submit-btn {
@@ -1359,7 +1359,7 @@
     color: var(--text-muted); background: var(--white);
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 600; transition: all 0.2s;
   }
-  .filter-btn.active { background: var(--rose-pale); color: var(--orange); border-color: var(--peach); }
+  .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   /* Slip verification */
   .slip-admin-card {
@@ -1813,7 +1813,7 @@
   .promo-btn { width:100%; background:var(--text); color:#fff; border:none; border-radius:50px; padding:10px; font-size:14px; font-family:'IBM Plex Sans Thai',sans-serif; font-weight:500; cursor:pointer; transition:all 0.2s; }
   .promo-btn:hover { background:var(--orange); }
   .promo-code-row { display:flex; gap:8px; margin-top:0.75rem; }
-  .promo-code-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--cream); outline:none; transition:border-color 0.2s; }
+  .promo-code-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--surface); color:var(--text); outline:none; transition:border-color 0.2s; }
   .promo-code-input:focus { border-color:var(--orange); }
   .promo-code-btn { background:var(--rose-pale); color:var(--text); border:1px solid var(--peach); border-radius:8px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.2s; }
   .promo-code-btn:hover { background:var(--peach); }
@@ -1896,14 +1896,14 @@
   .waitlist-form { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:1.25rem; margin-top:0.75rem; display:none; }
   .waitlist-form-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:0.75rem; }
   .waitlist-input-row { display:flex; gap:8px; }
-  .waitlist-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--cream); outline:none; transition:border-color 0.2s; }
+  .waitlist-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--surface); color:var(--text); outline:none; transition:border-color 0.2s; }
   .waitlist-input:focus { border-color:var(--orange); }
   .waitlist-submit-btn { background:var(--orange); color:#fff; border:none; border-radius:8px; padding:9px 18px; font-size:13px; font-weight:700; cursor:pointer; font-family:'IBM Plex Sans Thai',sans-serif; transition:all 0.2s; }
   .waitlist-submit-btn:hover { background:var(--text); }
 
   /* ===== CRM ADMIN TAB ===== */
   .crm-search-row { display:flex; gap:8px; margin-bottom:1rem; }
-  .crm-search-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 14px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--cream); outline:none; transition:border-color 0.2s; }
+  .crm-search-input { flex:1; border:1.5px solid var(--border); border-radius:8px; padding:9px 14px; font-size:13px; font-family:'IBM Plex Sans Thai',sans-serif; background:var(--surface); color:var(--text); outline:none; transition:border-color 0.2s; }
   .crm-search-input:focus { border-color:var(--orange); }
   .crm-customer-card { background:var(--white); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; margin-bottom:10px; }
   .crm-customer-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
@@ -2774,13 +2774,13 @@
     font-family: 'IBM Plex Sans Thai', sans-serif;
     font-size: 14px; padding: 12px 16px;
     border-radius: 12px;
-    border: 1.5px solid rgba(212,160,172,0.22);
-    background: #fff; transition: border-color 0.2s;
+    border: 1.5px solid var(--border);
+    background: var(--surface); color: var(--text); transition: border-color 0.2s;
   }
   .field input:focus, .field select:focus, .field textarea:focus,
   .agent-field input:focus, .agent-field select:focus, .agent-field textarea:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(212,160,172,0.12);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(155,45,66,0.10);
     outline: none;
   }
   .field label, .agent-field label {
@@ -4155,7 +4155,7 @@
   <h2 class="section-title" data-i18n="sec_reviews_title">What Our<br>Clients Say</h2>
   <div class="reviews-grid" id="reviewsGrid"></div>
   <div class="write-review-section">
-    <div class="write-review-title">✍️ เขียนรีวิวของคุณ</div>
+    <div class="write-review-title" data-i18n="rev_write_title">✍️ เขียนรีวิวของคุณ</div>
     <div class="star-select" id="starSelect">
       <button class="star-btn" onclick="setStars(1)">★</button>
       <button class="star-btn" onclick="setStars(2)">★</button>
@@ -4165,21 +4165,21 @@
     </div>
     <div class="review-form-row">
       <div class="field">
-        <label>ชื่อของคุณ</label>
-        <input type="text" id="reviewName" placeholder="เช่น คุณสมหญิง, กรุงเทพฯ">
+        <label data-i18n="rev_your_name">ชื่อของคุณ</label>
+        <input type="text" id="reviewName" data-i18n-ph="rev_ph_name" placeholder="เช่น คุณสมหญิง, กรุงเทพฯ">
       </div>
       <div class="field">
-        <label>บริการที่ใช้</label>
+        <label data-i18n="rev_service_used">บริการที่ใช้</label>
         <select id="reviewSvc">
-          <option value="">เลือกบริการ</option>
+          <option value="" data-i18n="rev_select_service">เลือกบริการ</option>
         </select>
       </div>
     </div>
     <div class="field">
-      <label>รีวิวของคุณ</label>
-      <textarea id="reviewText" placeholder="เล่าประสบการณ์ของคุณ..."></textarea>
+      <label data-i18n="rev_your_review">รีวิวของคุณ</label>
+      <textarea id="reviewText" data-i18n-ph="rev_ph_review" placeholder="เล่าประสบการณ์ของคุณ..."></textarea>
     </div>
-    <button class="btn-submit" onclick="submitReview()" style="max-width:240px;margin:0;">ส่งรีวิว 🌸</button>
+    <button class="btn-submit" onclick="submitReview()" style="max-width:240px;margin:0;" data-i18n="rev_submit_btn">ส่งรีวิว 🌸</button>
   </div>
 </section>
 
@@ -4399,23 +4399,23 @@
 <!-- MEMBER POINTS -->
 <div class="member-section" id="member">
   <div class="member-inner">
-    <h2 class="section-title">คะแนนสะสม<br>สมาชิก</h2>
-    <p class="section-desc">สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ</p>
+    <h2 class="section-title" data-i18n="mem_title">คะแนนสะสม<br>สมาชิก</h2>
+    <p class="section-desc" data-i18n="mem_desc">สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:2rem 0 1rem;">
       <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">🥉</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px;">Silver</div>
-        <div style="font-size:12px;color:var(--text-muted);">0–999 คะแนน · ส่วนลด 3%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="mem_silver_desc">0–999 คะแนน · ส่วนลด 3%</div>
       </div>
       <div style="background:var(--white);border:1.5px solid var(--gold);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">🥇</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--gold);margin-bottom:4px;">Gold</div>
-        <div style="font-size:12px;color:var(--text-muted);">1000–2999 คะแนน · ส่วนลด 7%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="mem_gold_desc">1000–2999 คะแนน · ส่วนลด 7%</div>
       </div>
       <div style="background:linear-gradient(135deg,var(--cream2),#fff);border:1.5px solid var(--rose);border-radius:var(--radius-sm);padding:1.25rem;text-align:center;">
         <div style="font-size:24px;margin-bottom:6px;">💎</div>
         <div style="font-family:'Clash Display',sans-serif;font-weight:600;color:var(--text);margin-bottom:4px;">Diamond</div>
-        <div style="font-size:12px;color:var(--text-muted);">3000+ คะแนน · ส่วนลด 12%</div>
+        <div style="font-size:12px;color:var(--text-muted);" data-i18n="mem_diamond_desc">3000+ คะแนน · ส่วนลด 12%</div>
       </div>
     </div>
     <div class="member-lookup-card">
@@ -4423,18 +4423,18 @@
         <div class="member-card-name" id="memberCardName">—</div>
         <div class="member-card-phone" id="memberCardPhone">—</div>
         <div class="member-points-big" id="memberPointsBig">0</div>
-        <div class="member-points-label">คะแนนสะสม</div>
+        <div class="member-points-label" data-i18n="mem_points_label">คะแนนสะสม</div>
         <div class="member-tier" id="memberTier">Silver</div>
       </div>
       <div class="field">
-        <label>ค้นหาด้วยเบอร์โทร</label>
+        <label data-i18n="mem_search_label">ค้นหาด้วยเบอร์โทร</label>
         <div style="display:flex;gap:8px;">
           <input type="tel" id="memberPhoneInput" placeholder="08X-XXX-XXXX" style="flex:1;">
-          <button class="btn-submit" onclick="lookupMember()" style="max-width:90px;margin:0;padding:11px 14px;">ค้นหา</button>
+          <button class="btn-submit" onclick="lookupMember()" style="max-width:90px;margin:0;padding:11px 14px;" data-i18n="mem_search_btn">ค้นหา</button>
         </div>
       </div>
       <div class="points-history" id="memberPointsHistory" style="display:none;">
-        <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">ประวัติคะแนน</div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;" data-i18n="mem_history_label">ประวัติคะแนน</div>
         <div id="memberHistoryList"></div>
       </div>
     </div>
@@ -4446,9 +4446,9 @@
   <div class="agent-join-inner">
     <!-- LEFT: Info -->
     <div class="agent-join-left">
-      <div class="agent-join-badge">🌸 ร่วมธุรกิจ</div>
-      <h2 class="agent-join-title">เป็น Agent<br><em>รับค่าคอมทันที</em></h2>
-      <p class="agent-join-desc">
+      <div class="agent-join-badge" data-i18n="agent_badge">🌸 ร่วมธุรกิจ</div>
+      <h2 class="agent-join-title" data-i18n="agent_title">เป็น Agent<br><em>รับค่าคอมทันที</em></h2>
+      <p class="agent-join-desc" data-i18n="agent_desc">
         แนะนำลูกค้ามาใช้บริการ Brow Studio<br>
         รับค่าคอมมิชชั่นทุกครั้งที่ลูกค้าจองคิวผ่านลิงก์ของคุณ<br>
         ไม่ต้องลงทุน ไม่ต้องมีประสบการณ์ — เริ่มได้เลยวันนี้!
@@ -4456,28 +4456,28 @@
       <div class="agent-perks">
         <div class="agent-perk-item">
           <div class="agent-perk-icon">💸</div>
-          <div class="agent-perk-text">
+          <div class="agent-perk-text" data-i18n="agent_perk1">
             ค่าคอมมิชชั่นสูงสุด 10%
             <span>ต่อทุกการจองที่มาจากลิงก์ของคุณ</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">🔗</div>
-          <div class="agent-perk-text">
+          <div class="agent-perk-text" data-i18n="agent_perk2">
             ลิงก์ส่วนตัว พร้อมใช้งานทันที
             <span>แชร์ผ่าน Line, Facebook, IG ได้เลย</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">📊</div>
-          <div class="agent-perk-text">
+          <div class="agent-perk-text" data-i18n="agent_perk3">
             ติดตามยอดและค่าคอมได้แบบ Real-time
             <span>ระบบ Dashboard โปร่งใส ตรวจสอบได้ทุกเวลา</span>
           </div>
         </div>
         <div class="agent-perk-item">
           <div class="agent-perk-icon">🏦</div>
-          <div class="agent-perk-text">
+          <div class="agent-perk-text" data-i18n="agent_perk4">
             โอนเงินทุกสิ้นเดือน
             <span>ผ่านบัญชีธนาคารที่ลงทะเบียนไว้</span>
           </div>
@@ -4488,16 +4488,16 @@
     <!-- RIGHT: Form -->
     <div class="agent-join-form-card">
       <div id="agentJoinFormWrap">
-        <div class="agent-form-title">สมัครเป็น Agent</div>
-        <p class="agent-form-sub">กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.</p>
+        <div class="agent-form-title" data-i18n="agent_form_title">สมัครเป็น Agent</div>
+        <p class="agent-form-sub" data-i18n="agent_form_sub">กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.</p>
 
         <div class="agent-field-row">
           <div class="agent-field">
-            <label>ชื่อ-นามสกุล *</label>
-            <input type="text" id="ajName" placeholder="เช่น สมหญิง ใจดี">
+            <label data-i18n="agent_field_name">ชื่อ-นามสกุล *</label>
+            <input type="text" id="ajName" data-i18n-ph="agent_ph_name" placeholder="เช่น สมหญิง ใจดี">
           </div>
           <div class="agent-field">
-            <label>เบอร์โทรศัพท์ *</label>
+            <label data-i18n="agent_field_phone">เบอร์โทรศัพท์ *</label>
             <input type="tel" id="ajPhone" placeholder="08X-XXX-XXXX">
           </div>
         </div>
@@ -4508,46 +4508,46 @@
         </div>
 
         <div class="agent-field">
-          <label>ช่องทาง Social ที่จะโปรโมต</label>
+          <label data-i18n="agent_field_channel">ช่องทาง Social ที่จะโปรโมต</label>
           <select id="ajChannel">
-            <option value="">เลือกช่องทางหลัก</option>
+            <option value="" data-i18n="agent_ch_select">เลือกช่องทางหลัก</option>
             <option value="line">Line / Line OA</option>
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
             <option value="tiktok">TikTok</option>
-            <option value="word_of_mouth">บอกต่อปากต่อปาก</option>
-            <option value="other">อื่นๆ</option>
+            <option value="word_of_mouth" data-i18n="agent_ch_wom">บอกต่อปากต่อปาก</option>
+            <option value="other" data-i18n="agent_ch_other">อื่นๆ</option>
           </select>
         </div>
 
         <div class="agent-field-row">
           <div class="agent-field">
-            <label>ธนาคาร</label>
+            <label data-i18n="agent_field_bank">ธนาคาร</label>
             <select id="ajBank">
-              <option value="">เลือกธนาคาร</option>
+              <option value="" data-i18n="agent_bank_select">เลือกธนาคาร</option>
               <option value="กสิกรไทย">กสิกรไทย</option>
               <option value="ไทยพาณิชย์">ไทยพาณิชย์</option>
               <option value="กรุงเทพ">กรุงเทพ</option>
               <option value="กรุงไทย">กรุงไทย</option>
               <option value="ทหารไทยธนชาต">ทหารไทยธนชาต</option>
               <option value="ออมสิน">ออมสิน</option>
-              <option value="อื่นๆ">อื่นๆ</option>
+              <option value="อื่นๆ" data-i18n="agent_ch_other">อื่นๆ</option>
             </select>
           </div>
           <div class="agent-field">
-            <label>เลขบัญชี</label>
+            <label data-i18n="agent_field_acc">เลขบัญชี</label>
             <input type="text" id="ajBankAcc" placeholder="xxx-x-xxxxx-x">
           </div>
         </div>
 
         <div class="agent-field">
-          <label>แนะนำตัวสั้นๆ (ไม่บังคับ)</label>
-          <textarea id="ajNote" placeholder="เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน..."></textarea>
+          <label data-i18n="agent_field_bio">แนะนำตัวสั้นๆ (ไม่บังคับ)</label>
+          <textarea id="ajNote" data-i18n-ph="agent_ph_bio" placeholder="เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน..."></textarea>
         </div>
 
         <div id="ajError" style="color:var(--error);font-size:13px;margin-bottom:10px;display:none;"></div>
 
-        <button class="agent-submit-btn" id="ajSubmitBtn" onclick="submitAgentJoin()">
+        <button class="agent-submit-btn" id="ajSubmitBtn" onclick="submitAgentJoin()" data-i18n="agent_submit_btn">
           สมัครเป็น Agent 🌸
         </button>
       </div>
@@ -4555,8 +4555,8 @@
       <!-- Success State -->
       <div class="agent-success-box" id="agentJoinSuccess">
         <div class="agent-success-icon">🎉</div>
-        <div class="agent-success-title">รับใบสมัครแล้วค่ะ!</div>
-        <p class="agent-success-sub">ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง<br>ขอบคุณที่สนใจร่วมธุรกิจกับ Brow Studio 🌸</p>
+        <div class="agent-success-title" data-i18n="agent_success_title">รับใบสมัครแล้วค่ะ!</div>
+        <p class="agent-success-sub" data-i18n="agent_success_sub">ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง<br>ขอบคุณที่สนใจร่วมธุรกิจกับ Brow Studio 🌸</p>
       </div>
     </div>
   </div>
@@ -4576,9 +4576,9 @@
 
 <footer>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;margin-bottom:10px;font-size:13px;">
-    <a href="#member" style="color:inherit;opacity:0.55;text-decoration:none;">สมาชิก</a>
-    <a href="#check-booking" style="color:inherit;opacity:0.55;text-decoration:none;">เช็คการจอง</a>
-    <a href="#agent-join" style="color:inherit;opacity:0.55;text-decoration:none;">ร่วมธุรกิจ</a>
+    <a href="#member" style="color:inherit;opacity:0.55;text-decoration:none;" data-i18n="nav_member">สมาชิก</a>
+    <a href="#check-booking" style="color:inherit;opacity:0.55;text-decoration:none;" data-i18n="nav_mybooking">เช็คการจอง</a>
+    <a href="#agent-join" style="color:inherit;opacity:0.55;text-decoration:none;" data-i18n="nav_partner">ร่วมธุรกิจ</a>
   </div>
   <div>© 2025 Brow Studio · Chiang Mai · <span style="color:var(--orange);">✦</span> Powered by BeautyOS</div>
 </footer>
@@ -4653,6 +4653,46 @@ var I18N = {
     adm_tab_autoreminder: 'Auto Reminders', adm_tab_settings: 'Settings',
     adm_filter_all: 'All', adm_filter_pending: 'Pending', adm_filter_confirmed: 'Confirmed', adm_filter_cancelled: 'Cancelled',
     adm_logout: 'Logout', adm_back: 'Back to Site',
+    // REVIEW FORM
+    rev_write_title: '✍️ Write Your Review',
+    rev_your_name: 'Your Name', rev_ph_name: 'e.g. Jane, Bangkok',
+    rev_service_used: 'Service Used', rev_select_service: 'Select service',
+    rev_your_review: 'Your Review', rev_ph_review: 'Share your experience...',
+    rev_submit_btn: 'Submit Review 🌸',
+    // MEMBER
+    mem_title: 'Membership<br>Points',
+    mem_desc: 'Earn points on every visit — redeem for discounts and exclusive perks.',
+    mem_silver_desc: '0–999 pts · 3% discount',
+    mem_gold_desc: '1000–2999 pts · 7% discount',
+    mem_diamond_desc: '3000+ pts · 12% discount',
+    mem_points_label: 'Points',
+    mem_search_label: 'Search by phone number',
+    mem_search_btn: 'Search',
+    mem_history_label: 'Points History',
+    // AGENT
+    agent_badge: '🌸 Partner Program',
+    agent_title: 'Become an Agent<br><em>Earn Commission Instantly</em>',
+    agent_desc: 'Refer clients to Brow Studio and earn commission every time they book through your link. No investment, no experience needed — start today!',
+    agent_perk1: 'Up to 10% commission<br><span>per booking through your link</span>',
+    agent_perk2: 'Personal link ready instantly<br><span>Share via Line, Facebook, IG</span>',
+    agent_perk3: 'Track earnings in real-time<br><span>Transparent dashboard, anytime</span>',
+    agent_perk4: 'Monthly payouts<br><span>Direct to your registered bank</span>',
+    agent_form_title: 'Apply as Agent',
+    agent_form_sub: 'Fill in your details — our team will contact you within 24 hours.',
+    agent_field_name: 'Full Name *', agent_ph_name: 'e.g. Jane Smith',
+    agent_field_phone: 'Phone Number *',
+    agent_field_channel: 'Primary Social Channel',
+    agent_ch_select: 'Select channel',
+    agent_ch_wom: 'Word of mouth',
+    agent_ch_other: 'Other',
+    agent_field_bank: 'Bank',
+    agent_bank_select: 'Select bank',
+    agent_field_acc: 'Account Number',
+    agent_field_bio: 'Brief Introduction (optional)',
+    agent_ph_bio: 'e.g. I have a beauty page with 5K followers...',
+    agent_submit_btn: 'Apply as Agent 🌸',
+    agent_success_title: 'Application Received!',
+    agent_success_sub: 'Our team will contact you within 24 hours.<br>Thank you for your interest in partnering with Brow Studio 🌸',
   },
   th: {
     // NAV
@@ -4719,6 +4759,46 @@ var I18N = {
     adm_tab_autoreminder: 'แจ้งเตือนอัตโนมัติ', adm_tab_settings: 'ตั้งค่า',
     adm_filter_all: 'ทั้งหมด', adm_filter_pending: 'รอยืนยัน', adm_filter_confirmed: 'ยืนยันแล้ว', adm_filter_cancelled: 'ยกเลิก',
     adm_logout: 'ออกจากระบบ', adm_back: 'กลับหน้าหลัก',
+    // REVIEW FORM
+    rev_write_title: '✍️ เขียนรีวิวของคุณ',
+    rev_your_name: 'ชื่อของคุณ', rev_ph_name: 'เช่น คุณสมหญิง, กรุงเทพฯ',
+    rev_service_used: 'บริการที่ใช้', rev_select_service: 'เลือกบริการ',
+    rev_your_review: 'รีวิวของคุณ', rev_ph_review: 'เล่าประสบการณ์ของคุณ...',
+    rev_submit_btn: 'ส่งรีวิว 🌸',
+    // MEMBER
+    mem_title: 'คะแนนสะสม<br>สมาชิก',
+    mem_desc: 'สะสมแต้มทุกครั้งที่ใช้บริการ แลกรับส่วนลดและสิทธิพิเศษ',
+    mem_silver_desc: '0–999 คะแนน · ส่วนลด 3%',
+    mem_gold_desc: '1000–2999 คะแนน · ส่วนลด 7%',
+    mem_diamond_desc: '3000+ คะแนน · ส่วนลด 12%',
+    mem_points_label: 'คะแนนสะสม',
+    mem_search_label: 'ค้นหาด้วยเบอร์โทร',
+    mem_search_btn: 'ค้นหา',
+    mem_history_label: 'ประวัติคะแนน',
+    // AGENT
+    agent_badge: '🌸 ร่วมธุรกิจ',
+    agent_title: 'เป็น Agent<br><em>รับค่าคอมทันที</em>',
+    agent_desc: 'แนะนำลูกค้ามาใช้บริการ Brow Studio<br>รับค่าคอมมิชชั่นทุกครั้งที่ลูกค้าจองคิวผ่านลิงก์ของคุณ<br>ไม่ต้องลงทุน ไม่ต้องมีประสบการณ์ — เริ่มได้เลยวันนี้!',
+    agent_perk1: 'ค่าคอมมิชชั่นสูงสุด 10%<br><span>ต่อทุกการจองที่มาจากลิงก์ของคุณ</span>',
+    agent_perk2: 'ลิงก์ส่วนตัว พร้อมใช้งานทันที<br><span>แชร์ผ่าน Line, Facebook, IG ได้เลย</span>',
+    agent_perk3: 'ติดตามยอดและค่าคอมได้แบบ Real-time<br><span>ระบบ Dashboard โปร่งใส ตรวจสอบได้ทุกเวลา</span>',
+    agent_perk4: 'โอนเงินทุกสิ้นเดือน<br><span>ผ่านบัญชีธนาคารที่ลงทะเบียนไว้</span>',
+    agent_form_title: 'สมัครเป็น Agent',
+    agent_form_sub: 'กรอกข้อมูลด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชม.',
+    agent_field_name: 'ชื่อ-นามสกุล *', agent_ph_name: 'เช่น สมหญิง ใจดี',
+    agent_field_phone: 'เบอร์โทรศัพท์ *',
+    agent_field_channel: 'ช่องทาง Social ที่จะโปรโมต',
+    agent_ch_select: 'เลือกช่องทางหลัก',
+    agent_ch_wom: 'บอกต่อปากต่อปาก',
+    agent_ch_other: 'อื่นๆ',
+    agent_field_bank: 'ธนาคาร',
+    agent_bank_select: 'เลือกธนาคาร',
+    agent_field_acc: 'เลขบัญชี',
+    agent_field_bio: 'แนะนำตัวสั้นๆ (ไม่บังคับ)',
+    agent_ph_bio: 'เช่น มีเพจความสวย ผู้ติดตาม 5K อยากช่วยโปรโมตร้าน...',
+    agent_submit_btn: 'สมัครเป็น Agent 🌸',
+    agent_success_title: 'รับใบสมัครแล้วค่ะ!',
+    agent_success_sub: 'ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง<br>ขอบคุณที่สนใจร่วมธุรกิจกับ Brow Studio 🌸',
   },
   zh: {
     // NAV
@@ -4785,6 +4865,46 @@ var I18N = {
     adm_tab_autoreminder: '自动提醒', adm_tab_settings: '系统设置',
     adm_filter_all: '全部', adm_filter_pending: '待确认', adm_filter_confirmed: '已确认', adm_filter_cancelled: '已取消',
     adm_logout: '退出登录', adm_back: '返回首页',
+    // REVIEW FORM
+    rev_write_title: '✍️ 撰写您的评价',
+    rev_your_name: '您的姓名', rev_ph_name: '例：张小美，北京',
+    rev_service_used: '使用的服务', rev_select_service: '选择服务',
+    rev_your_review: '您的评价', rev_ph_review: '分享您的体验...',
+    rev_submit_btn: '提交评价 🌸',
+    // MEMBER
+    mem_title: '会员<br>积分',
+    mem_desc: '每次消费均可积分，兑换折扣与专属福利。',
+    mem_silver_desc: '0–999 积分 · 享3折优惠',
+    mem_gold_desc: '1000–2999 积分 · 享7折优惠',
+    mem_diamond_desc: '3000+ 积分 · 享12折优惠',
+    mem_points_label: '积分',
+    mem_search_label: '输入手机号查询',
+    mem_search_btn: '查询',
+    mem_history_label: '积分记录',
+    // AGENT
+    agent_badge: '🌸 加盟合作',
+    agent_title: '成为 Agent<br><em>立享佣金</em>',
+    agent_desc: '推荐客户到 Brow Studio 消费<br>每次客户通过您的链接预约，您即可获得佣金<br>无需投资，无需经验 — 立即开始！',
+    agent_perk1: '最高10%佣金<br><span>每笔通过您链接产生的预约</span>',
+    agent_perk2: '专属链接即时可用<br><span>可分享至Line、Facebook、IG</span>',
+    agent_perk3: '实时追踪业绩与佣金<br><span>透明Dashboard，随时查看</span>',
+    agent_perk4: '每月结算转账<br><span>直接打入您登记的银行账户</span>',
+    agent_form_title: '申请成为 Agent',
+    agent_form_sub: '请填写以下信息，我们将在24小时内与您联系。',
+    agent_field_name: '姓名 *', agent_ph_name: '例：张小美',
+    agent_field_phone: '手机号码 *',
+    agent_field_channel: '主要推广渠道',
+    agent_ch_select: '请选择渠道',
+    agent_ch_wom: '口口相传',
+    agent_ch_other: '其他',
+    agent_field_bank: '开户银行',
+    agent_bank_select: '请选择银行',
+    agent_field_acc: '银行账号',
+    agent_field_bio: '简单介绍（选填）',
+    agent_ph_bio: '例：我有一个美妆主页，5K粉丝，希望帮助推广...',
+    agent_submit_btn: '申请成为 Agent 🌸',
+    agent_success_title: '申请已收到！',
+    agent_success_sub: '我们的团队将在24小时内与您联系。<br>感谢您有意与 Brow Studio 合作 🌸',
   }
 };
 
