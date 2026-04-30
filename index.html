@@ -614,6 +614,7 @@
   .hero-svc-opt:hover { border-color: var(--hero-accent); background: rgba(255,255,255,0.95); }
   .hero-svc-opt.selected { border: 2px solid var(--hero-accent); background: var(--hero-accent-light); }
   .hero-svc-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .hero-svc-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
   .hero-svc-price { font-size: 12px; color: var(--orange); margin-top: 3px; font-weight: 500; }
 
   /* Mini calendar in hero */
@@ -881,16 +882,62 @@
     color: #fff; margin-bottom: 4px;
   }
   .form-header p { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 400; }
-  .step-bar { display: flex; border-bottom: 1px solid var(--border-soft); background: #fff; }
-  .step-item {
-    flex: 1; text-align: center;
-    padding: 14px 6px; font-size: 13px;
-    color: var(--text-muted); font-weight: 400;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s; line-height: 1.4;
+
+  /* ── STEP PROGRESS BAR (ใหม่) ── */
+  .step-bar {
+    padding: 16px 20px 14px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-soft);
   }
-  .step-item.active { color: var(--orange); border-bottom: 2px solid var(--orange); font-weight: 600; }
-  .step-item.done { color: var(--success); font-weight: 500; }
+  .step-bar-row {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+  }
+  .step-bar-label {
+    font-size: 13px; font-weight: 600; color: var(--text);
+  }
+  .step-bar-count {
+    font-size: 12px; color: var(--text-muted);
+  }
+  .step-bar-track {
+    height: 6px; background: rgba(212,160,172,0.18); border-radius: 99px; overflow: hidden; margin-bottom: 12px;
+  }
+  .step-bar-fill {
+    height: 6px; background: var(--accent); border-radius: 99px;
+    transition: width 0.4s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  .step-dots {
+    display: flex; gap: 8px;
+  }
+  .step-dot {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1;
+  }
+  .step-dot-circle {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    background: rgba(212,160,172,0.15); color: var(--text-muted);
+    border: 2px solid transparent;
+    transition: all 0.25s;
+  }
+  .step-dot.done .step-dot-circle {
+    background: var(--success); color: #fff; border-color: var(--success);
+    font-size: 11px;
+  }
+  .step-dot.active .step-dot-circle {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+    box-shadow: 0 2px 10px rgba(139,58,74,0.3);
+  }
+  .step-dot-label {
+    font-size: 9px; color: var(--text-muted); font-weight: 500;
+    text-align: center; white-space: nowrap; overflow: hidden;
+    max-width: 48px; text-overflow: ellipsis; line-height: 1.2;
+  }
+  .step-dot.active .step-dot-label { color: var(--accent); font-weight: 700; }
+  .step-dot.done .step-dot-label { color: var(--success); }
+
+  /* legacy .step-item — keep for dark mode overrides */
+  .step-item { display: none; }
+
   .form-body { padding: 2rem; }
 
   /* ===== SERVICE SELECT ===== */
@@ -4153,20 +4200,24 @@
     <!-- Service grid -->
     <div class="hero-booking-label" style="margin-top:0.25rem;" data-i18n="label_service">Service</div>
     <div class="hero-svc-grid" id="heroSvcGrid" style="margin-bottom:1rem;">
-      <div class="hero-svc-opt selected" onclick="selectHeroSvc(this,'Brow Tattoo 6D','2,500')">
-        <div class="hero-svc-name">Brow Tattoo 6D</div>
+      <div class="hero-svc-opt selected" onclick="selectHeroSvc(this,'สักคิ้ว 6D','2,500')">
+        <div class="hero-svc-name">สักคิ้ว 6D</div>
+        <div class="hero-svc-desc">เส้นละเอียด เป็นธรรมชาติ</div>
         <div class="hero-svc-price">฿2,500</div>
       </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Lash Extensions','1,200')">
-        <div class="hero-svc-name">Lash Extensions</div>
+      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'ต่อขนตา','1,200')">
+        <div class="hero-svc-name">ต่อขนตา</div>
+        <div class="hero-svc-desc">Classic / Volume</div>
         <div class="hero-svc-price">฿1,200</div>
       </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Lip Tattoo','3,000')">
-        <div class="hero-svc-name">Lip Tattoo</div>
+      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'สักปาก','3,000')">
+        <div class="hero-svc-name">สักปาก</div>
+        <div class="hero-svc-desc">ติดทนนาน 1–3 ปี</div>
         <div class="hero-svc-price">฿3,000</div>
       </div>
       <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Microblading','3,500')">
         <div class="hero-svc-name">Microblading</div>
+        <div class="hero-svc-desc">ลายเส้นคมชัดมาก</div>
         <div class="hero-svc-price">฿3,500</div>
       </div>
     </div>
@@ -4260,12 +4311,26 @@
         <h3>Brow Studio</h3>
         <p id="bookingHeaderSub" data-i18n="book_header_sub">Chiang Mai · Open Mon–Sat 10:00–18:00</p>
       </div>
-      <div class="step-bar">
-        <div class="step-item active" id="st1" data-i18n="step1">① สาขา</div>
-        <div class="step-item" id="st2" data-i18n="step2">② บริการ</div>
-        <div class="step-item" id="st3" data-i18n="step3">③ วัน-เวลา</div>
-        <div class="step-item" id="st4" data-i18n="step4">④ ข้อมูล</div>
-        <div class="step-item" id="st5" data-i18n="step5">⑤ ยืนยัน</div>
+      <div class="step-bar" id="stepBarWrap">
+        <!-- hidden legacy items (used by JS logic) -->
+        <div class="step-item active" id="st1" data-i18n="step1" style="display:none">① สาขา</div>
+        <div class="step-item" id="st2" data-i18n="step2" style="display:none">② บริการ</div>
+        <div class="step-item" id="st3" data-i18n="step3" style="display:none">③ วัน-เวลา</div>
+        <div class="step-item" id="st4" data-i18n="step4" style="display:none">④ ข้อมูล</div>
+        <div class="step-item" id="st5" data-i18n="step5" style="display:none">⑤ ยืนยัน</div>
+        <!-- New progress UI -->
+        <div class="step-bar-row">
+          <span class="step-bar-label" id="stepBarCurrent">เลือกสาขา</span>
+          <span class="step-bar-count" id="stepBarCount">ขั้นที่ 1 จาก 5</span>
+        </div>
+        <div class="step-bar-track"><div class="step-bar-fill" id="stepBarFill" style="width:20%"></div></div>
+        <div class="step-dots" id="stepDots">
+          <div class="step-dot active" id="sd1"><div class="step-dot-circle">1</div><div class="step-dot-label">สาขา</div></div>
+          <div class="step-dot" id="sd2"><div class="step-dot-circle">2</div><div class="step-dot-label">บริการ</div></div>
+          <div class="step-dot" id="sd3"><div class="step-dot-circle">3</div><div class="step-dot-label">วัน-เวลา</div></div>
+          <div class="step-dot" id="sd4"><div class="step-dot-circle">4</div><div class="step-dot-label">ข้อมูล</div></div>
+          <div class="step-dot" id="sd5"><div class="step-dot-circle">5</div><div class="step-dot-label">ยืนยัน</div></div>
+        </div>
       </div>
       <div class="form-body">
         <!-- PAGE 0: Branch -->
@@ -5771,6 +5836,7 @@ function renderSvcSelectGrid() {
     return '<div class="svc-opt" onclick="pickSvc(this,\''+escHtml(s.name)+'\',\''+s.price+'\',\''+s.duration_min+'\',\'svc\',\''+s.id+'\')">' +
       imgHtml +
       '<div class="svc-opt-name">'+(s.icon||'✦')+' '+escHtml(s.name)+'</div>' +
+      (s.desc ? '<div class="svc-opt-desc" style="font-size:11px;color:var(--text-muted);margin-top:3px;line-height:1.4;">'+escHtml(s.desc)+'</div>' : '') +
       '<div class="svc-opt-price">'+parseInt(s.price).toLocaleString()+' ฿</div>' +
       '<div class="svc-opt-dur">'+s.duration_min+' นาที</div>' +
     '</div>';
@@ -5868,6 +5934,23 @@ function goPage(n) {
     if (idx < n) s.classList.add('done');
     else if (idx === n) s.classList.add('active');
   });
+  // Update new progress bar UI
+  var stepLabels = ['เลือกสาขา','เลือกบริการ','วันและเวลา','ข้อมูลของคุณ','ยืนยันการจอง'];
+  var fill = document.getElementById('stepBarFill');
+  var cur  = document.getElementById('stepBarCurrent');
+  var cnt  = document.getElementById('stepBarCount');
+  if (fill) fill.style.width = ((n+1)/5*100)+'%';
+  if (cur && stepLabels[n])  cur.textContent = stepLabels[n];
+  if (cnt)  cnt.textContent = 'ขั้นที่ '+(n+1)+' จาก 5';
+  for (var di=1; di<=5; di++) {
+    var dot = document.getElementById('sd'+di);
+    if (!dot) continue;
+    var circle = dot.querySelector('.step-dot-circle');
+    dot.className = 'step-dot';
+    if (di-1 < n) { dot.classList.add('done'); if (circle) circle.innerHTML = '✓'; }
+    else if (di-1 === n) { dot.classList.add('active'); if (circle) circle.textContent = di; }
+    else { if (circle) circle.textContent = di; }
+  }
   if (n === 4) fillConfirm();
   if (n === 1) {
     renderSvcSelectGrid();
