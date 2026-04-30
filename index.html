@@ -76,8 +76,8 @@
     border-radius: 50px; padding: 3px;
   }
   .lang-btn {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
-    padding: 5px 11px; border-radius: 50px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.2px;
+    padding: 5px 12px; border-radius: 50px;
     border: none; background: transparent;
     color: var(--text-muted); cursor: pointer;
     font-family: 'IBM Plex Sans Thai', sans-serif;
@@ -370,20 +370,20 @@
   .nav-logo span { color: var(--rose); }
   .nav-links { display: flex; gap: 2.5rem; }
   .nav-links a {
-    font-size: 12px; font-weight: 500;
+    font-size: 14px; font-weight: 500;
     color: var(--text-muted); text-decoration: none;
-    transition: color 0.2s; letter-spacing: 0.8px;
-    text-transform: uppercase;
+    transition: color 0.2s; letter-spacing: 0.2px;
+    text-transform: none;
   }
   .nav-links a:hover { color: var(--text); }
   .nav-book {
     background: var(--hero-accent); color: #fff;
     border: none; border-radius: 50px;
-    padding: 10px 24px; font-size: 12px;
+    padding: 10px 24px; font-size: 14px;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
     cursor: pointer; transition: all 0.25s;
-    text-decoration: none; letter-spacing: 0.5px;
-    text-transform: uppercase;
+    text-decoration: none; letter-spacing: 0.2px;
+    text-transform: none;
   }
   .nav-book:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(122,90,58,0.35); }
   [data-theme="dark"] .nav-book { background: #E8B0BC; color: #1A0D12; }
@@ -542,11 +542,11 @@
   .btn-primary {
     background: var(--hero-accent); color: #fff;
     border: none; border-radius: 50px;
-    padding: 15px 32px; font-size: 13px;
+    padding: 15px 32px; font-size: 15px;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
     cursor: pointer; transition: all 0.28s;
     text-decoration: none; display: inline-block;
-    letter-spacing: 0.5px; text-transform: uppercase;
+    letter-spacing: 0.2px; text-transform: none;
   }
   .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(122,90,58,0.35); }
   [data-theme="dark"] .btn-primary { background: #E8B0BC; color: #1A0D12; }
@@ -555,11 +555,11 @@
     background: transparent; color: var(--text);
     border: 1.5px solid rgba(212,160,172,0.35);
     border-radius: 50px;
-    padding: 15px 32px; font-size: 13px;
+    padding: 15px 32px; font-size: 15px;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
     cursor: pointer; transition: all 0.25s;
     text-decoration: none; display: inline-block;
-    letter-spacing: 0.5px; text-transform: uppercase;
+    letter-spacing: 0.2px; text-transform: none;
   }
   .btn-secondary:hover { background: rgba(212,160,172,0.08); border-color: var(--peach); }
   .hero-stats {
@@ -881,16 +881,16 @@
     color: #fff; margin-bottom: 4px;
   }
   .form-header p { font-size: 13px; color: rgba(255,255,255,0.6); font-weight: 400; }
-  .step-bar { display: flex; border-bottom: 1px solid var(--border-soft); }
+  .step-bar { display: flex; border-bottom: 1px solid var(--border-soft); background: #fff; }
   .step-item {
     flex: 1; text-align: center;
-    padding: 12px 4px; font-size: 12px;
+    padding: 14px 6px; font-size: 13px;
     color: var(--text-muted); font-weight: 400;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s;
+    transition: all 0.2s; line-height: 1.4;
   }
   .step-item.active { color: var(--orange); border-bottom: 2px solid var(--orange); font-weight: 600; }
-  .step-item.done { color: var(--peach); }
+  .step-item.done { color: var(--success); font-weight: 500; }
   .form-body { padding: 2rem; }
 
   /* ===== SERVICE SELECT ===== */
@@ -1395,29 +1395,30 @@
   .adm-logo-sub { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 0.5px; }
   .adm-group { padding: 10px 8px 4px; }
   .adm-group-label {
-    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: rgba(255,255,255,0.2); padding: 0 8px; margin-bottom: 3px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); padding: 0 8px; margin-bottom: 4px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 600;
+    user-select: none;
   }
   .admin-nav-btn {
     display: flex; align-items: center; gap: 8px;
-    width: 100%; padding: 8px 10px; border-radius: 7px;
+    width: 100%; padding: 9px 10px; border-radius: 7px;
     cursor: pointer; border: none; background: none;
     margin-bottom: 1px; transition: all 0.15s;
     font-family: 'IBM Plex Sans Thai', sans-serif; white-space: nowrap;
     text-align: left;
   }
-  .admin-nav-btn .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
-  .admin-nav-btn .nav-label { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 400; }
+  .admin-nav-btn .nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+  .admin-nav-btn .nav-label { font-size: 14px; color: rgba(255,255,255,0.55); font-weight: 400; }
   .admin-nav-btn .notif-dot {
     margin-left: auto; background: var(--orange); color: #fff;
-    font-size: 9px; font-weight: 600; padding: 1px 6px;
+    font-size: 10px; font-weight: 600; padding: 1px 6px;
     border-radius: 50px; flex-shrink: 0;
   }
-  .admin-nav-btn:hover { background: rgba(255,255,255,0.06); }
-  .admin-nav-btn:hover .nav-label { color: rgba(255,255,255,0.75); }
-  .admin-nav-btn.active { background: rgba(212,160,172,0.18); }
-  .admin-nav-btn.active .nav-label { color: #f0c090; font-weight: 500; }
+  .admin-nav-btn:hover { background: rgba(255,255,255,0.08); }
+  .admin-nav-btn:hover .nav-label { color: rgba(255,255,255,0.85); }
+  .admin-nav-btn.active { background: rgba(212,160,172,0.22); }
+  .admin-nav-btn.active .nav-label { color: #f0c090; font-weight: 600; }
   .adm-sidebar-footer {
     margin-top: auto; padding: 10px 8px;
     border-top: 1px solid rgba(255,255,255,0.07);
@@ -3028,10 +3029,8 @@
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-panel">
     <div class="admin-header">
-      <h2>⚙ ADMIN · BROW STUDIO</h2>
+      <h2>⚙ Admin · Brow Studio</h2>
       <div style="display:flex;gap:8px;align-items:center;">
-        <button onclick="adminRefreshAll()" title="โหลดข้อมูลใหม่จาก Supabase" style="background:var(--rose-pale);border:1px solid var(--peach);color:var(--text);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;" id="adminRefreshBtn">🔄 รีเฟรช</button>
-        <button onclick="openQRModal()" title="QR Code จองคิว" style="background:var(--rose-pale);border:1px solid var(--peach);color:var(--text);border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;">🔲 QR</button>
         <button class="admin-close" onclick="closeAdmin()">✕</button>
       </div>
     </div>
@@ -3058,50 +3057,50 @@
           </div>
         </div>
 
-        <!-- Group: หลัก -->
+        <!-- Group: หลัก (ใช้ทุกวัน) -->
         <div class="adm-group">
-          <div class="adm-group-label">หลัก</div>
+          <div class="adm-group-label">ใช้บ่อย</div>
           <button class="admin-nav-btn active" onclick="switchAdminTab('bookings', this)"><span class="nav-icon">📋</span><span class="nav-label" data-i18n="adm_tab_bookings">การจอง</span><span class="notif-dot" id="notif-bookings" style="display:none;">!</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('slips', this)"><span class="nav-icon">💳</span><span class="nav-label" data-i18n="adm_tab_slips">ตรวจสลิป</span><span class="notif-dot" id="notif-slips" style="display:none;">!</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('weekly', this)"><span class="nav-icon">📆</span><span class="nav-label" data-i18n="adm_tab_weekly">ปฏิทิน</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('revenue', this)"><span class="nav-icon">📊</span><span class="nav-label" data-i18n="adm_tab_revenue">รายได้</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('crm', this)"><span class="nav-icon">👤</span><span class="nav-label" data-i18n="adm_tab_crm">ลูกค้า (CRM)</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('weekly', this)"><span class="nav-icon">📆</span><span class="nav-label" data-i18n="adm_tab_weekly">ปฏิทินสัปดาห์</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('crm', this)"><span class="nav-icon">👤</span><span class="nav-label" data-i18n="adm_tab_crm">ลูกค้า</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('reminders', this)"><span class="nav-icon">🔔</span><span class="nav-label" data-i18n="adm_tab_reminders">แจ้งเตือน</span></button>
         </div>
 
-        <!-- Group: จัดการ -->
+        <!-- Group: จัดการร้าน -->
         <div class="adm-group">
-          <div class="adm-group-label">จัดการ</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('services', this)"><span class="nav-icon">🛎</span><span class="nav-label" data-i18n="adm_tab_services">บริการ</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('staff', this)"><span class="nav-icon">👩‍🎨</span><span class="nav-label">ช่าง / Staff</span></button>
+          <div class="adm-group-label">จัดการร้าน</div>
+          <button class="admin-nav-btn" onclick="switchAdminTab('services', this)"><span class="nav-icon">🛎</span><span class="nav-label" data-i18n="adm_tab_services">บริการ & ราคา</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('packages', this)"><span class="nav-icon">🎁</span><span class="nav-label" data-i18n="adm_tab_packages">แพ็กเกจ</span></button>
+          <button class="admin-nav-btn" onclick="switchAdminTab('staff', this)"><span class="nav-icon">👩‍🎨</span><span class="nav-label">ช่าง</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('branches', this)"><span class="nav-icon">🏪</span><span class="nav-label" data-i18n="adm_tab_branches">สาขา</span></button>
           <button class="admin-nav-btn" onclick="switchAdminTab('holidays', this)"><span class="nav-icon">📅</span><span class="nav-label" data-i18n="adm_tab_holidays">วันหยุด</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('packages', this)"><span class="nav-icon">🎁</span><span class="nav-label" data-i18n="adm_tab_packages">แพ็กเกจ</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('agents', this)"><span class="nav-icon">👥</span><span class="nav-label">Agent</span></button>
         </div>
 
-        <!-- Group: การตลาด -->
+        <!-- Group: เพิ่มเติม (พับได้) -->
         <div class="adm-group">
-          <div class="adm-group-label">การตลาด</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('reviews', this)"><span class="nav-icon">⭐</span><span class="nav-label" data-i18n="adm_tab_reviews">รีวิว</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('portfolio', this)"><span class="nav-icon">🖼</span><span class="nav-label">Portfolio</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('beforeafter', this)"><span class="nav-icon">🖼</span><span class="nav-label">Before/After</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('referral', this)"><span class="nav-icon">🔗</span><span class="nav-label">Referral</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('customerreferral', this)"><span class="nav-icon">🤝</span><span class="nav-label">Referral ลูกค้า</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('points', this)"><span class="nav-icon">🎖</span><span class="nav-label">Points</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('waitlistadmin', this)"><span class="nav-icon">⏳</span><span class="nav-label">Waitlist</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('livecontent', this)" id="liveContentNavBtn"><span class="nav-icon">✏️</span><span class="nav-label">Live Editor <span id="liveEditDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4fa870;vertical-align:middle;margin-left:3px;"></span></span></button>
-        </div>
-
-        <!-- Group: ระบบ -->
-        <div class="adm-group">
-          <div class="adm-group-label">ระบบ</div>
-          <button class="admin-nav-btn" onclick="switchAdminTab('reminders', this)"><span class="nav-icon">🔔</span><span class="nav-label" data-i18n="adm_tab_reminders">แจ้งเตือน</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('autoreminder', this)"><span class="nav-icon">⏰</span><span class="nav-label" data-i18n="adm_tab_autoreminder">แจ้งเตือนอัตโนมัติ</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('followup', this)"><span class="nav-icon">🔔</span><span class="nav-label">Follow-up</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('line', this)"><span class="nav-icon">📨</span><span class="nav-label">Telegram</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('gcal', this)"><span class="nav-icon">📅</span><span class="nav-label">Google Cal</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('exportexcel', this)"><span class="nav-icon">📊</span><span class="nav-label">Export Excel</span></button>
-          <button class="admin-nav-btn" onclick="switchAdminTab('settings', this)"><span class="nav-icon">⚙️</span><span class="nav-label" data-i18n="adm_tab_settings">ตั้งค่า</span></button>
+          <div class="adm-group-label" onclick="toggleAdmExtra()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+            <span>เพิ่มเติม</span>
+            <span id="admExtraArrow" style="font-size:10px;transition:transform 0.2s;">▼</span>
+          </div>
+          <div id="admExtraGroup" style="display:none;">
+            <button class="admin-nav-btn" onclick="switchAdminTab('reviews', this)"><span class="nav-icon">⭐</span><span class="nav-label" data-i18n="adm_tab_reviews">รีวิว</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('portfolio', this)"><span class="nav-icon">🖼</span><span class="nav-label">Portfolio</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('beforeafter', this)"><span class="nav-icon">🖼</span><span class="nav-label">Before/After</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('referral', this)"><span class="nav-icon">🔗</span><span class="nav-label">Referral</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('customerreferral', this)"><span class="nav-icon">🤝</span><span class="nav-label">Referral ลูกค้า</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('points', this)"><span class="nav-icon">🎖</span><span class="nav-label">Points</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('waitlistadmin', this)"><span class="nav-icon">⏳</span><span class="nav-label">Waitlist</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('agents', this)"><span class="nav-icon">👥</span><span class="nav-label">Agent</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('livecontent', this)" id="liveContentNavBtn"><span class="nav-icon">✏️</span><span class="nav-label">Live Editor <span id="liveEditDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4fa870;vertical-align:middle;margin-left:3px;"></span></span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('autoreminder', this)"><span class="nav-icon">⏰</span><span class="nav-label" data-i18n="adm_tab_autoreminder">แจ้งเตือนอัตโนมัติ</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('followup', this)"><span class="nav-icon">🔔</span><span class="nav-label">Follow-up</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('line', this)"><span class="nav-icon">📨</span><span class="nav-label">Telegram</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('gcal', this)"><span class="nav-icon">📅</span><span class="nav-label">Google Cal</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('exportexcel', this)"><span class="nav-icon">📊</span><span class="nav-label">Export Excel</span></button>
+            <button class="admin-nav-btn" onclick="switchAdminTab('settings', this)"><span class="nav-icon">⚙️</span><span class="nav-label" data-i18n="adm_tab_settings">ตั้งค่า</span></button>
+          </div>
         </div>
 
         <div class="adm-sidebar-footer">
@@ -3352,7 +3351,7 @@
           <!-- PIN CHANGE -->
           <div class="line-config-card" style="border:2px solid rgba(180,120,80,0.2);">
             <div class="line-config-title">🔒 เปลี่ยน PIN Admin</div>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">PIN ปัจจุบัน: <strong style="color:var(--text);">1234</strong> (ค่าเริ่มต้น) — เปลี่ยนได้ที่นี่</p>
+            <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">เปลี่ยน PIN Admin ได้ที่นี่ (กรอก PIN ปัจจุบันก่อนเพื่อยืนยัน)</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
               <div class="field" style="margin:0;">
                 <label>PIN ใหม่ (4-8 หลัก)</label>
@@ -4069,8 +4068,8 @@
   </div>
   <div class="nav-right">
     <div class="lang-switcher">
-      <button class="lang-btn" onclick="setLang('th')">TH</button>
-      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn active" onclick="setLang('th')">TH</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('zh')">中文</button>
     </div>
     <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle dark/light mode">
@@ -4095,8 +4094,8 @@
   <a href="#booking" onclick="closeMobileMenu()" style="color:var(--orange);font-weight:700;" data-i18n="nav_book">Book Now →</a>
   <div class="mobile-menu-footer">
     <div class="lang-switcher">
-      <button class="lang-btn" onclick="setLang('th');closeMobileMenu()">TH</button>
-      <button class="lang-btn active" onclick="setLang('en');closeMobileMenu()">EN</button>
+      <button class="lang-btn active" onclick="setLang('th');closeMobileMenu()">TH</button>
+      <button class="lang-btn" onclick="setLang('en');closeMobileMenu()">EN</button>
       <button class="lang-btn" onclick="setLang('zh');closeMobileMenu()">中文</button>
     </div>
     <button class="mobile-admin-btn" onclick="closeMobileMenu();openAdmin()">
@@ -4262,11 +4261,11 @@
         <p id="bookingHeaderSub" data-i18n="book_header_sub">Chiang Mai · Open Mon–Sat 10:00–18:00</p>
       </div>
       <div class="step-bar">
-        <div class="step-item active" id="st1" data-i18n="step1">1. Branch</div>
-        <div class="step-item" id="st2" data-i18n="step2">2. Service</div>
-        <div class="step-item" id="st3" data-i18n="step3">3. Date & Time</div>
-        <div class="step-item" id="st4" data-i18n="step4">4. Your Info</div>
-        <div class="step-item" id="st5" data-i18n="step5">5. Confirm</div>
+        <div class="step-item active" id="st1" data-i18n="step1">① สาขา</div>
+        <div class="step-item" id="st2" data-i18n="step2">② บริการ</div>
+        <div class="step-item" id="st3" data-i18n="step3">③ วัน-เวลา</div>
+        <div class="step-item" id="st4" data-i18n="step4">④ ข้อมูล</div>
+        <div class="step-item" id="st5" data-i18n="step5">⑤ ยืนยัน</div>
       </div>
       <div class="form-body">
         <!-- PAGE 0: Branch -->
@@ -4813,7 +4812,7 @@ var I18N = {
   }
 };
 
-var currentLang = localStorage.getItem('beautyos_lang') || 'en';
+var currentLang = localStorage.getItem('beautyos_lang') || 'th';
 
 function setLang(lang) {
   currentLang = lang;
@@ -6010,6 +6009,15 @@ async function openAdmin() {
   }
 }
 function closeAdmin() { document.getElementById('adminOverlay').classList.remove('show'); }
+function toggleAdmExtra() {
+  var group = document.getElementById('admExtraGroup');
+  var arrow = document.getElementById('admExtraArrow');
+  if (!group) return;
+  var isOpen = group.style.display !== 'none';
+  group.style.display = isOpen ? 'none' : 'block';
+  if (arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
 function toggleAdminSidebar() {
   var sidebar = document.getElementById('adminSidebar');
   if (!sidebar) return;
