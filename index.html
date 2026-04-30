@@ -439,287 +439,145 @@
   }
   .mobile-admin-btn:hover { background: var(--rose-pale); color: var(--text); }
 
-  /* ===== HERO — New Pink Gradient Layout ===== */
+  /* ===== HERO — Minimal Centered (Style C) ===== */
   .hero-wrapper {
-    background: linear-gradient(160deg, #F7E0E5 0%, #FDF8F5 100%);
-    padding: 100px 2rem 4rem;
+    background: #FDF8F5;
+    padding: 120px 2rem 0;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
   }
+  [data-theme="dark"] .hero-wrapper { background: #1A0D12 !important; }
 
   .hero {
     width: 100%;
-    max-width: 1040px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-radius: 28px;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(212,160,172,0.18);
-    position: relative;
-    min-height: 520px;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(212,160,172,0.18);
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding-bottom: 3rem;
   }
 
-  /* Hero LEFT — headline + CTA + stats */
-  .hero-left {
-    background: #ffffff;
-    position: relative;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 3rem 2.5rem;
-    min-height: 480px;
-    overflow: hidden;
-  }
-  .hero-left::before {
-    content: '';
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 0% 30%, rgba(212,160,172,0.1) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 80%, rgba(212,160,172,0.07) 0%, transparent 50%);
-    pointer-events: none;
-  }
-  .hero-orb {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-  }
-  .hero-orb-1 {
-    width: 160px; height: 160px;
-    opacity: 0;
-    top: 30px; right: -40px;
-  }
-  .hero-orb-2 {
-    width: 90px; height: 90px;
-    opacity: 0;
-    bottom: 60px; left: -20px;
-  }
-  .hero-orb-3 {
-    width: 50px; height: 50px;
-    opacity: 0;
-    top: 50%; left: 80%;
-  }
-
-  .hero-tag {
-    font-size: 11px; letter-spacing: 4px;
-    color: var(--orange); text-transform: uppercase;
-    margin-bottom: 1.5rem; font-weight: 500;
-    font-family: 'IBM Plex Sans Thai', sans-serif;
-    display: inline-flex; align-items: center; gap: 8px;
-    align-self: flex-start;
-    background: rgba(212,160,172,0.1);
-    padding: 6px 16px; border-radius: 50px;
-    border: 1px solid rgba(212,160,172,0.22);
-  }
-  .hero h1 {
-    font-family: 'Clash Display', sans-serif;
-    font-size: clamp(52px, 6vw, 80px);
-    font-weight: 400; line-height: 1.0;
-    color: var(--text);
-    margin-bottom: 0.6rem;
-    letter-spacing: -1px;
-    animation: fadeUp 0.7s 0.1s ease both;
-    position: relative; z-index: 1;
-  }
-  .hero h1 em { font-style: italic; color: var(--orange); }
-  .hero-sub {
-    font-size: 15px; color: var(--text-muted);
-    margin-bottom: 2.5rem; letter-spacing: 0.2px;
-    font-weight: 400; line-height: 1.85;
-    max-width: 360px;
-    animation: fadeUp 0.7s 0.2s ease both;
-    position: relative; z-index: 1;
-  }
-  .hero-btns {
-    display: flex; gap: 10px; flex-wrap: wrap;
-    animation: fadeUp 0.7s 0.3s ease both;
-    margin-bottom: 3rem;
-    position: relative; z-index: 1;
-  }
-  .btn-primary {
-    background: var(--hero-accent); color: #fff;
-    border: none; border-radius: 50px;
-    padding: 15px 32px; font-size: 15px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
-    cursor: pointer; transition: all 0.28s;
-    text-decoration: none; display: inline-block;
-    letter-spacing: 0.2px; text-transform: none;
-  }
-  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(122,90,58,0.35); }
-  [data-theme="dark"] .btn-primary { background: #E8B0BC; color: #1A0D12; }
-  [data-theme="dark"] .btn-primary:hover { background: #B0A080; opacity: 1; }
-  .btn-secondary {
-    background: transparent; color: var(--text);
-    border: 1.5px solid rgba(212,160,172,0.35);
-    border-radius: 50px;
-    padding: 15px 32px; font-size: 15px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
-    cursor: pointer; transition: all 0.25s;
-    text-decoration: none; display: inline-block;
-    letter-spacing: 0.2px; text-transform: none;
-  }
-  .btn-secondary:hover { background: rgba(212,160,172,0.08); border-color: var(--peach); }
-  .hero-stats {
-    display: flex; gap: 2.5rem;
-    flex-wrap: wrap;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(212,160,172,0.18);
-    animation: fadeUp 0.7s 0.4s ease both;
-    position: relative; z-index: 1;
-  }
-  .stat { text-align: left; }
-  .stat-num {
-    font-family: 'Clash Display', sans-serif;
-    font-size: 34px; font-weight: 400;
-    color: var(--text); display: block; letter-spacing: -1px;
-  }
-  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.3px; }
-
-  /* Hero RIGHT — Booking card */
-  .hero-right {
-    background: #FDF8F5;
-    border-left: 1px solid rgba(212,160,172,0.15);
-    display: flex; flex-direction: column;
-    padding: 2rem 2rem 1.5rem;
-    gap: 0;
-    animation: fadeUp 0.7s 0.15s ease both;
-    overflow-y: auto;
-    position: relative; z-index: 1;
-  }
-  .hero-recommended-label {
-    font-size: 11px; font-weight: 500; color: var(--text-muted);
-    letter-spacing: 3px; text-transform: uppercase;
-    margin-bottom: 1rem;
-    font-family: 'IBM Plex Sans Thai', sans-serif;
-  }
-  .hero-recommended-label span {
-    font-size: 18px; color: var(--text); letter-spacing: 0; text-transform: none;
-    font-family: 'Clash Display', sans-serif; font-weight: 400;
-    display: block; margin-top: 4px;
-  }
-
-  /* Quick service grid in hero */
-  .hero-svc-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-  }
-  .hero-svc-opt {
-    background: rgba(255,255,255,0.8);
-    border: 1.5px solid var(--hero-accent-border);
-    border-radius: 14px; padding: 13px 15px;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .hero-svc-opt:hover { border-color: var(--hero-accent); background: rgba(255,255,255,0.95); }
-  .hero-svc-opt.selected { border: 2px solid var(--hero-accent); background: var(--hero-accent-light); }
-  .hero-svc-name { font-size: 13px; font-weight: 500; color: var(--text); }
-  .hero-svc-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
-  .hero-svc-price { font-size: 12px; color: var(--orange); margin-top: 3px; font-weight: 500; }
-
-  /* Mini calendar in hero */
-  .hero-mini-cal {
-    background: rgba(255,255,255,0.8);
-    border-radius: 14px; padding: 14px 16px;
-    border: 1px solid rgba(212,160,172,0.15);
-  }
-  .hero-cal-label { font-size: 10px; color: var(--text-muted); font-weight: 500; margin-bottom: 10px; letter-spacing: 1px; text-transform: uppercase; }
-  .hero-cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 4px; }
-  .hero-cal-dow { text-align: center; font-size: 10px; color: var(--text-muted); font-weight: 500; }
-  .hero-cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-  /* ── HERO ACCENT COLOR (unified) ── */
+  /* ── HERO ACCENT COLOR ── */
   :root {
-    --hero-accent: #9E6070;
-    --hero-accent-light: rgba(122,90,58,0.12);
-    --hero-accent-border: rgba(122,90,58,0.35);
+    --hero-accent: #8B3A4A;
+    --hero-accent-light: rgba(139,58,74,0.08);
+    --hero-accent-border: rgba(139,58,74,0.25);
   }
   [data-theme="dark"] {
     --hero-accent: #E8B0BC;
-    --hero-accent-light: rgba(232,176,188,0.15);
-    --hero-accent-border: rgba(232,176,188,0.5);
+    --hero-accent-light: rgba(232,176,188,0.12);
+    --hero-accent-border: rgba(232,176,188,0.4);
   }
 
-  .hero-cal-day {
-    text-align: center; font-size: 11px; font-weight: 400;
-    padding: 5px 0; border-radius: 8px; cursor: pointer;
-    color: var(--text); transition: all 0.15s;
-  }
-  .hero-cal-day:hover:not(.hero-cal-empty):not(.hero-cal-today):not(.hero-cal-past) { background: var(--hero-accent-light); }
-  .hero-cal-day.hero-cal-today { background: var(--hero-accent); color: #fff; font-weight: 600; }
-  .hero-cal-day.hero-cal-selected { background: var(--hero-accent); color: #fff; font-weight: 600; }
-  .hero-cal-day.hero-cal-empty { visibility: hidden; }
-  .hero-cal-day.hero-cal-past { color: rgba(122,90,58,0.3); cursor: default; pointer-events: none; }
+  /* Hero — Minimal Centered */
+  .hero-left, .hero-right { display: none; }
+  .hero-orb { display: none; }
 
-  /* Time slots in hero */
-  .hero-time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-  .hero-time-btn {
-    text-align: center; background: rgba(255,255,255,0.8);
-    border: 1.5px solid var(--hero-accent-border);
-    border-radius: 10px; padding: 7px 4px;
-    font-size: 11px; font-weight: 500; cursor: pointer;
-    color: var(--text); transition: all 0.15s;
-  }
-  .hero-time-btn:hover { background: var(--hero-accent-light); border-color: var(--hero-accent); color: var(--text); }
-  .hero-time-btn.hero-time-selected { background: var(--hero-accent); color: #fff; border-color: var(--hero-accent); font-weight: 600; }
-  .hero-time-btn.hero-time-full { color: rgba(122,90,58,0.3); text-decoration: line-through; cursor: default; pointer-events: none; background: rgba(255,255,255,0.3); border-color: rgba(122,90,58,0.1); }
-
-  .hero-book-btn {
-    background: var(--hero-accent);
-    color: #fff; text-align: center;
-    padding: 14px; border-radius: 14px;
-    font-size: 14px; font-weight: 500;
+  .hero-tag {
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 2rem; font-weight: 500;
     font-family: 'IBM Plex Sans Thai', sans-serif;
-    cursor: pointer; border: none; width: 100%;
-    transition: all 0.25s; text-decoration: none; display: block;
-    letter-spacing: 0.3px;
   }
-  .hero-book-btn:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(122,90,58,0.3); }
-  .hero-booking-label {
-    font-size: 10px; font-weight: 500; color: var(--text-muted);
-    letter-spacing: 3px; text-transform: uppercase;
-    margin-bottom: 4px;
+  .hero h1 {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(48px, 7vw, 80px);
+    font-weight: 400; line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+    letter-spacing: -1.5px;
+    animation: fadeUp 0.6s ease both;
   }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 15px; color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    font-weight: 400; line-height: 1.8;
+    max-width: 480px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.6s 0.2s ease both;
+    margin-bottom: 0;
+  }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    border: none; border-radius: 50px;
+    padding: 15px 36px; font-size: 15px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    cursor: pointer; transition: all 0.25s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+  [data-theme="dark"] .btn-primary { background: #E8B0BC; color: #1A0D12; }
+  .btn-secondary {
+    background: transparent; color: var(--text-muted);
+    border: 1px solid rgba(139,58,74,0.25);
+    border-radius: 50px;
+    padding: 15px 36px; font-size: 15px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    cursor: pointer; transition: all 0.25s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { color: var(--text); border-color: var(--accent); }
 
-  /* Mobile: stack hero columns */
-  @media (max-width: 860px) {
-    .hero-wrapper { padding: 80px 1rem 2rem; }
-    .hero {
-      grid-template-columns: 1fr;
-      min-height: auto;
-    }
-    .hero-left {
-      min-height: auto;
-      padding: 2.5rem 1.5rem;
-    }
-    .hero-right {
-      padding: 2rem 1.5rem;
-      border-top: 1px solid rgba(212,160,172,0.12);
-      border-left: none;
-    }
-    .hero h1 { font-size: clamp(44px, 10vw, 64px); }
-    .hero-stats { gap: 1.5rem; }
-    .stat-num { font-size: 24px; }
-    .hero-time-grid { grid-template-columns: repeat(4, 1fr); }
+  /* Stats strip below hero buttons */
+  .hero-stats {
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(139,58,74,0.1);
+    margin-top: 4rem; width: 100%;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .stat {
+    flex: 1; text-align: center;
+    padding: 1.5rem 1rem;
+    border-right: 1px solid rgba(139,58,74,0.1);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 28px; font-weight: 400;
+    color: var(--text); display: block; letter-spacing: -0.5px;
+  }
+  .stat-label { font-size: 11px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.3px; margin-top: 3px; display: block; }
+
+  /* Mobile hero */
+  @media (max-width: 640px) {
+    .hero-wrapper { padding: 90px 1.5rem 0; }
+    .hero h1 { font-size: clamp(40px, 11vw, 60px); }
+    .hero-btns { flex-direction: column; align-items: stretch; }
+    .btn-primary, .btn-secondary { text-align: center; }
+    .stat-num { font-size: 22px; }
   }
 
   /* ===== SECTION ===== */
-  section { padding: 5.5rem 2rem; max-width: 960px; margin: 0 auto; }
+  section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
   .section-tag {
     font-size: 10px; letter-spacing: 4px;
-    color: var(--orange); text-transform: uppercase;
-    margin-bottom: 1rem; display: inline-block; font-weight: 500;
-    background: rgba(212,160,172,0.07);
-    padding: 5px 14px; border-radius: 50px;
-    border: 1px solid rgba(212,160,172,0.15);
+    color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 0.75rem; display: inline-block; font-weight: 500;
   }
   .section-title {
     font-family: 'Clash Display', sans-serif;
-    font-size: clamp(36px, 5.5vw, 60px);
+    font-size: clamp(28px, 4vw, 42px);
     font-weight: 400; color: var(--text);
-    margin-bottom: 1rem; letter-spacing: -1px;
-    line-height: 1.05;
+    margin-bottom: 0.75rem; letter-spacing: -0.5px;
+    line-height: 1.1;
   }
-  .section-desc { font-size: 15px; color: var(--text-muted); max-width: 560px; font-weight: 400; line-height: 1.75; }
+  .section-desc { font-size: 14px; color: var(--text-muted); max-width: 520px; font-weight: 400; line-height: 1.7; }
+
+  /* Hide sections moved to footer */
+  .member-section, .agent-join-section { display: none; }
 
   /* ===== SERVICES ===== */
   .services-grid {
@@ -4105,8 +3963,13 @@
 <nav id="mainNav">
   <div class="nav-logo">BROW <span>STUDIO</span></div>
   <div class="nav-links">
+    <a href="#services" data-i18n="nav_services">Services</a>
+    <a href="#packages" data-i18n="nav_packages">Packages</a>
     <a href="#portfolio" data-i18n="nav_portfolio">Portfolio</a>
     <a href="#reviews" data-i18n="nav_reviews">Reviews</a>
+    <a href="#check-booking" data-i18n="nav_mybooking">My Booking</a>
+    <a href="#member" data-i18n="nav_member">Membership</a>
+    <a href="#agent-join" data-i18n="nav_partner">Partner</a>
   </div>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -4126,8 +3989,13 @@
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobileMenu()" data-i18n="nav_services">Services</a>
+  <a href="#packages" onclick="closeMobileMenu()" data-i18n="nav_packages">Packages</a>
   <a href="#portfolio" onclick="closeMobileMenu()" data-i18n="nav_portfolio">Portfolio</a>
   <a href="#reviews" onclick="closeMobileMenu()" data-i18n="nav_reviews">Reviews</a>
+  <a href="#check-booking" onclick="closeMobileMenu()" data-i18n="nav_mybooking">My Booking</a>
+  <a href="#member" onclick="closeMobileMenu()" data-i18n="nav_member">Membership</a>
+  <a href="#agent-join" onclick="closeMobileMenu()" data-i18n="nav_partner">Partner</a>
   <a href="#booking" onclick="closeMobileMenu()" style="color:var(--orange);font-weight:700;" data-i18n="nav_book">Book Now →</a>
   <div class="mobile-menu-footer">
     <div class="lang-switcher">
@@ -4146,99 +4014,30 @@
   <a href="#booking">จองคิวออนไลน์ →</a>
 </div>
 
-<!-- HERO — Pink Gradient Layout -->
+<!-- HERO — Minimal Centered -->
 <div class="hero-wrapper">
 <div class="hero">
-
-  <!-- LEFT: Headline + CTA + Stats -->
-  <div class="hero-left">
-    <!-- Decorative orbs -->
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-    <div class="hero-orb hero-orb-3"></div>
-
-    <div class="hero-tag">✦ Brow Studio · <span data-i18n="hero_tag_loc">Powered by BeautyOS</span></div>
-    <h1 id="heroHeadline" data-i18n="hero_h1">Your Brows.<br><em>Your Way.</em><br>Booked.</h1>
-    <p class="hero-sub" id="heroSubline" data-i18n="hero_sub">Professional brow, lash & beauty services — book online in seconds, get instant confirmation.</p>
-    <div class="hero-btns">
-      <a href="#booking" class="btn-primary" id="heroCta" data-i18n="hero_cta">Book Now →</a>
-      <a href="#services" class="btn-secondary" data-i18n="hero_cta2">View Services</a>
+  <div class="hero-tag">✦ CHIANG MAI · BROW & LASH STUDIO</div>
+  <h1 id="heroHeadline" data-i18n="hero_h1">Your Brows.<br><em>Your Way.</em><br>Booked.</h1>
+  <p class="hero-sub" id="heroSubline" data-i18n="hero_sub">สักคิ้ว · ต่อขนตา · ทรีทเมนต์<br>จองออนไลน์ ยืนยันทันที ไม่ต้องรอ</p>
+  <div class="hero-btns">
+    <a href="#booking" class="btn-primary" id="heroCta" data-i18n="hero_cta">จองคิวเลย →</a>
+    <a href="#portfolio" class="btn-secondary" data-i18n="hero_cta2">ดูผลงาน</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">500+</span>
+      <span class="stat-label" data-i18n="stat1">ลูกค้า</span>
     </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <span class="stat-num">500+</span>
-        <span class="stat-label" data-i18n="stat1">Happy Clients</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">2</span>
-        <span class="stat-label" data-i18n="stat2">Locations</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">5★</span>
-        <span class="stat-label" data-i18n="stat3">Top Rated</span>
-      </div>
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label" data-i18n="stat2">สาขา</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">5★</span>
+      <span class="stat-label" data-i18n="stat3">รีวิว</span>
     </div>
   </div>
-
-  <!-- RIGHT: Booking card -->
-  <div class="hero-right">
-    <div class="hero-recommended-label">
-      <span data-i18n="hero_book_online">Book Online</span>
-      <span data-i18n="hero_book_sub">Choose Service · Date · Time</span>
-    </div>
-
-    <!-- Service grid -->
-    <div class="hero-booking-label" style="margin-top:0.25rem;" data-i18n="label_service">Service</div>
-    <div class="hero-svc-grid" id="heroSvcGrid" style="margin-bottom:1rem;">
-      <div class="hero-svc-opt selected" onclick="selectHeroSvc(this,'สักคิ้ว 6D','2,500')">
-        <div class="hero-svc-name">สักคิ้ว 6D</div>
-        <div class="hero-svc-desc">เส้นละเอียด เป็นธรรมชาติ</div>
-        <div class="hero-svc-price">฿2,500</div>
-      </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'ต่อขนตา','1,200')">
-        <div class="hero-svc-name">ต่อขนตา</div>
-        <div class="hero-svc-desc">Classic / Volume</div>
-        <div class="hero-svc-price">฿1,200</div>
-      </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'สักปาก','3,000')">
-        <div class="hero-svc-name">สักปาก</div>
-        <div class="hero-svc-desc">ติดทนนาน 1–3 ปี</div>
-        <div class="hero-svc-price">฿3,000</div>
-      </div>
-      <div class="hero-svc-opt" onclick="selectHeroSvc(this,'Microblading','3,500')">
-        <div class="hero-svc-name">Microblading</div>
-        <div class="hero-svc-desc">ลายเส้นคมชัดมาก</div>
-        <div class="hero-svc-price">฿3,500</div>
-      </div>
-    </div>
-
-    <!-- Mini Calendar -->
-    <div class="hero-mini-cal" style="margin-bottom:1rem;">
-      <div class="hero-cal-label" id="heroCalLabel">เมษายน 2569</div>
-      <div class="hero-cal-days-header">
-        <div class="hero-cal-dow">อา</div><div class="hero-cal-dow">จ</div><div class="hero-cal-dow">อ</div>
-        <div class="hero-cal-dow">พ</div><div class="hero-cal-dow">พฤ</div><div class="hero-cal-dow">ศ</div>
-        <div class="hero-cal-dow">ส</div>
-      </div>
-      <div class="hero-cal-days" id="heroCalDays"></div>
-    </div>
-
-    <!-- Time slots -->
-    <div class="hero-booking-label" data-i18n="label_times">Available Times</div>
-    <div class="hero-time-grid" style="margin-bottom:1rem;" id="heroTimeGrid">
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'10:00')">10:00</div>
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'11:00')">11:00</div>
-      <div class="hero-time-btn hero-time-full">12:00</div>
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'13:00')">13:00</div>
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'14:00')">14:00</div>
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'15:00')">15:00</div>
-      <div class="hero-time-btn hero-time-full">16:00</div>
-      <div class="hero-time-btn" onclick="selectHeroTime(this,'17:00')">17:00</div>
-    </div>
-
-    <a href="#booking" class="hero-book-btn" onclick="scrollToSection('booking')" data-i18n="nav_book">Book Now ✦</a>
-  </div>
-
 </div>
 </div>
 
@@ -4637,8 +4436,8 @@
 
 <!-- CONTACT -->
 <div class="contact-bar">
-  <h3 data-i18n="contact_title">Get in Touch</h3>
-  <p data-i18n="contact_sub">2 Locations in Chiang Mai, Thailand · Open Mon–Sat 10:00–18:00</p>
+  <h3 data-i18n="contact_title">ติดต่อเรา</h3>
+  <p data-i18n="contact_sub">2 สาขาในเชียงใหม่ · เปิดจันทร์–เสาร์ 10:00–18:00</p>
   <div class="contact-links">
     <a href="tel:0800000000" class="contact-link">📞 +66 8X-XXX-XXXX</a>
     <a href="https://line.me/ti/p/@browstudio" class="contact-link" target="_blank">💬 Line: @browstudio</a>
@@ -4647,28 +4446,13 @@
   </div>
 </div>
 
-<!-- BEAUTYOS PLATFORM STRIP -->
-<div style="background:#2a1a1f;padding:1.5rem 2rem;text-align:center;border-top:1px solid rgba(212,160,172,0.15);">
-  <div style="max-width:700px;margin:0 auto;">
-    <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px;font-family:'Clash Display',sans-serif;" data-i18n="powered_by">Powered by</div>
-    <div style="font-family:'Clash Display',sans-serif;font-size:22px;font-weight:500;color:#fff;letter-spacing:1px;margin-bottom:8px;">BeautyOS <span style="color:#4A1E2A;">✦</span></div>
-    <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;line-height:1.7;" data-i18n="beautyos_desc">The all-in-one booking & management platform for beauty salons worldwide.<br>Online booking · Staff scheduling · Payments · Reviews · Analytics</div>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-      <a href="#" style="font-size:12px;color:#4A1E2A;text-decoration:none;border:1px solid rgba(212,160,172,0.4);padding:8px 20px;border-radius:50px;letter-spacing:0.5px;transition:all 0.2s;" onmouseover="this.style.background='rgba(212,160,172,0.12)'" onmouseout="this.style.background='transparent'" data-i18n="beautyos_trial">Start Free Trial →</a>
-      <a href="#" style="font-size:12px;color:rgba(255,255,255,0.5);text-decoration:none;padding:8px 20px;letter-spacing:0.5px;" data-i18n="beautyos_owners">For Salon Owners</a>
-    </div>
-  </div>
-</div>
-
 <footer>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;margin-bottom:10px;font-size:13px;">
-    <a href="#services" style="color:inherit;opacity:0.65;text-decoration:none;" data-i18n="nav_services">Services</a>
-    <a href="#packages" style="color:inherit;opacity:0.65;text-decoration:none;" data-i18n="nav_packages">Packages</a>
-    <a href="#check-booking" style="color:inherit;opacity:0.65;text-decoration:none;" data-i18n="nav_mybooking">My Booking</a>
-    <a href="#member" style="color:inherit;opacity:0.65;text-decoration:none;" data-i18n="nav_member">Membership</a>
-    <a href="#agent-join" style="color:inherit;opacity:0.65;text-decoration:none;" data-i18n="nav_partner">Partner</a>
+    <a href="#member" style="color:inherit;opacity:0.55;text-decoration:none;">สมาชิก</a>
+    <a href="#check-booking" style="color:inherit;opacity:0.55;text-decoration:none;">เช็คการจอง</a>
+    <a href="#agent-join" style="color:inherit;opacity:0.55;text-decoration:none;">ร่วมธุรกิจ</a>
   </div>
-  <div>© 2025 Brow Studio · Chiang Mai, Thailand · <span data-i18n="footer_tagline">Professional Brow & Lash Studio</span> · <span style="color:var(--orange);">✦</span> Powered by BeautyOS</div>
+  <div>© 2025 Brow Studio · Chiang Mai · <span style="color:var(--orange);">✦</span> Powered by BeautyOS</div>
 </footer>
 
 <script>
