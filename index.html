@@ -68,6 +68,29 @@
   }
   h1,h2,h3,h4,h5,h6 { font-family: 'Clash Display', sans-serif; }
 
+  /* ===== SCROLL PROGRESS BAR ===== */
+  #scrollProgress {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), #D4608A, var(--accent));
+    transition: width 0.1s linear;
+    pointer-events: none;
+  }
+
+  /* ===== BACK TO TOP ===== */
+  #backToTop {
+    position: fixed; bottom: 24px; right: 24px; z-index: 200;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    border: none; font-size: 18px; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(139,58,74,0.4);
+    display: none; align-items: center; justify-content: center;
+    transition: all 0.25s; line-height: 1;
+  }
+  #backToTop.show { display: flex; }
+  #backToTop:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(139,58,74,0.5); }
+  [data-theme="dark"] #backToTop { background: #E8B0BC; color: #1A0D12; }
+
   /* ===== LANG SWITCHER ===== */
   .lang-switcher {
     display: flex; gap: 2px; align-items: center;
@@ -579,7 +602,9 @@
   .section-desc { font-size: 14px; color: var(--text-muted); max-width: 520px; font-weight: 400; line-height: 1.7; }
 
   /* Hide sections moved to footer */
-  .member-section, .agent-join-section { display: none; }
+  /* .member-section, .agent-join-section { display: none; } */
+  .member-section { display: block; }
+  .agent-join-section { display: block; }
 
   /* ===== SERVICES ===== */
   .services-grid {
@@ -2903,6 +2928,182 @@
   /* Focus */
   :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; border-radius: 4px; }
 
+  /* ============================================================
+     ✨ VISUAL UPGRADE — Eye-catching enhancements
+     ============================================================ */
+
+  /* Hero background ambient glow */
+  .hero-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,58,74,0.07) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: pulseGlow 6s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); }
+  }
+  [data-theme="dark"] .hero-wrapper::after {
+    background: radial-gradient(circle, rgba(232,176,188,0.08) 0%, transparent 70%);
+  }
+
+  /* Shimmer on primary button */
+  .btn-primary {
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-15deg);
+    animation: btnShimmer 3s ease-in-out infinite;
+  }
+  @keyframes btnShimmer {
+    0%,100% { left: -100%; }
+    60% { left: 150%; }
+  }
+
+  /* Floating animation for hero */
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Service card gradient top bar color variety */
+  .svc-card:nth-child(1)::after { background: linear-gradient(90deg, #F7C0CC, #8B3A4A); }
+  .svc-card:nth-child(2)::after { background: linear-gradient(90deg, #C0A8D8, #6B3A8A); }
+  .svc-card:nth-child(3)::after { background: linear-gradient(90deg, #A8D0C0, #3A8A6A); }
+  .svc-card:nth-child(4)::after { background: linear-gradient(90deg, #D0C0A0, #8A6A3A); }
+
+  /* Booking form header gradient */
+  .form-header {
+    background: linear-gradient(135deg, #4A1E2A 0%, #7A2A40 50%, #4A1E2A 100%) !important;
+    position: relative; overflow: hidden;
+  }
+  .form-header::before {
+    content: '';
+    position: absolute; top: -50%; right: -20%;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  /* Section title accent underline */
+  .section-title {
+    position: relative; display: inline-block;
+  }
+
+  /* Review card quote accent */
+  .review-card::before {
+    content: '"';
+    position: absolute; top: 12px; right: 16px;
+    font-size: 60px; line-height: 1;
+    color: rgba(139,58,74,0.06);
+    font-family: 'Clash Display', sans-serif;
+    pointer-events: none;
+  }
+
+  /* Nav book button pulse */
+  .nav-book {
+    animation: navPulse 4s ease-in-out infinite;
+  }
+  @keyframes navPulse {
+    0%,100% { box-shadow: 0 4px 16px rgba(139,58,74,0.3); }
+    50% { box-shadow: 0 6px 28px rgba(139,58,74,0.5); }
+  }
+
+  /* Gradient section divider */
+  .portfolio-section {
+    position: relative;
+  }
+  .portfolio-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(139,58,74,0.2), transparent);
+  }
+
+  /* Hero stats number animate */
+  .stat-num {
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  [data-theme="dark"] .stat-num {
+    background: linear-gradient(135deg, #F5E8EC 0%, #E8B0BC 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Step dot active glow */
+  .step-dot.active .step-dot-circle {
+    box-shadow: 0 0 0 4px rgba(139,58,74,0.15), 0 2px 10px rgba(139,58,74,0.3);
+  }
+
+  /* Submit button shimmer */
+  .btn-submit {
+    position: relative; overflow: hidden;
+  }
+  .btn-submit::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: shimmerBtn 2.5s ease-in-out infinite;
+  }
+  @keyframes shimmerBtn {
+    0%,100% { left: -100%; }
+    60% { left: 150%; }
+  }
+
+  /* Contact bar gradient */
+  .contact-bar {
+    background: linear-gradient(135deg, #3A1520 0%, #5A2535 40%, #3A1520 100%) !important;
+    position: relative; overflow: hidden;
+  }
+  .contact-bar::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(212,160,172,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Promo card hover effect */
+  .pkg-card, .promo-card {
+    transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1) !important;
+  }
+  .pkg-card:hover, .promo-card:hover {
+    transform: translateY(-6px) scale(1.01) !important;
+  }
+
+  /* Animated tag badge */
+  .section-tag {
+    background: linear-gradient(135deg, var(--accent-pale), transparent);
+    padding: 4px 12px; border-radius: 50px;
+    border: 1px solid rgba(139,58,74,0.15);
+  }
+
+  /* Mobile sticky bar upgrade */
+  .sticky-book-bar a {
+    background: linear-gradient(135deg, var(--accent) 0%, #6A2838 100%) !important;
+    box-shadow: 0 -2px 20px rgba(139,58,74,0.3) !important;
+    position: relative; overflow: hidden;
+  }
+  .sticky-book-bar a::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    animation: shimmerBtn 2s ease-in-out infinite;
+  }
+
 </style>
 </head>
 <body>
@@ -3988,7 +4189,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4A1E2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </button>
     <a href="#booking" class="nav-book" data-i18n="nav_book">Book Now →</a>
-    <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburgerBtn">☰</button>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()" id="hamburgerBtn"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
