@@ -14,7 +14,7 @@
 <style>
   :root {
     --accent: #8B3A4A;
-    --accent-light: #9E6070;
+    --accent-light: #7A3548;
     --accent-pale: #F7E0E5;
     --accent-dark: #4A1E2A;
     --bg: #FDF8F5;
@@ -23,23 +23,23 @@
     --border: rgba(139,58,74,0.18);
     --border-soft: rgba(139,58,74,0.10);
     --text: #2A0D16;
-    --text-muted: #9E6070;
+    --text-muted: #6B3040;
     --btn-bg: #4A1E2A;
     --btn-color: #ffffff;
     /* legacy aliases — kept so existing code still works */
     --rose: #8B3A4A;
-    --rose-light: #9E6070;
+    --rose-light: #7A3548;
     --rose-pale: #F7E0E5;
     --rose-dark: #4A1E2A;
     --gold: #8B3A4A;
-    --gold-light: #9E6070;
+    --gold-light: #7A3548;
     --cream: #FDF8F5;
     --cream2: #F5EBF0;
     --white: #FFFFFF;
     --peach: #F7E0E5;
     --beige: #EDD0D8;
     --orange: #8B3A4A;
-    --orange-warm: #9E6070;
+    --orange-warm: #7A3548;
     --border: rgba(212,160,172,0.25);
     --border-soft: rgba(212,160,172,0.13);
     --success: #3fa065;
@@ -377,15 +377,15 @@
   }
   .nav-links a:hover { color: var(--text); }
   .nav-book {
-    background: var(--hero-accent); color: #fff;
+    background: var(--accent); color: #fff;
     border: none; border-radius: 50px;
-    padding: 10px 24px; font-size: 14px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    padding: 9px 22px; font-size: 13px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 600;
     cursor: pointer; transition: all 0.25s;
     text-decoration: none; letter-spacing: 0.2px;
     text-transform: none;
   }
-  .nav-book:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(122,90,58,0.35); }
+  .nav-book:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,58,74,0.35); }
   [data-theme="dark"] .nav-book { background: #E8B0BC; color: #1A0D12; }
   /* Admin button — Rose palette */
   .nav-admin {
@@ -513,12 +513,14 @@
   .btn-primary {
     background: var(--accent); color: #fff;
     border: none; border-radius: 50px;
-    padding: 15px 36px; font-size: 15px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    padding: 17px 44px; font-size: 16px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700;
     cursor: pointer; transition: all 0.25s;
     text-decoration: none; display: inline-block;
+    box-shadow: 0 8px 28px rgba(139,58,74,0.32);
+    letter-spacing: 0.3px;
   }
-  .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-3px); box-shadow: 0 14px 36px rgba(139,58,74,0.38); }
   [data-theme="dark"] .btn-primary { background: #E8B0BC; color: #1A0D12; }
   .btn-secondary {
     background: transparent; color: var(--text-muted);
@@ -561,7 +563,7 @@
   }
 
   /* ===== SECTION ===== */
-  section { padding: 5rem 2rem; max-width: 960px; margin: 0 auto; }
+  section { padding: 6rem 2rem; max-width: 960px; margin: 0 auto; }
   .section-tag {
     font-size: 10px; letter-spacing: 4px;
     color: var(--text-muted); text-transform: uppercase;
@@ -875,20 +877,20 @@
   .slot-past { background: #e8e4e0; color: #aaa; }
   .slot-few { background: #f0e4c0; color: #806010; }
   .slot-avail { background: #d0f0e0; color: #206040; }
-  /* ===== SUBMIT BUTTON ===== */
   .btn-submit {
-    width: 100%; background: var(--hero-accent);
+    width: 100%; background: var(--accent);
     color: #fff; border: none; border-radius: 14px;
-    padding: 14px; font-size: 15px;
-    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
+    padding: 16px; font-size: 16px;
+    font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700;
     cursor: pointer; transition: all 0.25s;
     display: flex; align-items: center; justify-content: center; gap: 8px;
     margin-top: 1.25rem;
+    box-shadow: 0 6px 24px rgba(139,58,74,0.28);
   }
-  .btn-submit:hover { background: var(--hero-accent); opacity: 0.85; transform: translateY(-1px); }
-  .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
-  [data-theme="dark"] .btn-submit { background: #E8B0BC; color: #1A0D12; }
-  [data-theme="dark"] .btn-submit:hover { background: #B0A080; opacity: 1; }
+  .btn-submit:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(139,58,74,0.35); }
+  .btn-submit:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+  [data-theme="dark"] .btn-submit { background: #E8B0BC; color: #1A0D12; box-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+  [data-theme="dark"] .btn-submit:hover { background: #D090A0; opacity: 1; }
   .btn-back-form {
     background: none; border: none; padding: 10px;
     font-size: 13px; color: var(--text-muted);
@@ -1149,17 +1151,18 @@
   .agent-field textarea { height: 70px; resize: none; }
   .agent-submit-btn {
     width: 100%;
-    background: var(--hero-accent);
+    background: var(--accent);
     color: #fff;
     border: none; border-radius: 50px;
-    padding: 13px 24px;
-    font-size: 15px; font-weight: 500;
+    padding: 15px 24px;
+    font-size: 15px; font-weight: 700;
     font-family: 'IBM Plex Sans Thai', sans-serif;
     cursor: pointer;
     transition: all 0.25s;
     margin-top: 0.5rem;
+    box-shadow: 0 6px 22px rgba(139,58,74,0.28);
   }
-  .agent-submit-btn:hover { background: var(--hero-accent); opacity: 0.85; transform: translateY(-1px); }
+  .agent-submit-btn:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(139,58,74,0.35); }
   .agent-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
   [data-theme="dark"] .agent-submit-btn { background: #E8B0BC; color: #1A0D12; }
   [data-theme="dark"] .agent-submit-btn:hover { background: #B0A080; opacity: 1; }
@@ -2279,7 +2282,7 @@
   }
   .sticky-book-bar a {
     pointer-events: all; display: block;
-    background: var(--hero-accent);
+    background: var(--accent);
     color: #fff; text-align: center; text-decoration: none;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700; font-size: 15px;
     padding: 15px; border-radius: 16px;
@@ -2398,7 +2401,7 @@
   }
   .sticky-book-bar a {
     pointer-events: all; display: block;
-    background: var(--hero-accent);
+    background: var(--accent);
     color: #fff; text-align: center; text-decoration: none;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 700; font-size: 15px;
     padding: 15px; border-radius: 16px;
@@ -2637,7 +2640,6 @@
   @media (max-width: 620px) { .quiz-cards-grid { grid-template-columns: 1fr; } }
   .quiz-card {
     background: rgba(253,248,245,0.5);
-    -webkit-
     border: 1.5px solid rgba(212,160,172,0.15);
     border-radius: 20px;
     padding: 1.75rem 1.5rem;
@@ -2694,7 +2696,7 @@
   }
   .quiz-nav-back:hover { color: var(--text); }
   .quiz-nav-next {
-    background: var(--hero-accent); color: #fff;
+    background: var(--accent); color: #fff;
     border: none; border-radius: 50px;
     padding: 13px 32px;
     font-family: 'IBM Plex Sans Thai', sans-serif;
@@ -2742,7 +2744,7 @@
     display: block;
   }
   .quiz-result-btn {
-    background: var(--hero-accent); color: #fff;
+    background: var(--accent); color: #fff;
     border: none; border-radius: 50px;
     padding: 15px 40px; font-size: 13px;
     font-family: 'IBM Plex Sans Thai', sans-serif; font-weight: 500;
@@ -2830,7 +2832,8 @@
   /* Simplify backdrop-filter */
   .hero, .hero-right, .hero-svc-opt, .hero-mini-cal,
   .hero-time-btn, .quiz-card, .hero-audio-player {
-    -webkit-
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   /* Typography refinements */
   .section-tag { font-family: 'Clash Display', sans-serif; font-size: 10px; letter-spacing: 3px; font-weight: 600; }
@@ -5330,6 +5333,12 @@ function setupRealtimeSubscriptions() {
 window.addEventListener('scroll', function() {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 20);
 });
+
+// ===== SCROLL TO SECTION HELPER =====
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 // ===== TOAST =====
 function showToast(msg, type) {
