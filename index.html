@@ -5664,7 +5664,7 @@ async function getAIMessage(prompt, targetEl) {
   if (!el) return;
   el.innerHTML = '<div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>';
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('https://brow-ai01.tatobrowstudio.workers.dev', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -5689,7 +5689,7 @@ async function validateWithAI(name, phone, svc, date, time) {
   if (errors.length > 0) { aiEl.textContent = '⚠️ ' + errors.join(' และ') + ' กรุณาตรวจสอบอีกครั้งค่ะ'; return false; }
   aiEl.innerHTML = '<div class="ai-typing"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>';
   try {
-    var res = await fetch('https://api.anthropic.com/v1/messages', {
+    var res = await fetch('https://brow-ai01.tatobrowstudio.workers.dev', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
